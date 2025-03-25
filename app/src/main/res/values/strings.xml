@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShelHive</string>
+    <string name="dangnhap_title">Đăng Nhập</string>
+    <string name="dangnhap_description">Kết nối với ShelHive - Nơi ở trong tầm tay!</string>
+    <string name="dangky_script">Bạn chưa có tài khoản?</string>
+    <string name="dangky_button"> Đăng ký ngay</string>
+    <string name="dangky_title">Đăng Ký</string>
+</resources>
