@@ -38,6 +38,7 @@
         <activity android:name=".user.User_ThongBaoActivity"/>
         <activity android:name=".user.User_ThongTinActivity"/>
         <activity android:name=".admin.Admin_ThongTinActivity"/>
+        <activity android:name=".admin.Admin_QuanLyActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
