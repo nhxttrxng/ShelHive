@@ -6,4 +6,10 @@
     <string name="dangky_script">Bạn chưa có tài khoản?</string>
     <string name="dangky_button"> Đăng ký ngay</string>
     <string name="dangky_title">Đăng Ký</string>
+    <string name="dangnhap_script">Bạn đã có tài khoản?</string>
+    <string name="dangnhap_button"> Đăng nhập ngay</string>
+    <string name="qmk_description">Vui lòng nhập email để khôi phục mật khẩu</string>
+    <string name="qmk3_description">Nhập mật khẩu mới của bạn.</string>
+    <string name="tieptuc_button"> Tiếp tục</string>
+    <string name="otp_description">Chúng tôi đã gửi mã OTP\nđến email của bạn!</string>
 </resources>

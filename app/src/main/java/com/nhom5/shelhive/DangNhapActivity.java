@@ -34,5 +34,15 @@ public class DangNhapActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Xử lý sự kiện nhấn vào TextView "tv_forgot_password" để mở QuenMatKhauActivity
+        TextView forgotPasswordTextView = findViewById(R.id.tv_forgot_password);
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DangNhapActivity.this, QuenMatKhauActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

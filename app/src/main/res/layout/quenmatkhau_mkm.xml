@@ -1,0 +1,198 @@
+<!-- activity_forgot_password.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/forgot_password"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToOutline="true"
+    android:background="#F8F8DB">
+
+    <!-- Honey Hive -->
+    <ImageView
+        android:id="@+id/honey_hive"
+        android:layout_width="150dp"
+        android:layout_height="196dp"
+        android:src="@drawable/honey_hive"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="-12dp"
+        android:layout_marginTop="0dp" />
+
+    <!-- Logo + Text -->
+    <LinearLayout
+        android:id="@+id/logo_container"
+        android:layout_width="225dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="113dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="73.85dp"
+            android:layout_height="80dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/shelhive"
+            android:layout_width="145dp"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center_vertical"
+            android:lineHeight="48sp"
+            android:text="ShelHive"
+            android:textAppearance="@style/logo" />
+    </LinearLayout>
+
+    <!-- Nội dung riêng Forgot Password -->
+    <TextView
+        android:id="@+id/title_forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quên mật khẩu"
+        android:textAppearance="@style/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="228dp" />
+
+    <TextView
+        android:id="@+id/qmk_description"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:text="@string/qmk3_description"
+        android:textAppearance="@style/dangnhap_description"
+        app:layout_constraintTop_toBottomOf="@id/title_forgot"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="7dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/newpassword"
+        android:layout_width="339dp"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu mới"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="36dp"
+        app:startIconDrawable="@drawable/ic_password"
+        app:startIconTint="@color/brown"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/brown"
+        app:hintTextColor="@color/brown"
+        app:boxBackgroundMode="none"
+        android:textColorHint="@color/brown"
+        app:hintTextAppearance="@style/CustomHintText"
+        app:layout_constraintTop_toBottomOf="@id/qmk_description"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/brown"
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:fontFamily="@font/nunito_bold"
+            android:paddingStart="48dp"
+            app:hintTextAppearance="@style/CustomHintText" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Dòng gạch chân -->
+    <View
+        app:layout_constraintTop_toBottomOf="@id/newpassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="339dp"
+        android:layout_marginStart="36dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="-5dp"
+        android:background="@color/brown" />
+
+    <!-- Các input khác làm tương tự (dán thêm ở đây nếu cần) -->
+    <!-- Ví dụ thêm input mật khẩu -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirm_newpassword"
+        android:layout_width="339dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="36dp"
+        android:hint="Nhập lại mật khẩu"
+        app:startIconDrawable="@drawable/ic_password"
+        app:startIconTint="@color/brown"
+        app:endIconTint="@color/brown"
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/brown"
+        app:boxBackgroundMode="none"
+        android:textColorHint="@color/brown"
+        app:hintTextAppearance="@style/CustomHintText"
+        app:layout_constraintTop_toBottomOf="@id/newpassword"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/brown"
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:paddingStart="48dp"
+            android:fontFamily="@font/nunito_bold"
+            app:hintTextAppearance="@style/CustomHintText" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/confirm_newpassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="339dp"
+        android:layout_marginStart="36dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="-5dp"
+        android:background="@color/brown" /> />
+
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/confirm_newpassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="231dp"
+        android:layout_marginTop="50dp"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/my_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_marginStart="24dp"
+            android:id="@+id/tieptuc_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/tieptuc_button"
+            android:textAppearance="@style/button" />
+    </FrameLayout>
+
+    <!-- Hive -->
+    <ImageView
+        android:id="@+id/hive"
+        android:layout_width="138dp"
+        android:layout_height="120dp"
+        android:src="@drawable/hive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="-3dp"
+        android:layout_marginBottom="-2dp" />
+
+    <!-- Shelbee -->
+    <ImageView
+        android:id="@+id/shelbee"
+        android:layout_width="109dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shelbee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

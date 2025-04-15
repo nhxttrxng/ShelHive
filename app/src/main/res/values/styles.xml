@@ -33,4 +33,16 @@
         <item name="android:textColor">@color/yellow</item>
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
+    <style name="OTPInputStyle">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:background">@drawable/otp_input_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
 </resources>
