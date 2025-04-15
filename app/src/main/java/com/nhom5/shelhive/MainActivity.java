@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Mở trực tiếp DangNhapActivity
+        // Mở trực tiếp HoaDonActivity
         Intent intent = new Intent(MainActivity.this, DangNhapActivity.class);
         startActivity(intent);
 
