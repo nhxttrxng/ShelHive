@@ -1,0 +1,228 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8db">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8DB">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9E4A4"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_back" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/btn_back"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="Phản ánh"
+                    android:textColor="#755200"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_motel_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="Nhà trọ Trường Phát 1"
+                    android:textColor="#755200"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <!-- Tiêu đề "Phản ánh chưa xử lý" -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/border_box"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Tìm kiếm"
+                android:textColor="#d1c29d"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Phản ánh chưa xử lí"
+            android:background="@drawable/bg_section_title"
+            android:textColor="#755200"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/unresolved_feedback_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:divider="?android:attr/dividerVertical"
+                android:showDividers="middle">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_electric"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Phòng 101"
+                        android:textColor="#755200"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="Hư bóng đèn"
+                        android:textColor="#755200"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="Chưa xử lý"
+                    android:textColor="#755200"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Tiêu đề "Phản ánh đã xử lý" -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_section_title"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Phản ánh chưa xử lí"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold" />
+
+
+        <!-- Danh sách phản ánh đã xử lý -->
+        <LinearLayout
+            android:id="@+id/resolved_feedback_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <!-- Các item phản ánh sẽ được thêm vào đây bằng code -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:divider="?android:attr/dividerVertical"
+                android:showDividers="middle">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_electric"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="Phòng 101"
+                        android:textColor="#755200"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Hư bóng đèn"
+                        android:textColor="#755200"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="70"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="Đã xử lý"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

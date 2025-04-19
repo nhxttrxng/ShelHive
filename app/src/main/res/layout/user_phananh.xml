@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/phan_anh_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8DB">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F9E4A4"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/btn_back"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
+                android:text="Phản ánh"
+                android:textColor="#755200"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_motel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_regular"
+                android:text="Phòng 1"
+                android:textColor="#755200"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/thong_tin_phan_anh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="120dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="THÔNG TIN PHẢN ÁNH\nNhập hạn thanh toán mới"
+        android:textColor="#755200"
+        android:textSize="16sp" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tieu_de_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thong_tin_phan_anh"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="30dp"
+        android:text="Tiêu đề"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/tieu_de_input"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tieu_de_label"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/rounded_border"
+        android:hint="Aa"
+        android:padding="10dp"
+        android:textColor="#755200"
+        android:textColorHint="#d1c29d" />
+
+    <!-- Loại vấn đề (Combo box) -->
+    <TextView
+        android:id="@+id/loai_van_de_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tieu_de_input"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="20dp"
+        android:text="Loại vấn đề"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinner_loai_van_de"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/loai_van_de_label"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/rounded_border"
+        android:padding="10dp"
+        android:spinnerMode="dropdown" />
+
+    <!-- Mô tả sự cố -->
+    <TextView
+        android:id="@+id/mo_ta_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_loai_van_de"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="25dp"
+        android:text="Mô tả sự cố:"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/mo_ta_input"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/mo_ta_label"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/rounded_border"
+        android:gravity="start|top"
+        android:hint="Aa"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textColor="#755200"
+        android:textColorHint="#d1c29d" />
+
+    <!-- Nút báo cáo -->
+    <Button
+        android:id="@+id/btn_bao_cao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mo_ta_input"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="#755200"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Báo cáo"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>
