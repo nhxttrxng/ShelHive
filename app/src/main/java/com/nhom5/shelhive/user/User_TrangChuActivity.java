@@ -1,13 +1,15 @@
 package com.nhom5.shelhive.user;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,5 +82,37 @@ public class User_TrangChuActivity extends AppCompatActivity {
             infoContainer.setVisibility(View.GONE);
             emptyMessage.setVisibility(View.VISIBLE);
         }
+
+        // ====== XỬ LÝ SỰ KIỆN CHUYỂN ACTIVITY ======
+        FrameLayout hoadon = findViewById(R.id.hoadon);
+        FrameLayout thongbao = findViewById(R.id.thongbao);
+        FrameLayout phananh = findViewById(R.id.phananh);
+        FrameLayout thongke = findViewById(R.id.thongke);
+        LinearLayout nav_profile = findViewById(R.id.nav_profile);
+
+        hoadon.setOnClickListener(v -> {
+            Intent intent = new Intent(User_TrangChuActivity.this, User_HoaDonActivity.class);
+            startActivity(intent);
+        });
+
+        thongbao.setOnClickListener(v -> {
+            Intent intent = new Intent(User_TrangChuActivity.this, User_ThongBaoActivity.class);
+            startActivity(intent);
+        });
+
+        phananh.setOnClickListener(v -> {
+            Intent intent = new Intent(User_TrangChuActivity.this, User_PhanAnhActivity.class);
+            startActivity(intent);
+        });
+
+        thongke.setOnClickListener(v -> {
+            Intent intent = new Intent(User_TrangChuActivity.this, User_ThongKeActivity.class);
+            startActivity(intent);
+        });
+
+        nav_profile.setOnClickListener(v -> {
+            Intent intent = new Intent(User_TrangChuActivity.this, User_ThongTinActivity.class);
+            startActivity(intent);
+        });
     }
 }

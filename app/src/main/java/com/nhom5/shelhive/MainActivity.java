@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.nhom5.shelhive.admin.Admin_HoaDonActivity;
+import com.nhom5.shelhive.admin.Admin_TrangChuActivity;
 import com.nhom5.shelhive.user.User_ThongTinActivity;
 import com.nhom5.shelhive.user.User_TrangChuActivity;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Mở trực tiếp HoaDonActivity
-        Intent intent = new Intent(MainActivity.this, User_ThongTinActivity.class);
+        Intent intent = new Intent(MainActivity.this, Admin_TrangChuActivity.class);
         startActivity(intent);
 
         // Đóng MainActivity nếu không cần quay lại
