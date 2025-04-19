@@ -56,16 +56,12 @@
             android:layout_height="80dp"
             android:src="@drawable/logo" />
 
-        <TextView
+        <ImageView
             android:id="@+id/shelhive"
             android:layout_width="145dp"
             android:layout_height="match_parent"
             android:layout_margin="6dp"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="center_vertical"
-            android:lineHeight="48sp"
-            android:text="ShelHive"
-            android:textAppearance="@style/logo" />
+            android:src="@drawable/shelhive_name" />
     </LinearLayout>
 
     <!-- Tiêu đề Đăng nhập -->
@@ -83,7 +79,7 @@
     <!-- Mô tả -->
     <TextView
         android:id="@+id/dangnhap_description"
-        android:layout_width="196dp"
+        android:layout_width="198dp"
         android:layout_height="54dp"
         android:text="@string/dangnhap_description"
         android:textAppearance="@style/dangnhap_description"
@@ -101,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@id/dangnhap_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="20dp">
 
         <!-- TextInput Email -->
         <com.google.android.material.textfield.TextInputLayout
@@ -131,11 +127,22 @@
             android:layout_marginTop="-5dp"
             android:background="@color/brown"/>
 
+        <TextView
+            android:id="@+id/email_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_light"
+            android:fontFamily="@font/nunito_semibold"
+            android:paddingStart="48dp"
+            android:paddingTop="4dp"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
         <!-- TextInput Mật khẩu -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="366dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:hint="Mật khẩu"
             app:startIconDrawable="@drawable/ic_password"
             app:startIconTint="@color/brown"
@@ -161,6 +168,17 @@
             android:layout_height="2dp"
             android:layout_marginTop="-5dp"
             android:background="@color/brown"/>
+
+        <TextView
+            android:id="@+id/password_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_light"
+            android:fontFamily="@font/nunito_semibold"
+            android:paddingStart="48dp"
+            android:paddingTop="4dp"
+            android:textSize="16sp"
+            android:visibility="invisible" />
 
         <!-- CheckBox + Forgot -->
         <LinearLayout

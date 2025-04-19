@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="brown">#9B895D</color>
     <color name="yellow">#FFB300</color>
+    <color name="avt_border">#B07C00</color>
+    <color name="darkbrown">#755200</color>
+    <color name="darkyellow">#DB9A00</color>
+    <color name="red">#D80000</color>
 </resources>
