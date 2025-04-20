@@ -19,267 +19,399 @@ public class User_ThongTinActivity extends AppCompatActivity {
     
     private static final String TAG = "User_ThongTinActivity";
 
+    // Trạng thái màn hình
+    private boolean isEditMode = false;
+    private boolean isChangePasswordMode = false;
+    
     // Biến cho màn hình xem thông tin
     private ImageView btnBack;
     private FrameLayout btnChangePassword, btnEdit;
-    private LinearLayout navHome, navProfile, navLogout;
     private TextView textFullName, textDob, textCity, textProvince, 
                      textIdNumber, textEmail, textPhoneNumber;
     
     // Biến cho màn hình sửa thông tin
-    private boolean isEditMode = false;
     private ImageView btnBackEdit;
     private FrameLayout btnSaveUser, btnCancel;
     private EditText editFullName, editDob, editQueQuan, editDiaChi, 
                      editCCCD, editEmail, editPhoneNumber;
+    
+    // Biến cho màn hình đổi mật khẩu
+    private ImageView btnBackChangePass;
+    private EditText edtCurrentPassword, edtNewPassword, edtConfirmPassword;
+    private FrameLayout btnSavePassword, btnCancelChangePass;
+    
+    // Biến cho thanh điều hướng
+    private LinearLayout navHome, navProfile, navLogout;
+    
+    // Dữ liệu người dùng
+    private String fullName = "";
+    private String dob = "";
+    private String city = "";
+    private String province = "";
+    private String idNumber = "";
+    private String email = "";
+    private String phoneNumber = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            Log.d(TAG, "onCreate: Bắt đầu khởi tạo User_ThongTinActivity");
-            showViewMode(); // Bắt đầu với chế độ xem mặc định
-            Log.d(TAG, "onCreate: Đã khởi tạo xong User_ThongTinActivity");
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate: Lỗi khi khởi tạo", e);
-            Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-    
-    private void showViewMode() {
-        try {
-            Log.d(TAG, "showViewMode: Đang đặt giao diện user_thongtincanhan.xml");
             setContentView(R.layout.user_thongtincanhan);
-            Log.d(TAG, "showViewMode: Đã đặt giao diện thành công");
+            isEditMode = false;
+            isChangePasswordMode = false;
             
             initViewModeViews();
             setViewModeListeners();
+            displayUserData();
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate: Lỗi khi khởi tạo", e);
+            showToast("Lỗi: " + e.getMessage());
+        }
+    }
+    
+    // ====== CHUYỂN ĐỔI GIỮA CÁC CHẾ ĐỘ ======
+    
+    private void showViewMode() {
+        try {
+            setContentView(R.layout.user_thongtincanhan);
+            
+            isEditMode = false;
+            isChangePasswordMode = false;
+            
+            initViewModeViews();
+            setViewModeListeners();
+            
+            // Hiển thị dữ liệu người dùng nếu có
+            displayUserData();
+            
         } catch (Exception e) {
             Log.e(TAG, "showViewMode: Lỗi khi đặt giao diện", e);
-            Toast.makeText(this, "Lỗi khi hiển thị thông tin: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            showToast("Lỗi khi hiển thị thông tin: " + e.getMessage());
         }
     }
     
     private void showEditMode() {
         try {
-            Log.d(TAG, "showEditMode: Đang đặt giao diện user_suathongtincanhan.xml");
+            // Lưu dữ liệu từ giao diện xem nếu có
+            saveDataFromViewMode();
+            
             setContentView(R.layout.user_suathongtincanhan);
-            Log.d(TAG, "showEditMode: Đã đặt giao diện thành công");
+            
+            isEditMode = true;
+            isChangePasswordMode = false;
             
             initEditModeViews();
+            
+            // Kiểm tra xác nhận các nút đã được ánh xạ
+            if (btnSaveUser == null) {
+                Log.e(TAG, "btnSaveUser không được tìm thấy");
+                btnSaveUser = findViewSafely(R.id.btn_save_user);
+            }
+            
+            if (btnCancel == null) {
+                Log.e(TAG, "btnCancel không được tìm thấy");
+                btnCancel = findViewSafely(R.id.btn_cancel);
+            }
+            
             setEditModeListeners();
+            
+            // Điền dữ liệu vào form
+            fillEditFormData();
+            
         } catch (Exception e) {
             Log.e(TAG, "showEditMode: Lỗi khi đặt giao diện", e);
-            Toast.makeText(this, "Lỗi khi hiển thị giao diện sửa: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            showToast("Lỗi khi hiển thị giao diện sửa: " + e.getMessage());
+            isEditMode = false;
+            showViewMode();
         }
     }
     
-    private void initViewModeViews() {
+    private void showChangePasswordMode() {
         try {
-            Log.d(TAG, "initViewModeViews: Đang ánh xạ các view");
+            setContentView(R.layout.user_quenmatkhau);
             
-            btnBack = findViewById(R.id.container_group);
-            btnChangePassword = findViewById(R.id.btn_changepass_container);
-            btnEdit = findViewById(R.id.btn_edit_container);
+            isEditMode = false;
+            isChangePasswordMode = true;
             
-            navHome = findViewById(R.id.nav_home);
-            navProfile = findViewById(R.id.nav_profile);
-            navLogout = findViewById(R.id.nav_logout);
+            initChangePasswordViews();
+            setChangePasswordListeners();
             
-            // Ánh xạ các TextView
-            textFullName = findViewById(R.id.text_full_name);
-            textDob = findViewById(R.id.text_dob);
-            textCity = findViewById(R.id.text_city);
-            textProvince = findViewById(R.id.text_province);
-            textIdNumber = findViewById(R.id.text_id_number);
-            textEmail = findViewById(R.id.text_email);
-            textPhoneNumber = findViewById(R.id.text_phone_number);
-            
-            Log.d(TAG, "initViewModeViews: Đã ánh xạ xong các view");
         } catch (Exception e) {
-            Log.e(TAG, "initViewModeViews: Lỗi khi ánh xạ view", e);
-            throw e; // ném lại lỗi để xử lý ở cấp cao hơn
+            Log.e(TAG, "showChangePasswordMode: Lỗi khi đặt giao diện", e);
+            showToast("Lỗi khi hiển thị giao diện đổi mật khẩu: " + e.getMessage());
+            showViewMode();
         }
+    }
+    
+    // ====== KHỞI TẠO GIAO DIỆN ======
+    
+    private void initViewModeViews() {
+        // Ánh xạ các nút
+        btnBack = findViewSafely(R.id.btn_user_back);
+        btnChangePassword = findViewSafely(R.id.btn_user_changepass);
+        btnEdit = findViewSafely(R.id.btn_user_edit);
+        
+        // Ánh xạ các TextView
+        textFullName = findViewSafely(R.id.txt_user_fullname);
+        textDob = findViewSafely(R.id.txt_user_dob);
+        textCity = findViewSafely(R.id.txt_user_city);
+        textProvince = findViewSafely(R.id.txt_user_province);
+        textIdNumber = findViewSafely(R.id.txt_user_idnumber);
+        textEmail = findViewSafely(R.id.txt_user_email);
+        textPhoneNumber = findViewSafely(R.id.txt_user_phone);
+        
+        // Ánh xạ thanh điều hướng
+        initNavigation();
     }
     
     private void initEditModeViews() {
-        try {
-            Log.d(TAG, "initEditModeViews: Đang ánh xạ các view");
-            
-            btnBackEdit = findViewById(R.id.btn_back);
-            btnSaveUser = findViewById(R.id.btn_save_user);
-            btnCancel = findViewById(R.id.btn_cancel);
+        // Ánh xạ các nút
+        btnBackEdit = findViewSafely(R.id.btn_user_back);
+        btnSaveUser = findViewSafely(R.id.btn_user_save);
+        btnCancel = findViewSafely(R.id.btn_user_cancel);
+        
+        // Ánh xạ các EditText
+        editFullName = findViewSafely(R.id.edit_user_fullname);
+        editDob = findViewSafely(R.id.edit_user_dob);
+        editQueQuan = findViewSafely(R.id.edit_user_city);
+        editDiaChi = findViewSafely(R.id.edit_user_province);
+        editCCCD = findViewSafely(R.id.edit_user_idnumber);
+        editEmail = findViewSafely(R.id.edit_user_email);
+        editPhoneNumber = findViewSafely(R.id.edit_user_phone);
+        
+        // Ánh xạ thanh điều hướng nếu có
+        initNavigation();
+    }
     
-            // Ánh xạ các EditText
-            editFullName = findViewById(R.id.edit_full_name);
-            editDob = findViewById(R.id.edit_dob);
-            editQueQuan = findViewById(R.id.edit_que_quan);
-            editDiaChi = findViewById(R.id.edit_dia_chi);
-            editCCCD = findViewById(R.id.edit_cccd);
-            editEmail = findViewById(R.id.edit_email);
-            editPhoneNumber = findViewById(R.id.edit_phone_number);
-            
-            Log.d(TAG, "initEditModeViews: Đã ánh xạ xong các view");
-            
-            // Đọc dữ liệu từ Intent
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                Log.d(TAG, "initEditModeViews: Đọc dữ liệu từ Intent");
-                // Nếu có dữ liệu từ Intent, sử dụng nó
-                editFullName.setText(extras.getString("fullName", ""));
-                editDob.setText(extras.getString("dob", ""));
-                editQueQuan.setText(extras.getString("city", ""));
-                editDiaChi.setText(extras.getString("province", ""));
-                editCCCD.setText(extras.getString("idNumber", ""));
-                editEmail.setText(extras.getString("email", ""));
-                editPhoneNumber.setText(extras.getString("phoneNumber", ""));
-            } else if (textFullName != null) {
-                Log.d(TAG, "initEditModeViews: Đọc dữ liệu từ TextView");
-                // Nếu không có dữ liệu từ Intent nhưng có dữ liệu từ màn hình xem
-                editFullName.setText(textFullName.getText());
-                editDob.setText(textDob.getText());
-                editQueQuan.setText(textCity.getText());
-                editDiaChi.setText(textProvince.getText());
-                editCCCD.setText(textIdNumber.getText());
-                editEmail.setText(textEmail.getText());
-                editPhoneNumber.setText(textPhoneNumber.getText());
-            }
-            
-            Log.d(TAG, "initEditModeViews: Đã thiết lập dữ liệu cho EditText");
-        } catch (Exception e) {
-            Log.e(TAG, "initEditModeViews: Lỗi khi ánh xạ view", e);
-            throw e; // ném lại lỗi để xử lý ở cấp cao hơn
-        }
+    private void initChangePasswordViews() {
+        // Ánh xạ các nút
+        btnBackChangePass = findViewSafely(R.id.btn_user_back);
+        btnSavePassword = findViewSafely(R.id.btn_user_save);
+        btnCancelChangePass = findViewSafely(R.id.btn_user_cancel);
+        
+        // Ánh xạ các EditText
+        edtCurrentPassword = findViewSafely(R.id.edt_user_current_password);
+        edtNewPassword = findViewSafely(R.id.edt_user_new_password);
+        edtConfirmPassword = findViewSafely(R.id.edt_user_confirm_password);
+        
+        // Ánh xạ thanh điều hướng nếu có
+        initNavigation();
+    }
+    
+    private void initNavigation() {
+        // Ánh xạ thanh điều hướng
+        navHome = findViewSafely(R.id.nav_user_home);
+        navProfile = findViewSafely(R.id.nav_user_profile);
+        navLogout = findViewSafely(R.id.nav_user_logout);
+    }
+    
+    // ====== XỬ LÝ DỮ LIỆU ======
+    
+    private void saveDataFromViewMode() {
+        if (textFullName != null) fullName = textFullName.getText().toString();
+        if (textDob != null) dob = textDob.getText().toString();
+        if (textCity != null) city = textCity.getText().toString();
+        if (textProvince != null) province = textProvince.getText().toString();
+        if (textIdNumber != null) idNumber = textIdNumber.getText().toString();
+        if (textEmail != null) email = textEmail.getText().toString();
+        if (textPhoneNumber != null) phoneNumber = textPhoneNumber.getText().toString();
+    }
+    
+    private void displayUserData() {
+        if (textFullName != null && !fullName.isEmpty()) textFullName.setText(fullName);
+        if (textDob != null && !dob.isEmpty()) textDob.setText(dob);
+        if (textCity != null && !city.isEmpty()) textCity.setText(city);
+        if (textProvince != null && !province.isEmpty()) textProvince.setText(province);
+        if (textIdNumber != null && !idNumber.isEmpty()) textIdNumber.setText(idNumber);
+        if (textEmail != null && !email.isEmpty()) textEmail.setText(email);
+        if (textPhoneNumber != null && !phoneNumber.isEmpty()) textPhoneNumber.setText(phoneNumber);
+    }
+    
+    private void fillEditFormData() {
+        if (editFullName != null) editFullName.setText(fullName);
+        if (editDob != null) editDob.setText(dob);
+        if (editQueQuan != null) editQueQuan.setText(city);
+        if (editDiaChi != null) editDiaChi.setText(province);
+        if (editCCCD != null) editCCCD.setText(idNumber);
+        if (editEmail != null) editEmail.setText(email);
+        if (editPhoneNumber != null) editPhoneNumber.setText(phoneNumber);
     }
     
     private void saveUserData() {
         try {
-            Log.d(TAG, "saveUserData: Bắt đầu lưu dữ liệu");
+            // Đọc dữ liệu từ form
+            if (editFullName != null) fullName = editFullName.getText().toString();
+            if (editDob != null) dob = editDob.getText().toString();
+            if (editQueQuan != null) city = editQueQuan.getText().toString();
+            if (editDiaChi != null) province = editDiaChi.getText().toString();
+            if (editCCCD != null) idNumber = editCCCD.getText().toString();
+            if (editEmail != null) email = editEmail.getText().toString();
+            if (editPhoneNumber != null) phoneNumber = editPhoneNumber.getText().toString();
             
-            // Lưu dữ liệu người dùng vào cơ sở dữ liệu
-            String fullName = editFullName.getText().toString();
-            String dob = editDob.getText().toString();
-            String queQuan = editQueQuan.getText().toString();
-            String diaChi = editDiaChi.getText().toString();
-            String cccd = editCCCD.getText().toString();
-            String email = editEmail.getText().toString();
-            String phoneNumber = editPhoneNumber.getText().toString();
+            // Kiểm tra dữ liệu
+            if (fullName.isEmpty()) {
+                showToast("Vui lòng nhập họ tên");
+                return;
+            }
             
-            // TODO: Thêm code lưu vào cơ sở dữ liệu
+            if (email.isEmpty()) {
+                showToast("Vui lòng nhập email");
+                return;
+            }
             
-            Toast.makeText(this, "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "saveUserData: Đã lưu thông tin thành công");
+            if (phoneNumber.isEmpty()) {
+                showToast("Vui lòng nhập số điện thoại");
+                return;
+            }
             
-            // Quay về chế độ xem và cập nhật thông tin hiển thị
-            isEditMode = false;
+            // TODO: Lưu dữ liệu vào cơ sở dữ liệu
+            
+            showToast("Đã lưu thông tin");
+            
+            // Quay về chế độ xem
             showViewMode();
+            
         } catch (Exception e) {
             Log.e(TAG, "saveUserData: Lỗi khi lưu dữ liệu", e);
-            Toast.makeText(this, "Lỗi khi lưu: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            showToast("Lỗi khi lưu: " + e.getMessage());
         }
     }
     
-    private void setViewModeListeners() {
+    private void savePassword() {
         try {
-            Log.d(TAG, "setViewModeListeners: Thiết lập các listener");
+            // Đọc dữ liệu từ form
+            String currentPassword = edtCurrentPassword != null ? edtCurrentPassword.getText().toString().trim() : "";
+            String newPassword = edtNewPassword != null ? edtNewPassword.getText().toString().trim() : "";
+            String confirmPassword = edtConfirmPassword != null ? edtConfirmPassword.getText().toString().trim() : "";
             
-            // Nút quay lại
-            btnBack.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút quay lại");
-                onBackPressed();
-            });
-    
-            // Nút đổi mật khẩu
-            btnChangePassword.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút đổi mật khẩu");
-                Toast.makeText(this, "Đổi mật khẩu", Toast.LENGTH_SHORT).show();
-                // Thêm code chuyển đến màn hình đổi mật khẩu
-                // Intent intent = new Intent(User_ThongTinActivity.this, User_DoiMatKhauActivity.class);
-                // startActivity(intent);
-            });
-    
-            // Nút sửa thông tin
-            btnEdit.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút sửa, chuyển sang chế độ chỉnh sửa");
-                isEditMode = true;
-                showEditMode();
-            });
-    
-            // Bottom Navigation
-            navHome.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút trang chủ");
-                try {
-                    Intent intent = new Intent(User_ThongTinActivity.this, User_TrangChuActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    Log.e(TAG, "Lỗi khi mở trang chủ", e);
-                    Toast.makeText(this, "Không thể mở trang chủ: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-    
-            navProfile.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút hồ sơ (đã ở trang hồ sơ)");
-                // Đã ở trang profile nên không cần làm gì
-            });
-    
-            navLogout.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút đăng xuất");
-                Toast.makeText(this, "Đăng xuất", Toast.LENGTH_SHORT).show();
-                // Thêm code đăng xuất
-                // FirebaseAuth.getInstance().signOut();
-                // Intent intent = new Intent(User_ThongTinActivity.this, DangNhapActivity.class);
-                // startActivity(intent);
-                // finish();
-            });
+            // Kiểm tra dữ liệu
+            if (currentPassword.isEmpty()) {
+                showToast("Vui lòng nhập mật khẩu hiện tại");
+                return;
+            }
             
-            Log.d(TAG, "setViewModeListeners: Đã thiết lập xong các listener");
+            if (newPassword.isEmpty()) {
+                showToast("Vui lòng nhập mật khẩu mới");
+                return;
+            }
+            
+            if (confirmPassword.isEmpty()) {
+                showToast("Vui lòng xác nhận mật khẩu mới");
+                return;
+            }
+            
+            if (!newPassword.equals(confirmPassword)) {
+                showToast("Mật khẩu xác nhận không khớp");
+                return;
+            }
+            
+            // TODO: Kiểm tra mật khẩu hiện tại và lưu mật khẩu mới
+            
+            showToast("Đổi mật khẩu thành công");
+            
+            // Quay về chế độ xem
+            showViewMode();
+            
         } catch (Exception e) {
-            Log.e(TAG, "setViewModeListeners: Lỗi khi thiết lập listener", e);
-            throw e; // ném lại lỗi để xử lý ở cấp cao hơn
+            Log.e(TAG, "savePassword: Lỗi khi lưu mật khẩu", e);
+            showToast("Lỗi khi đổi mật khẩu: " + e.getMessage());
         }
+    }
+    
+    // ====== THIẾT LẬP SỰ KIỆN ======
+    
+    private void setViewModeListeners() {
+        // Nút quay lại
+        setOnClickListener(btnBack, v -> onBackPressed());
+        
+        // Nút đổi mật khẩu
+        setOnClickListener(btnChangePassword, v -> showChangePasswordMode());
+        
+        // Nút sửa thông tin
+        setOnClickListener(btnEdit, v -> showEditMode());
+        
+        // Thiết lập sự kiện cho thanh điều hướng
+        setupNavigationListeners();
     }
     
     private void setEditModeListeners() {
-        try {
-            Log.d(TAG, "setEditModeListeners: Thiết lập các listener");
-            
-            // Nút quay lại
-            btnBackEdit.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút quay lại, chuyển về chế độ xem");
-                isEditMode = false;
-                showViewMode();
-            });
-    
-            // Nút hủy
-            btnCancel.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút hủy, chuyển về chế độ xem");
-                isEditMode = false;
-                showViewMode();
-            });
-    
-            // Nút lưu
-            btnSaveUser.setOnClickListener(v -> {
-                Log.d(TAG, "Đã nhấn nút lưu");
-                saveUserData();
-            });
-            
-            Log.d(TAG, "setEditModeListeners: Đã thiết lập xong các listener");
-        } catch (Exception e) {
-            Log.e(TAG, "setEditModeListeners: Lỗi khi thiết lập listener", e);
-            throw e; // ném lại lỗi để xử lý ở cấp cao hơn
-        }
+        // Nút quay lại và hủy
+        setOnClickListener(btnBackEdit, v -> showViewMode());
+        setOnClickListener(btnCancel, v -> showViewMode());
+        
+        // Nút lưu
+        setOnClickListener(btnSaveUser, v -> saveUserData());
+        
+        // Thiết lập sự kiện cho thanh điều hướng
+        setupNavigationListeners();
     }
+    
+    private void setChangePasswordListeners() {
+        // Nút quay lại và hủy
+        setOnClickListener(btnBackChangePass, v -> showViewMode());
+        setOnClickListener(btnCancelChangePass, v -> showViewMode());
+        
+        // Nút lưu
+        setOnClickListener(btnSavePassword, v -> savePassword());
+        
+        // Thiết lập sự kiện cho thanh điều hướng
+        setupNavigationListeners();
+    }
+    
+    private void setupNavigationListeners() {
+        // Nút trang chủ
+        setOnClickListener(navHome, v -> {
+            try {
+                Intent intent = new Intent(User_ThongTinActivity.this, User_TrangChuActivity.class);
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+                Log.e(TAG, "Lỗi khi mở trang chủ", e);
+                showToast("Không thể mở trang chủ: " + e.getMessage());
+            }
+        });
+        
+        // Nút hồ sơ - đã ở trang này nên chỉ cần về chế độ xem
+        setOnClickListener(navProfile, v -> showViewMode());
+        
+        // Nút đăng xuất
+        setOnClickListener(navLogout, v -> {
+            showToast("Đăng xuất");
+            // TODO: Thực hiện đăng xuất
+            // FirebaseAuth.getInstance().signOut();
+            // Intent intent = new Intent(User_ThongTinActivity.this, DangNhapActivity.class);
+            // startActivity(intent);
+            // finish();
+        });
+    }
+    
+    // ====== TIỆN ÍCH ======
     
     @Override
     public void onBackPressed() {
-        if (isEditMode) {
-            Log.d(TAG, "onBackPressed: Đang ở chế độ chỉnh sửa, chuyển về chế độ xem");
-            isEditMode = false;
+        if (isEditMode || isChangePasswordMode) {
             showViewMode();
         } else {
-            Log.d(TAG, "onBackPressed: Đang ở chế độ xem, thoát activity");
             super.onBackPressed();
         }
+    }
+    
+    private <T extends View> T findViewSafely(int id) {
+        try {
+            return findViewById(id);
+        } catch (Exception e) {
+            Log.e(TAG, "findViewSafely: Không tìm thấy view với id: " + id, e);
+            return null;
+        }
+    }
+    
+    private void setOnClickListener(View view, View.OnClickListener listener) {
+        if (view != null) {
+            view.setOnClickListener(listener);
+        }
+    }
+    
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 } 

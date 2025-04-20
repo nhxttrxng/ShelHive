@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_admin_edit_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8DB"
+    android:gravity="left|top"
+    android:orientation="vertical">
+    
+    <!-- Header -->
+    <FrameLayout
+        android:id="@+id/container_admin_edit_header"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_gravity="left"
+        android:background="#F5EAB5">
+        
+        <ImageView
+            android:id="@+id/btn_admin_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="53dp"
+            android:layout_gravity="top|left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+        
+        <TextView
+            android:id="@+id/txt_admin_edit_info"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="54.5dp"
+            android:layout_marginBottom="-2.5dp"
+            android:layout_gravity="top|left"
+            android:gravity="left|center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Sửa thông tin cá nhân"
+            android:textColor="#FF755200"
+            android:textSize="16dp"
+            android:fontFamily="@font/nunito_bold" />
+    </FrameLayout>
+    
+    <!-- Avatar -->
+    <FrameLayout
+        android:id="@+id/container_admin_edit_avatar"
+        android:layout_width="340dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="23dp">
+        
+        <com.nhom5.shelhive.customviews.HexagonImageView
+            android:id="@+id/img_admin_avatar"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_gravity="top|center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar" />
+        
+        <FrameLayout
+            android:id="@+id/container_admin_avatar_edit"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="193dp"
+            android:layout_marginTop="66dp"
+            android:layout_gravity="top|left"
+            android:background="@drawable/circle_yellow">
+            
+            <ImageView
+                android:id="@+id/img_admin_camera"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_edit" />
+        </FrameLayout>
+    </FrameLayout>
+    
+    <!-- Thông tin người dùng -->
+    <LinearLayout
+        android:id="@+id/container_admin_edit_details"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="23dp"
+        android:orientation="vertical">
+        
+        <LinearLayout
+            android:id="@+id/container_admin_edit_fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <!-- Họ tên -->
+            <FrameLayout
+                android:id="@+id/container_admin_edit_name"
+                android:layout_width="340dp"
+                android:layout_height="25.35dp">
+                
+                <EditText
+                    android:id="@+id/edt_admin_fullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="31dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="1.35dp"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="Ngô Nhựt Trường"
+                    android:textColor="#FF9B895D"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:background="@null"
+                    android:inputType="textPersonName"
+                    android:hint="Họ tên" />
+                
+                <View
+                    android:id="@+id/line_admin_edit_name"
+                    android:layout_width="340dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_gravity="left"
+                    android:background="@color/brown" />
+                
+                <ImageView
+                    android:id="@+id/img_admin_edit_person"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="top|left"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/brown" />
+            </FrameLayout>
+            
+            <!-- Email -->
+            <FrameLayout
+                android:id="@+id/container_admin_edit_email"
+                android:layout_width="340dp"
+                android:layout_height="24.77dp"
+                android:layout_marginTop="30dp">
+                
+                <EditText
+                    android:id="@+id/edt_admin_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="31dp"
+                    android:layout_marginTop="1.42dp"
+                    android:layout_marginBottom="1.35dp"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="nhuttruong@gmail.com"
+                    android:textColor="#FF9B895D"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:background="@null"
+                    android:inputType="textEmailAddress"
+                    android:hint="Email" />
+                
+                <View
+                    android:id="@+id/line_admin_edit_email"
+                    android:layout_width="340dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="23.42dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_gravity="left"
+                    android:background="@color/brown" />
+                
+                <ImageView
+                    android:id="@+id/img_admin_edit_email"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="top|left"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_email"
+                    app:tint="@color/brown" />
+            </FrameLayout>
+            
+            <!-- Số điện thoại -->
+            <FrameLayout
+                android:id="@+id/container_admin_edit_phone"
+                android:layout_width="340dp"
+                android:layout_height="24.77dp"
+                android:layout_marginTop="30dp">
+                
+                <EditText
+                    android:id="@+id/edt_admin_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="31dp"
+                    android:layout_marginTop="1.42dp"
+                    android:layout_marginBottom="1.35dp"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="0948622852"
+                    android:textColor="#FF9B895D"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:background="@null"
+                    android:inputType="phone"
+                    android:hint="Số điện thoại" />
+                
+                <View
+                    android:id="@+id/line_admin_edit_phone"
+                    android:layout_width="340dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="23.42dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_gravity="left"
+                    android:background="@color/brown" />
+                
+                <ImageView
+                    android:id="@+id/img_admin_edit_phone"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="top|left"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_phone"
+                    app:tint="@color/brown" />
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+    
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/container_admin_edit_buttons"
+        android:layout_width="340dp"
+        android:layout_height="62dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="700dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Nút hủy -->
+        <FrameLayout
+            android:id="@+id/btn_admin_cancel"
+            android:layout_width="106dp"
+            android:layout_height="48dp">
+
+            <!-- Bóng dưới nút -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rounded_rect_shadow" />
+
+            <!-- Nút chính -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@drawable/rounded_rect_button_huy" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="Hủy"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1" />
+
+        <!-- Nút lưu -->
+        <FrameLayout
+            android:id="@+id/btn_admin_save"
+            android:layout_width="106dp"
+            android:layout_height="48dp">
+
+            <!-- Bóng dưới nút -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rounded_rect_shadow" />
+
+            <!-- Nút chính -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@drawable/rounded_rect_button" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="Lưu"
+                android:textColor="#FF755200"
+                android:textSize="16dp" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout> 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container_edit_user_info"
+    android:id="@+id/container_admin_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8DB"
@@ -12,14 +12,14 @@
     
     <!-- Header -->
     <FrameLayout
-        android:id="@+id/container_frame"
+        android:id="@+id/container_admin_header"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_gravity="left"
         android:background="#F5EAB5">
         
         <ImageView
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_admin_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="11dp"
@@ -29,7 +29,7 @@
             android:src="@drawable/ic_back" />
         
         <TextView
-            android:id="@+id/text_edit_user_info"
+            android:id="@+id/txt_admin_info"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
             android:layout_marginLeft="40dp"
@@ -40,7 +40,7 @@
             android:includeFontPadding="false"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="Sửa thông tin cá nhân"
+            android:text="Thông tin cá nhân"
             android:textColor="#FF755200"
             android:textSize="16dp"
             android:fontFamily="@font/nunito_bold" />
@@ -48,7 +48,7 @@
     
     <!-- Avatar -->
     <FrameLayout
-        android:id="@+id/container_frame5"
+        android:id="@+id/container_admin_avatar"
         android:layout_width="340dp"
         android:layout_height="100dp"
         android:layout_marginLeft="36dp"
@@ -56,7 +56,7 @@
         android:layout_marginTop="23dp">
         
         <com.nhom5.shelhive.customviews.HexagonImageView
-            android:id="@+id/avatar_hexagon"
+            android:id="@+id/img_admin_avatar"
             android:layout_width="92dp"
             android:layout_height="92dp"
             android:layout_gravity="top|center_horizontal"
@@ -64,7 +64,7 @@
             android:src="@drawable/avatar" />
         
         <FrameLayout
-            android:id="@+id/container_frame6"
+            android:id="@+id/container_admin_edit_avatar"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginLeft="193dp"
@@ -73,7 +73,7 @@
             android:background="@drawable/circle_yellow">
             
             <ImageView
-                android:id="@+id/image_pen_bold"
+                android:id="@+id/img_admin_edit"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
@@ -84,7 +84,7 @@
     
     <!-- Thông tin người dùng -->
     <LinearLayout
-        android:id="@+id/container_frame7"
+        android:id="@+id/container_admin_details"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
@@ -93,20 +93,20 @@
         android:orientation="vertical">
         
         <LinearLayout
-            android:id="@+id/container_frame8"
+            android:id="@+id/container_admin_fields"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             
             <!-- Họ tên -->
             <FrameLayout
-                android:id="@+id/container_group2"
+                android:id="@+id/container_admin_name"
                 android:layout_width="340dp"
                 android:layout_height="25.35dp">
                 
-                <EditText
-                    android:id="@+id/edit_user_fullname"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_admin_fullname"
+                    android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
                     android:layout_marginTop="2dp"
@@ -119,13 +119,10 @@
                     android:text="Ngô Nhựt Trường"
                     android:textColor="#FF9B895D"
                     android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="textPersonName"
-                    android:hint="Họ tên" />
+                    android:fontFamily="@font/nunito_semibold" />
                 
                 <View
-                    android:id="@+id/line"
+                    android:id="@+id/line_admin_name"
                     android:layout_width="340dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="24dp"
@@ -134,7 +131,7 @@
                     android:background="@color/brown" />
                 
                 <ImageView
-                    android:id="@+id/image_person_outline1"
+                    android:id="@+id/img_admin_person"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="top|left"
@@ -143,16 +140,16 @@
                     app:tint="@color/brown" />
             </FrameLayout>
             
-            <!-- Ngày sinh -->
+            <!-- Email -->
             <FrameLayout
-                android:id="@+id/container_group3"
+                android:id="@+id/container_admin_email"
                 android:layout_width="340dp"
                 android:layout_height="24.77dp"
                 android:layout_marginTop="30dp">
                 
-                <EditText
-                    android:id="@+id/edit_user_dob"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_admin_email"
+                    android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
                     android:layout_marginTop="1.42dp"
@@ -162,16 +159,13 @@
                     android:includeFontPadding="false"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="14/06/2004"
+                    android:text="nhuttruong@gmail.com"
                     android:textColor="#FF9B895D"
                     android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="date"
-                    android:hint="Ngày sinh" />
+                    android:fontFamily="@font/nunito_semibold" />
                 
                 <View
-                    android:id="@+id/line1"
+                    android:id="@+id/line_admin_email"
                     android:layout_width="340dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="23.42dp"
@@ -180,188 +174,7 @@
                     android:background="@color/brown" />
                 
                 <ImageView
-                    android:id="@+id/image_calendar"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="top|left"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_calendar"
-                    app:tint="@color/brown" />
-            </FrameLayout>
-            
-            <!-- Tỉnh/Thành phố -->
-            <FrameLayout
-                android:id="@+id/container_group4"
-                android:layout_width="340dp"
-                android:layout_height="24.12dp"
-                android:layout_marginTop="30dp">
-                
-                <EditText
-                    android:id="@+id/edit_user_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="31dp"
-                    android:layout_marginTop="0.76dp"
-                    android:layout_gravity="top|left"
-                    android:gravity="left|center_vertical"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Bình Dương"
-                    android:textColor="#FF9B895D"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="text"
-                    android:hint="Quê quán" />
-                
-                <View
-                    android:id="@+id/line2"
-                    android:layout_width="340dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="22.76dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="left"
-                    android:background="@color/brown" />
-                
-                <ImageView
-                    android:id="@+id/image_house_outline"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="top|left"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_home"
-                    app:tint="@color/brown" />
-            </FrameLayout>
-            
-            <!-- Địa chỉ -->
-            <FrameLayout
-                android:id="@+id/container_group5"
-                android:layout_width="340dp"
-                android:layout_height="23.35dp"
-                android:layout_marginTop="30dp">
-                
-                <EditText
-                    android:id="@+id/edit_user_province"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="31dp"
-                    android:layout_gravity="top|left"
-                    android:gravity="left|center_vertical"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Bình Dương"
-                    android:textColor="#FF9B895D"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="textPostalAddress"
-                    android:hint="Địa chỉ" />
-                
-                <View
-                    android:id="@+id/line3"
-                    android:layout_width="340dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="left"
-                    android:background="@color/brown" />
-                
-                <ImageView
-                    android:id="@+id/image_location"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="0.74dp"
-                    android:layout_gravity="top|left"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_location"
-                    app:tint="@color/brown" />
-            </FrameLayout>
-            
-            <!-- CCCD -->
-            <FrameLayout
-                android:id="@+id/container_group6"
-                android:layout_width="340dp"
-                android:layout_height="23.35dp"
-                android:layout_marginTop="30dp">
-                
-                <EditText
-                    android:id="@+id/edit_user_idnumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="31dp"
-                    android:layout_gravity="top|left"
-                    android:gravity="left|center_vertical"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="123456789012"
-                    android:textColor="#FF9B895D"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:hint="CCCD" />
-                
-                <View
-                    android:id="@+id/line4"
-                    android:layout_width="340dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="left"
-                    android:background="@color/brown" />
-                
-                <ImageView
-                    android:id="@+id/image_card_outline"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="0.75dp"
-                    android:layout_gravity="top|left"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_id_card"
-                    app:tint="@color/brown" />
-            </FrameLayout>
-            
-            <!-- Email -->
-            <FrameLayout
-                android:id="@+id/container_group7"
-                android:layout_width="340dp"
-                android:layout_height="24.35dp"
-                android:layout_marginTop="30dp">
-                
-                <EditText
-                    android:id="@+id/edit_user_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="31dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="top|left"
-                    android:gravity="left|center_vertical"
-                    android:includeFontPadding="false"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="22521577@gm.uit.edu.vn"
-                    android:textColor="#FF9B895D"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="textEmailAddress"
-                    android:hint="Email" />
-                
-                <View
-                    android:id="@+id/line5"
-                    android:layout_width="340dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="left"
-                    android:background="@color/brown" />
-                
-                <ImageView
-                    android:id="@+id/image_mail_outline"
+                    android:id="@+id/img_admin_email"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="top|left"
@@ -370,43 +183,41 @@
                     app:tint="@color/brown" />
             </FrameLayout>
             
-            <!-- SĐT -->
+            <!-- Số điện thoại -->
             <FrameLayout
-                android:id="@+id/container_group8"
+                android:id="@+id/container_admin_phone"
                 android:layout_width="340dp"
-                android:layout_height="24.12dp"
+                android:layout_height="24.77dp"
                 android:layout_marginTop="30dp">
                 
-                <EditText
-                    android:id="@+id/edit_user_phone"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_admin_phone"
+                    android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
-                    android:layout_marginTop="0.76dp"
-                    android:layout_gravity="top|left"
+                    android:layout_marginTop="1.42dp"
+                    android:layout_marginBottom="1.35dp"
+                    android:layout_gravity="left"
                     android:gravity="left|center_vertical"
                     android:includeFontPadding="false"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="0123456789"
+                    android:text="0948622852"
                     android:textColor="#FF9B895D"
                     android:textSize="16dp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:background="@null"
-                    android:inputType="phone"
-                    android:hint="Số điện thoại" />
+                    android:fontFamily="@font/nunito_semibold" />
                 
                 <View
-                    android:id="@+id/line6"
+                    android:id="@+id/line_admin_phone"
                     android:layout_width="340dp"
                     android:layout_height="1dp"
-                    android:layout_marginTop="22.76dp"
+                    android:layout_marginTop="23.42dp"
                     android:layout_marginBottom="0dp"
                     android:layout_gravity="left"
                     android:background="@color/brown" />
                 
                 <ImageView
-                    android:id="@+id/image_phone"
+                    android:id="@+id/img_admin_phone"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="top|left"
@@ -422,7 +233,7 @@
         android:layout_height="10dp" />
         
     <LinearLayout
-        android:id="@+id/container_frame9"
+        android:id="@+id/container_admin_buttons"
         android:layout_width="340dp"
         android:layout_height="62dp"
         android:layout_marginLeft="36dp"
@@ -432,43 +243,9 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
         
-        <!-- Nút hủy -->
+        <!-- Nút đổi mật khẩu -->
         <FrameLayout
-            android:id="@+id/btn_cancel"
-            android:layout_width="106dp"
-            android:layout_height="48dp">
-            
-            <!-- Bóng dưới nút -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/rounded_rect_shadow" />
-            
-            <!-- Nút chính -->
-            <View
-                android:layout_width="match_parent" 
-                android:layout_height="46dp"
-                android:background="@drawable/rounded_rect_button_huy" />
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Hủy"
-                android:textColor="#FFFFFF"
-                android:textSize="13dp"
-                android:fontFamily="@font/nunito_bold" />
-        </FrameLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1" />
-        
-        <!-- Nút lưu -->
-        <FrameLayout
-            android:id="@+id/btn_save_user"
+            android:id="@+id/btn_admin_changepass"
             android:layout_width="106dp"
             android:layout_height="48dp">
             
@@ -489,7 +266,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Lưu"
+                android:text="Đổi\nmật khẩu"
+                android:textColor="#FF755200"
+                android:textSize="13dp"
+                android:fontFamily="@font/nunito_bold" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1" />
+        
+        <!-- Nút sửa -->
+        <FrameLayout
+            android:id="@+id/btn_admin_edit"
+            android:layout_width="106dp"
+            android:layout_height="48dp">
+            
+            <!-- Bóng dưới nút -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rounded_rect_shadow" />
+            
+            <!-- Nút chính -->
+            <View
+                android:layout_width="match_parent" 
+                android:layout_height="46dp"
+                android:background="@drawable/rounded_rect_button" />
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Sửa"
                 android:textColor="#FF755200"
                 android:textSize="16dp"
                 android:fontFamily="@font/nunito_bold" />
@@ -503,7 +314,7 @@
     
     <!-- Bottom Navigation -->
     <FrameLayout
-        android:id="@+id/container_group1"
+        android:id="@+id/container_admin_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
@@ -524,7 +335,7 @@
                 
                 <!-- Trang chủ -->
                 <LinearLayout
-                    android:id="@+id/nav_home"
+                    android:id="@+id/nav_admin_home"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -532,7 +343,7 @@
                     android:gravity="center">
                     
                     <ImageView
-                        android:id="@+id/image_home"
+                        android:id="@+id/img_admin_home"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerInside"
@@ -540,7 +351,7 @@
                         app:tint="#B7B7B7" />
                     
                     <TextView
-                        android:id="@+id/text_home"
+                        android:id="@+id/txt_admin_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -552,7 +363,7 @@
                 
                 <!-- Tôi -->
                 <LinearLayout
-                    android:id="@+id/nav_profile"
+                    android:id="@+id/nav_admin_profile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -566,7 +377,7 @@
                         android:background="#FFB300" />
                     
                     <ImageView
-                        android:id="@+id/image_person_outline"
+                        android:id="@+id/img_admin_profile"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerInside"
@@ -574,7 +385,7 @@
                         app:tint="#FFB300" />
                     
                     <TextView
-                        android:id="@+id/text_me"
+                        android:id="@+id/txt_admin_profile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -586,7 +397,7 @@
                 
                 <!-- Đăng xuất -->
                 <LinearLayout
-                    android:id="@+id/nav_logout"
+                    android:id="@+id/nav_admin_logout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -594,7 +405,7 @@
                     android:gravity="center">
                     
                     <ImageView
-                        android:id="@+id/image_logout"
+                        android:id="@+id/img_admin_logout"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:scaleType="centerInside"
@@ -602,7 +413,7 @@
                         app:tint="#B7B7B7" />
                     
                     <TextView
-                        android:id="@+id/text_logout"
+                        android:id="@+id/txt_admin_logout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -614,4 +425,4 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
-</LinearLayout>
+</LinearLayout> 
