@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/room_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/img_room"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_room_brown" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tv_room_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phòng 1"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nunito_bold" />
+
+                <TextView
+                    android:id="@+id/tv_unpaid_bills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa thanh toán: 1 hoá đơn"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/nunito_regular" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/tv_tenant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người thuê"
+                android:textSize="14sp"
+                android:fontFamily="@font/nunito_regular" />
+
+            <LinearLayout
+                android:id="@+id/status_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/nunito_regular" />
+
+                <TextView
+                    android:id="@+id/tv_badge"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/badge_circle_red"
+                    android:fontFamily="@font/nunito_bold"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#755200"
+        android:alpha="0.3"
+        android:layout_below="@id/room_content"
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout> 

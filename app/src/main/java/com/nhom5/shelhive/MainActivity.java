@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Mở trực tiếp HoaDonActivity
-        Intent intent = new Intent(MainActivity.this, Admin_QuanLyActivity.class);
+        Intent intent = new Intent(MainActivity.this, Admin_HoaDonActivity.class);
         startActivity(intent);
 
         // Đóng MainActivity nếu không cần quay lại
