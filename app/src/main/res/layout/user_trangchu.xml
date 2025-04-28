@@ -39,7 +39,7 @@
         android:textSize="16sp"
         />
 
-    <com.nhom5.shelhive.customviews.HexagonImageView
+    <com.nhom5.shelhive.ui.common.customviews.HexagonImageView
         android:id="@+id/avatar_hexagon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

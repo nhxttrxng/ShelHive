@@ -55,7 +55,7 @@
         android:layout_marginRight="36dp"
         android:layout_marginTop="23dp">
         
-        <com.nhom5.shelhive.customviews.HexagonImageView
+        <com.nhom5.shelhive.ui.common.customviews.HexagonImageView
             android:id="@+id/img_admin_avatar"
             android:layout_width="92dp"
             android:layout_height="92dp"

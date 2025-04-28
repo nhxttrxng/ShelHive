@@ -3,17 +3,10 @@ package com.nhom5.shelhive;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.nhom5.shelhive.admin.Admin_HoaDonActivity;
-import com.nhom5.shelhive.admin.Admin_QuanLyActivity;
-import com.nhom5.shelhive.admin.Admin_TrangChuActivity;
-import com.nhom5.shelhive.user.User_ThongTinActivity;
-import com.nhom5.shelhive.user.User_TrangChuActivity;
+import com.nhom5.shelhive.ui.admin.Admin_QuanLyActivity;
+import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Mở trực tiếp HoaDonActivity
-        Intent intent = new Intent(MainActivity.this, Admin_HoaDonActivity.class);
+        Intent intent = new Intent(MainActivity.this, DangNhapActivity.class);
         startActivity(intent);
 
         // Đóng MainActivity nếu không cần quay lại

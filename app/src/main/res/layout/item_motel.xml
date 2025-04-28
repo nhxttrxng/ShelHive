@@ -49,32 +49,7 @@
                 android:textSize="14sp"
                 android:text="Địa chỉ nhà trọ" />
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/badge_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_gravity="center_vertical">
-
-            <RelativeLayout
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="@drawable/badge_circle_red">
-
-                <TextView
-                    android:id="@+id/text_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:gravity="center" />
-            </RelativeLayout>
-        </FrameLayout>
     </LinearLayout>
-    
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -82,5 +57,4 @@
         android:alpha="0.3"
         android:layout_below="@id/motel_content"
         android:layout_marginTop="8dp"/>
-
 </RelativeLayout>

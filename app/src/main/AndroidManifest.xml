@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,23 +22,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DangKyActivity"/>
-        <activity android:name=".DangNhapActivity"/>
-        <activity android:name=".QuenMatKhauActivity"/>
-        <activity android:name=".admin.Admin_HoaDonActivity"/>
-        <activity android:name=".user.User_HoaDonActivity"/>
-        <activity android:name=".XacThucActivity"/>
-        <activity android:name=".admin.Admin_TrangChuActivity"/>
-        <activity android:name=".user.User_TrangChuActivity"/>
-        <activity android:name=".admin.Admin_PhanAnhActivity"/>
-        <activity android:name=".user.User_PhanAnhActivity"/>
-        <activity android:name=".admin.Admin_ThongKeActivity"/>
-        <activity android:name=".user.User_ThongKeActivity"/>
-        <activity android:name=".admin.Admin_ThongBaoActivity"/>
-        <activity android:name=".user.User_ThongBaoActivity"/>
-        <activity android:name=".user.User_ThongTinActivity"/>
-        <activity android:name=".admin.Admin_ThongTinActivity"/>
-        <activity android:name=".admin.Admin_QuanLyActivity"/>
+        <activity android:name=".ui.auth.DangKyActivity"/>
+        <activity android:name=".ui.auth.DangNhapActivity"/>
+        <activity android:name=".ui.auth.QuenMatKhauActivity"/>
+        <activity android:name=".ui.admin.Admin_HoaDonActivity"/>
+        <activity android:name=".ui.user.User_HoaDonActivity"/>
+        <activity android:name=".ui.auth.XacThucActivity"/>
+        <activity android:name=".ui.admin.Admin_TrangChuActivity"/>
+        <activity android:name=".ui.user.User_TrangChuActivity"/>
+        <activity android:name=".ui.admin.Admin_PhanAnhActivity"/>
+        <activity android:name=".ui.user.User_PhanAnhActivity"/>
+        <activity android:name=".ui.admin.Admin_ThongKeActivity"/>
+        <activity android:name=".ui.user.User_ThongKeActivity"/>
+        <activity android:name=".ui.admin.Admin_ThongBaoActivity"/>
+        <activity android:name=".ui.user.User_ThongBaoActivity"/>
+        <activity android:name=".ui.user.User_ThongTinActivity"/>
+        <activity android:name=".ui.admin.Admin_ThongTinActivity"/>
+        <activity android:name=".ui.admin.Admin_QuanLyActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

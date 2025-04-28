@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.BillAdapter;
-import com.nhom5.shelhive.model.Bill;
+import com.nhom5.shelhive.ui.common.adapter.BillAdapter;
+import com.nhom5.shelhive.ui.model.Bill;
 
 import java.util.ArrayList;
 import java.util.List;
