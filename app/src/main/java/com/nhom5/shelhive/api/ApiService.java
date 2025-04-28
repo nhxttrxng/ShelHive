@@ -18,5 +18,11 @@ public interface ApiService {
     @POST("/api/auth/reset-password")
     Call<ResponseBody> resetPassword(@Body ResetPasswordRequest request);
 
+    @POST("/api/auth/verify-otp")
+    Call<ResponseBody> verifyOtp(@Body VerifyOtpRequest request);
+
+    @POST("/api/auth/resend-otp")
+    Call<ResponseBody> resendOtp(@Body ResendOtpRequest request);
+
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

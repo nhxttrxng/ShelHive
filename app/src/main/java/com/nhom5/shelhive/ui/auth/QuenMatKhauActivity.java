@@ -1,5 +1,6 @@
 package com.nhom5.shelhive.ui.auth;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,141 +18,156 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.ForgotPasswordRequest;
+import com.nhom5.shelhive.api.ResetPasswordRequest;
+import com.nhom5.shelhive.api.ResendOtpRequest;
+import com.nhom5.shelhive.api.VerifyOtpRequest;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuenMatKhauActivity extends AppCompatActivity {
 
-    // Giả sử email đã đăng ký và OTP mẫu
-    private static final String REGISTERED_EMAIL = "user@example.com";
-    private static final String SAMPLE_OTP = "123456";
+    private String currentEmail;
+    private String currentOtp;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         loadEmailScreen();
     }
 
-    /**
-     * Màn hình nhập email (quenmatkhau.xml)
-     */
     private void loadEmailScreen() {
         setContentView(R.layout.quenmatkhau);
 
         ImageView backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(QuenMatKhauActivity.this, DangNhapActivity.class);
-            startActivity(intent);
-            finish(); // Đóng activity hiện tại
+            startActivity(new Intent(this, DangNhapActivity.class));
+            finish();
         });
 
-        // Lấy EditText từ TextInputLayout có id "email"
         TextInputLayout emailLayout = findViewById(R.id.email);
         EditText emailEditText = emailLayout.getEditText();
+        TextView emailError = findViewById(R.id.email_error);
+        emailError.setVisibility(View.GONE);
 
-        // Lấy TextView để hiển thị lỗi
-        TextView emailErrorTextView = findViewById(R.id.email_error);
-        emailErrorTextView.setVisibility(View.GONE);  // Ẩn lỗi ban đầu
-
-        // Xử lý khi mất focus từ EditText email
         emailEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                String emailInput = emailEditText.getText().toString().trim();
-                if (TextUtils.isEmpty(emailInput)) {
-                    emailErrorTextView.setText("Vui lòng nhập email");
-                    emailErrorTextView.setVisibility(View.VISIBLE);
-                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-                    emailErrorTextView.setText("Email không hợp lệ");
-                    emailErrorTextView.setVisibility(View.VISIBLE);
-                } else {
-                    emailErrorTextView.setVisibility(View.INVISIBLE); // Ẩn lỗi nếu email hợp lệ
-                }
-            }
+            if (!hasFocus) validateEmailField(emailEditText, emailError);
         });
 
-        // Nút tiếp tục nằm trong FrameLayout với id "tieptuc_button"
-        TextView continueButton = findViewById(R.id.tieptuc_button);
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String emailInput = emailEditText.getText().toString().trim();
-
-                // Kiểm tra email khi nhấn "Tiếp tục"
-                if (TextUtils.isEmpty(emailInput)) {
-                    emailErrorTextView.setText("Vui lòng nhập email");
-                    emailErrorTextView.setVisibility(View.VISIBLE);
-                    return;
-                }
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-                    emailErrorTextView.setText("Email không hợp lệ");
-                    emailErrorTextView.setVisibility(View.VISIBLE);
-                    return;
-                }
-                if (!emailInput.equalsIgnoreCase(REGISTERED_EMAIL)) {
-                    emailErrorTextView.setText("Email không tồn tại");
-                    emailErrorTextView.setVisibility(View.VISIBLE);
-                    return;
-                }
-
-                // Email hợp lệ, chuyển sang màn hình OTP
-                emailErrorTextView.setVisibility(View.INVISIBLE); // Ẩn lỗi nếu email hợp lệ
-                loadOTPScreen();
-            }
+        findViewById(R.id.tieptuc_button).setOnClickListener(v -> {
+            if (!validateEmailField(emailEditText, emailError)) return;
+            currentEmail = emailEditText.getText().toString().trim();
+            // Gọi API forgot-password
+            progressDialog.setMessage("Đang gửi yêu cầu...");
+            progressDialog.show();
+            ApiService.apiService
+                    .forgotPassword(new ForgotPasswordRequest(currentEmail))
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> res) {
+                            progressDialog.dismiss();
+                            if (res.isSuccessful()) {
+                                Toast.makeText(QuenMatKhauActivity.this,
+                                        "OTP đã được gửi vào email", Toast.LENGTH_SHORT).show();
+                                loadOTPScreen();
+                            } else {
+                                emailError.setText("Gửi OTP thất bại");
+                                emailError.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            progressDialog.dismiss();
+                            emailError.setText("Lỗi kết nối: " + t.getMessage());
+                            emailError.setVisibility(View.VISIBLE);
+                        }
+                    });
         });
     }
 
-    /**
-     * Màn hình nhập OTP (quenmatkhau_otp.xml)
-     */
+    private boolean validateEmailField(EditText emailEditText, TextView emailError) {
+        String email = emailEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(email)) {
+            emailError.setText("Vui lòng nhập email");
+            emailError.setVisibility(View.VISIBLE);
+            return false;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailError.setText("Email không hợp lệ");
+            emailError.setVisibility(View.VISIBLE);
+            return false;
+        }
+        emailError.setVisibility(View.INVISIBLE);
+        return true;
+    }
+
     private void loadOTPScreen() {
         setContentView(R.layout.quenmatkhau_otp);
 
         ImageView backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> loadEmailScreen());
-        TextView otpErrorText = findViewById(R.id.otp_error);
-        otpErrorText.setVisibility(View.INVISIBLE); // Ẩn lỗi ban đầu
 
+        TextView otpError = findViewById(R.id.otp_error);
+        otpError.setVisibility(View.INVISIBLE);
 
-        // Lấy các ô OTP (6 EditText)
-        final EditText otp1 = findViewById(R.id.otp_1);
-        final EditText otp2 = findViewById(R.id.otp_2);
-        final EditText otp3 = findViewById(R.id.otp_3);
-        final EditText otp4 = findViewById(R.id.otp_4);
-        final EditText otp5 = findViewById(R.id.otp_5);
-        final EditText otp6 = findViewById(R.id.otp_6);
+        EditText otp1 = findViewById(R.id.otp_1);
+        EditText otp2 = findViewById(R.id.otp_2);
+        EditText otp3 = findViewById(R.id.otp_3);
+        EditText otp4 = findViewById(R.id.otp_4);
+        EditText otp5 = findViewById(R.id.otp_5);
+        EditText otp6 = findViewById(R.id.otp_6);
 
-        // Thiết lập chuyển focus tự động và tự kiểm tra khi ô thứ 6 được nhập
-        setupOTPInputs(otp1, otp2, otp3, otp4, otp5, otp6);
+        setupOTPInputs(otp1, otp2, otp3, otp4, otp5, otp6, otpError);
 
-        // Xử lý chức năng "Gửi lại OTP" với đếm ngược 60 giây
-        final TextView resendNow = findViewById(R.id.resend_now);
+        TextView resendNow = findViewById(R.id.resend_now);
         startResendTimer(resendNow);
 
-        resendNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (resendNow.getText().toString().equalsIgnoreCase("Gửi lại ngay")) {
-                    Toast.makeText(QuenMatKhauActivity.this, "Đã gửi OTP mới", Toast.LENGTH_SHORT).show();
-                    startResendTimer(resendNow);
-                }
+        resendNow.setOnClickListener(v -> {
+            if ("Gửi lại ngay".equalsIgnoreCase(resendNow.getText().toString())) {
+                // Gọi API resend-otp
+                progressDialog.setMessage("Đang gửi lại OTP...");
+                progressDialog.show();
+                ApiService.apiService
+                        .resendOtp(new ResendOtpRequest(currentEmail))
+                        .enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> res) {
+                                progressDialog.dismiss();
+                                if (res.isSuccessful()) {
+                                    Toast.makeText(QuenMatKhauActivity.this,
+                                            "Đã gửi OTP mới", Toast.LENGTH_SHORT).show();
+                                    startResendTimer(resendNow);
+                                } else {
+                                    Toast.makeText(QuenMatKhauActivity.this,
+                                            "Gửi lại thất bại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Toast.makeText(QuenMatKhauActivity.this,
+                                        "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
 
-    /**
-     * Thiết lập chuyển focus tự động giữa các ô OTP và tự kiểm tra khi hoàn thành ô thứ 6
-     */
-    private abstract class SimpleTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+    private void setupOTPInputs(EditText otp1,
+                                EditText otp2,
+                                EditText otp3,
+                                EditText otp4,
+                                EditText otp5,
+                                EditText otp6,
+                                TextView otpErrorText) {
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-        @Override
-        public abstract void afterTextChanged(Editable s);
-    }
-
-    private void setupOTPInputs(final EditText otp1, final EditText otp2, final EditText otp3,
-                                final EditText otp4, final EditText otp5, final EditText otp6) {
         otp1.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -160,6 +176,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                 }
             }
         });
+
         otp2.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -170,6 +187,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                 }
             }
         });
+
         otp3.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -180,6 +198,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                 }
             }
         });
+
         otp4.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -190,6 +209,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                 }
             }
         });
+
         otp5.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -200,10 +220,12 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                 }
             }
         });
+
         otp6.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    // Khi đủ 6 ký tự thì gom lại và gọi API verifyOtp
                     String otpEntered = otp1.getText().toString().trim()
                             + otp2.getText().toString().trim()
                             + otp3.getText().toString().trim()
@@ -212,15 +234,29 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                             + otp6.getText().toString().trim();
 
                     if (otpEntered.length() == 6) {
-                        TextView otpErrorText = findViewById(R.id.otp_error);
-
-                        if (otpEntered.equals(SAMPLE_OTP)) {
-                            otpErrorText.setVisibility(View.INVISIBLE);
-                            loadResetPasswordScreen();
-                        } else {
-                            otpErrorText.setText("Mã OTP không đúng");
-                            otpErrorText.setVisibility(View.VISIBLE);
-                        }
+                        progressDialog.setMessage("Đang xác thực OTP...");
+                        progressDialog.show();
+                        ApiService.apiService
+                                .verifyOtp(new VerifyOtpRequest(currentEmail, otpEntered))
+                                .enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> res) {
+                                        progressDialog.dismiss();
+                                        if (res.isSuccessful()) {
+                                            currentOtp = otpEntered;
+                                            loadResetPasswordScreen();
+                                        } else {
+                                            otpErrorText.setText("OTP không đúng");
+                                            otpErrorText.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        progressDialog.dismiss();
+                                        otpErrorText.setText("Lỗi kết nối");
+                                        otpErrorText.setVisibility(View.VISIBLE);
+                                    }
+                                });
                     }
                 } else if (s.length() == 0) {
                     otp5.requestFocus();
@@ -229,17 +265,12 @@ public class QuenMatKhauActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Hàm đếm ngược 60 giây cho chức năng "Gửi lại OTP"
-     */
     private void startResendTimer(final TextView resendNow) {
         resendNow.setClickable(false);
         new CountDownTimer(60000, 1000) {
-            @Override
             public void onTick(long millisUntilFinished) {
-                resendNow.setText("Gửi lại sau " + (millisUntilFinished / 1000) + "s");
+                resendNow.setText("Gửi lại sau " + (millisUntilFinished/1000) + "s");
             }
-            @Override
             public void onFinish() {
                 resendNow.setText("Gửi lại ngay");
                 resendNow.setClickable(true);
@@ -247,100 +278,97 @@ public class QuenMatKhauActivity extends AppCompatActivity {
         }.start();
     }
 
-    /**
-     * Màn hình đặt lại mật khẩu (quenmatkhau_mkm.xml)
-     */
     private void loadResetPasswordScreen() {
         setContentView(R.layout.quenmatkhau_mkm);
 
         ImageView backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> loadOTPScreen());
 
-        // Lấy mật khẩu mới và mật khẩu xác nhận từ các TextInputLayout
         TextInputLayout newPassLayout = findViewById(R.id.newpassword);
-        TextInputEditText newPassEdit = (TextInputEditText) newPassLayout.getEditText();
+        EditText newPassEdit = newPassLayout.getEditText();
         TextView newPassError = findViewById(R.id.newpassword_error);
 
-        TextInputLayout confirmPassLayout = findViewById(R.id.confirm_newpassword);
-        TextInputEditText confirmPassEdit = (TextInputEditText) confirmPassLayout.getEditText();
-        TextView confirmPassError = findViewById(R.id.confirm_newpassword_error);
+        TextInputLayout confirmLayout = findViewById(R.id.confirm_newpassword);
+        EditText confirmEdit = confirmLayout.getEditText();
+        TextView confirmError = findViewById(R.id.confirm_newpassword_error);
 
-        // Ẩn lỗi ban đầu
         newPassError.setVisibility(View.INVISIBLE);
-        confirmPassError.setVisibility(View.INVISIBLE);
+        confirmError.setVisibility(View.INVISIBLE);
 
-        // Khi mất focus ở ô nhập mật khẩu mới
         newPassEdit.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                String newPass = newPassEdit.getText().toString().trim();
-                if (newPass.isEmpty()) {
-                    newPassError.setText("Vui lòng nhập mật khẩu mới");
-                    newPassError.setVisibility(View.VISIBLE);
-                } else if (newPass.length() < 6) {
-                    newPassError.setText("Mật khẩu phải từ 6 ký tự trở lên");
-                    newPassError.setVisibility(View.VISIBLE);
-                } else {
-                    newPassError.setVisibility(View.INVISIBLE);
-                }
-            }
+            if (!hasFocus) validateNewPassword(newPassEdit, newPassError);
+        });
+        confirmEdit.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) validateConfirmPassword(newPassEdit, confirmEdit, confirmError);
         });
 
-        // Khi mất focus ở ô xác nhận mật khẩu
-        confirmPassEdit.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                String newPass = newPassEdit.getText().toString().trim();
-                String confirmPass = confirmPassEdit.getText().toString().trim();
-                if (confirmPass.isEmpty()) {
-                    confirmPassError.setText("Vui lòng xác nhận mật khẩu");
-                    confirmPassError.setVisibility(View.VISIBLE);
-                } else if (!confirmPass.equals(newPass)) {
-                    confirmPassError.setText("Mật khẩu không khớp");
-                    confirmPassError.setVisibility(View.VISIBLE);
-                } else {
-                    confirmPassError.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+        findViewById(R.id.tieptuc_button).setOnClickListener(v -> {
+            boolean valid1 = validateNewPassword(newPassEdit, newPassError);
+            boolean valid2 = validateConfirmPassword(newPassEdit, confirmEdit, confirmError);
+            if (!valid1 || !valid2) return;
 
-        // Nút xác nhận
-        TextView resetContinueButton = findViewById(R.id.tieptuc_button);
-        resetContinueButton.setOnClickListener(v -> {
             String newPass = newPassEdit.getText().toString().trim();
-            String confirmPass = confirmPassEdit.getText().toString().trim();
-            boolean isValid = true;
-
-            if (newPass.isEmpty()) {
-                newPassError.setText("Vui lòng nhập mật khẩu mới");
-                newPassError.setVisibility(View.VISIBLE);
-                isValid = false;
-            } else if (newPass.length() < 6) {
-                newPassError.setText("Mật khẩu phải từ 6 ký tự trở lên");
-                newPassError.setVisibility(View.VISIBLE);
-                isValid = false;
-            } else {
-                newPassError.setVisibility(View.INVISIBLE);
-            }
-
-            if (confirmPass.isEmpty()) {
-                confirmPassError.setText("Vui lòng xác nhận mật khẩu");
-                confirmPassError.setVisibility(View.VISIBLE);
-                isValid = false;
-            } else if (!confirmPass.equals(newPass)) {
-                confirmPassError.setText("Mật khẩu không khớp");
-                confirmPassError.setVisibility(View.VISIBLE);
-                isValid = false;
-            } else {
-                confirmPassError.setVisibility(View.INVISIBLE);
-            }
-
-            if (isValid) {
-                Toast.makeText(QuenMatKhauActivity.this, "Đặt lại mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                finish(); // Quay về trang trước (hoặc có thể chuyển về login tùy ý)
-            }
+            // Gọi API reset-password
+            progressDialog.setMessage("Đang đặt lại mật khẩu...");
+            progressDialog.show();
+            ApiService.apiService
+                    .resetPassword(new ResetPasswordRequest(currentEmail, currentOtp, newPass))
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> res) {
+                            progressDialog.dismiss();
+                            if (res.isSuccessful()) {
+                                Toast.makeText(QuenMatKhauActivity.this,
+                                        "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                finish(); // Trở về login
+                            } else {
+                                Toast.makeText(QuenMatKhauActivity.this,
+                                        "Thất bại, thử lại", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Toast.makeText(QuenMatKhauActivity.this,
+                                    "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
+
+    private boolean validateNewPassword(EditText passEdit, TextView errorView) {
+        String p = passEdit.getText().toString().trim();
+        if (p.isEmpty()) {
+            errorView.setText("Vui lòng nhập mật khẩu mới");
+            errorView.setVisibility(View.VISIBLE);
+            return false;
+        } else if (p.length() < 6) {
+            errorView.setText("Mật khẩu phải từ 6 ký tự");
+            errorView.setVisibility(View.VISIBLE);
+            return false;
+        }
+        errorView.setVisibility(View.INVISIBLE);
+        return true;
+    }
+
+    private boolean validateConfirmPassword(EditText newPass, EditText confirmEdit, TextView errorView) {
+        String c = confirmEdit.getText().toString().trim();
+        if (c.isEmpty()) {
+            errorView.setText("Vui lòng xác nhận mật khẩu");
+            errorView.setVisibility(View.VISIBLE);
+            return false;
+        } else if (!c.equals(newPass.getText().toString().trim())) {
+            errorView.setText("Mật khẩu không khớp");
+            errorView.setVisibility(View.VISIBLE);
+            return false;
+        }
+        errorView.setVisibility(View.INVISIBLE);
+        return true;
+    }
+
+    private abstract class SimpleTextWatcher implements TextWatcher {
+        @Override public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
+        @Override public void onTextChanged(CharSequence s, int st, int b, int c) {}
+        public abstract void afterTextChanged(Editable s);
+    }
 }
-
-
-
-
