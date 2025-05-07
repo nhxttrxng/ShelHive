@@ -3,7 +3,9 @@ package com.nhom5.shelhive.api;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
     @POST("/api/auth/register")
@@ -24,5 +26,13 @@ public interface ApiService {
     @POST("/api/auth/resend-otp")
     Call<ResponseBody> resendOtp(@Body ResendOtpRequest request);
 
+    @GET("/api/auth/check-verify")
+    Call<ResponseBody> checkVerify(@Body CheckVerifyRequest request);
+
+    @GET("/api/users/phong/{email}")
+    Call<FullUserInfoResponse> getFullInfoByEmail(@Path("email") String email);
+
+    @GET("/api/admins/{email}")
+    Call<GetAdminByEmailResponse> getAdminByEmail(@Path("email") String email);
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

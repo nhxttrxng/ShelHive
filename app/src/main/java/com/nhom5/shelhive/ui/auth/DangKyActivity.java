@@ -51,16 +51,9 @@ public class DangKyActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Ánh xạ view
         mappingViews();
-
-        // Set listener kiểm tra lỗi
         setInputValidation();
-
-        // Set click cho các button
         setupButtonListeners();
-
-        // Setup text Điều khoản
         setupTermsTextView();
     }
 
@@ -112,7 +105,12 @@ public class DangKyActivity extends AppCompatActivity {
 
         dangKyButton.setOnClickListener(v -> {
             if (validateForm()) {
-                callRegisterApi();
+                String hoTen = nameInput.getText().toString().trim();
+                String sdt = phoneInput.getText().toString().trim();
+                String email = emailInput.getText().toString().trim();
+                String matKhau = passwordInput.getText().toString();
+
+                callRegisterApi(email, hoTen, sdt, matKhau); // 🚀 Gửi đúng dữ liệu
             }
         });
     }
@@ -188,21 +186,16 @@ public class DangKyActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private void callRegisterApi() {
+    private void callRegisterApi(String email, String ho_ten, String sdt, String mat_khau) {
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-        RegisterRequest registerRequest = new RegisterRequest(
-                emailInput.getText().toString().trim(),
-                nameInput.getText().toString().trim(),
-                phoneInput.getText().toString().trim(),
-                passwordInput.getText().toString().trim()
-        );
+        RegisterRequest registerRequest = new RegisterRequest(email, ho_ten, sdt, mat_khau);
 
         apiService.register(registerRequest).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(DangKyActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(DangKyActivity.this, DangNhapActivity.class));
+                    Toast.makeText(DangKyActivity.this, "Đăng ký thành công! Vui lòng kiểm tra email để xác thực.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DangKyActivity.this, XacThucMailActivity.class));
                     finish();
                 } else {
                     Toast.makeText(DangKyActivity.this, "Đăng ký thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
@@ -237,8 +230,7 @@ public class DangKyActivity extends AppCompatActivity {
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                int yellowColor = ContextCompat.getColor(DangKyActivity.this, R.color.yellow);
-                ds.setColor(yellowColor);
+                ds.setColor(ContextCompat.getColor(DangKyActivity.this, R.color.yellow));
                 ds.setUnderlineText(false);
             }
         };

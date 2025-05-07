@@ -4,7 +4,18 @@
     android:id="@+id/user_trangchu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8DB">
+    android:background="#F8F8DB"
+    >
+
+    <include
+        layout="@layout/popup_trangchu"
+        android:id="@+id/popup_layout"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/popup_logout"
+        android:id="@+id/popup_logout"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/logo_container"
@@ -40,7 +51,7 @@
         />
 
     <com.nhom5.shelhive.ui.common.customviews.HexagonImageView
-        android:id="@+id/avatar_hexagon"
+        android:id="@+id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="100dp"

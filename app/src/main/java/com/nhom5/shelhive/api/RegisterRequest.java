@@ -7,34 +7,52 @@ public class RegisterRequest {
     private String email;
 
     @SerializedName("ho_ten")
-    private String hoTen;
+    private String ho_ten;
 
     @SerializedName("sdt")
     private String sdt;
 
     @SerializedName("mat_khau")
-    private String matKhau;
+    private String mat_khau;
 
-    public RegisterRequest(String email, String hoTen, String sdt, String matKhau) {
+    // Constructor
+    public RegisterRequest(String email, String ho_ten, String sdt, String mat_khau) {
         this.email = email;
-        this.hoTen = hoTen;
+        this.ho_ten = ho_ten;
         this.sdt = sdt;
-        this.matKhau = matKhau;
+        this.mat_khau = mat_khau;
     }
 
+    // Getter và Setter
     public String getEmail() {
         return email;
     }
 
-    public String getHoTen() {
-        return hoTen;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHo_ten() {
+        return ho_ten;
+    }
+
+    public void setHo_ten(String ho_ten) {
+        this.ho_ten = ho_ten;
     }
 
     public String getSdt() {
         return sdt;
     }
 
-    public String getMatKhau() {
-        return matKhau;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+
+    public String getMat_khau() {
+        return mat_khau;
+    }
+
+    public void setMat_khau(String mat_khau) {
+        this.mat_khau = mat_khau;
     }
 }

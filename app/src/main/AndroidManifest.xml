@@ -39,6 +39,7 @@
         <activity android:name=".ui.user.User_ThongTinActivity"/>
         <activity android:name=".ui.admin.Admin_ThongTinActivity"/>
         <activity android:name=".ui.admin.Admin_QuanLyActivity"/>
+        <activity android:name=".ui.auth.XacThucMailActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
