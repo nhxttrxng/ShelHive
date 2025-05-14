@@ -302,8 +302,8 @@ public class User_HoaDonActivity extends AppCompatActivity {
     private void loadMotelData() {
         // Tạo dữ liệu mẫu
         nhaTroList = new ArrayList<>();
-        nhaTroList.add(new Motel("Nhà trọ Trường Phát 1", "số 41, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương"));
-        nhaTroList.add(new Motel("Nhà trọ Trường Phát 2", "số 42, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương"));
+        nhaTroList.add(new Motel(2,"Nhà trọ Trường Phát 1", "số 41, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương"));
+        nhaTroList.add(new Motel(4, "Nhà trọ Trường Phát 2", "số 42, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương"));
 
         // Hiển thị hoặc ẩn thông báo không có dữ liệu
         TextView tvNoMotels = findViewById(R.id.tv_no_motels);

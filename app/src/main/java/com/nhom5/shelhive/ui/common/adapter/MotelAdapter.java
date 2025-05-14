@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.swipe.SwipeLayout; // Import SwipeLayout
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.ui.model.Motel;
 
@@ -19,10 +21,16 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
 
     private List<Motel> motelList;
     private Context context;
-    private OnItemClickListener listener;
+    private OnItemClickListener itemClickListener;
+    private OnActionClickListener actionClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(Motel motel, int position);
+    }
+
+    public interface OnActionClickListener {
+        void onEditClick(Motel motel, int position);
+        void onDeleteClick(int maDay); // Chỉ truyền maDay thay vì Motel
     }
 
     public MotelAdapter(Context context, List<Motel> motelList) {
@@ -31,7 +39,16 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+        this.itemClickListener = listener;
+    }
+
+    public void setOnActionClickListener(OnActionClickListener listener) {
+        this.actionClickListener = listener;
+    }
+
+    public void setFilteredList(List<Motel> filteredList) {
+        this.motelList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,10 +57,6 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         View view = LayoutInflater.from(context).inflate(R.layout.item_motel, parent, false);
         return new MotelViewHolder(view);
     }
-    public void setFilteredList(List<Motel> filteredList) {
-        this.motelList = filteredList;
-        notifyDataSetChanged();
-    }
 
     @Override
     public void onBindViewHolder(@NonNull MotelViewHolder holder, int position) {
@@ -51,10 +64,27 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         holder.nameTextView.setText(motel.getName());
         holder.addressTextView.setText(motel.getAddress());
 
-        // Xử lý sự kiện click
+        // Click vào item tổng thể
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(motel, position);
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(motel, position);
+            }
+        });
+
+        // Click nút sửa
+        holder.btnEdit.setOnClickListener(v -> {
+            if (actionClickListener != null) {
+                actionClickListener.onEditClick(motel, position);
+                holder.swipeLayout.close(true); // Đóng SwipeLayout sau khi click
+            }
+        });
+
+        // Click nút xoá
+        holder.btnDelete.setOnClickListener(v -> {
+            if (actionClickListener != null) {
+                // Truyền ma_day vào phương thức onDeleteClick
+                actionClickListener.onDeleteClick(motel.getMaday());
+                holder.swipeLayout.close(true); // Đóng SwipeLayout sau khi click
             }
         });
     }
@@ -65,12 +95,17 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
     }
 
     public static class MotelViewHolder extends RecyclerView.ViewHolder {
+        SwipeLayout swipeLayout; // Thêm tham chiếu đến SwipeLayout
         TextView nameTextView, addressTextView;
+        AppCompatButton btnEdit, btnDelete;
 
         public MotelViewHolder(@NonNull View itemView) {
             super(itemView);
+            swipeLayout = itemView.findViewById(R.id.swipe_layout); // Ánh xạ SwipeLayout
             nameTextView = itemView.findViewById(R.id.text_name);
             addressTextView = itemView.findViewById(R.id.text_address);
+            btnEdit = itemView.findViewById(R.id.btn_edit);
+            btnDelete = itemView.findViewById(R.id.btn_delete);
         }
     }
 }

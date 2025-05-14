@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/quanly_nhatro"
+    android:id="@+id/quanly_nhatro_upd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8DB">
@@ -32,7 +32,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="54dp"
             android:fontFamily="@font/nunito_extra_bold"
-            android:text="Tạo nhà trọ"
+            android:text="Sửa nhà trọ"
             android:textColor="#755200"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,15 +70,7 @@
                     android:fontFamily="@font/nunito_bold"
                     android:text="THÔNG TIN NHÀ TRỌ" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/nunito_regular"
-                    android:textColor="#755200"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    android:text="Vui lòng nhập đầy đủ các thông tin dưới đây" />
+
             </LinearLayout>
         </LinearLayout>
         <View
@@ -118,17 +110,6 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/text_name"
-                app:layout_constraintTop_toTopOf="@id/text_name"
-                android:layout_marginStart="2dp" />
 
             <EditText
                 android:id="@+id/editName"
@@ -180,17 +161,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/text_address"
-                app:layout_constraintTop_toTopOf="@id/text_address"
-                android:layout_marginStart="2dp" />
-
             <EditText
                 android:id="@+id/editAddress"
                 android:layout_width="0dp"
@@ -223,66 +193,6 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Số phòng -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
-
-            <TextView
-                android:id="@+id/text_room_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Số phòng"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/darkbrown"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/text_room_count"
-                app:layout_constraintTop_toTopOf="@id/text_room_count"
-                android:layout_marginStart="2dp" />
-
-            <EditText
-                android:id="@+id/editRoomCount"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/search_border"
-                android:hint="Aa"
-                android:fontFamily="@font/nunito_semibold"
-                android:textColor="@color/darkbrown"
-                android:textSize="16sp"
-                android:textColorHint="#D1C19C"
-                android:inputType="number"
-                android:paddingStart="12dp"
-                android:paddingEnd="10dp"
-                app:layout_constraintTop_toBottomOf="@id/text_room_count"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-            <TextView
-                android:id="@+id/roomcount_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_red_light"
-                android:paddingTop="4dp"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_semibold"
-                android:paddingStart="48dp"
-                android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@id/editRoomCount"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <!-- Giá điện / kWh -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -299,17 +209,6 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/text_electric"
-                app:layout_constraintTop_toTopOf="@id/text_electric"
-                android:layout_marginStart="2dp" />
 
             <EditText
                 android:id="@+id/editElectric"
@@ -360,17 +259,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/text_water"
-                app:layout_constraintTop_toTopOf="@id/text_water"
-                android:layout_marginStart="2dp" />
-
             <EditText
                 android:id="@+id/editWater"
                 android:layout_width="0dp"
@@ -402,17 +290,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/create_button"
+        android:id="@+id/cancel_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/form"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/cancel_button"/>
+    <ImageView
+        android:id="@+id/save_button"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/form"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="269dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/create_button"/>
+        android:src="@drawable/save_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

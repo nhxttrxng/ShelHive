@@ -1,10 +1,14 @@
 package com.nhom5.shelhive.api;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -34,5 +38,20 @@ public interface ApiService {
 
     @GET("/api/admins/{email}")
     Call<GetAdminByEmailResponse> getAdminByEmail(@Path("email") String email);
+
+    @GET("/api/motels/{email}")
+    Call<List<GetDayTroResponse>> getDayTroByAdminEmail(@Path("email") String email);
+
+    @POST("/api/motels/")
+    Call<ResponseBody> createDayTro(@Body CreateDayTroRequest createDayTroRequest);
+
+    @DELETE("api/motels/{ma_day}")
+    Call<ResponseBody> deleteDayTro(@Path("ma_day") int maDay);
+
+    @PUT("api/motels/{maday}")
+    Call<ResponseBody> updateDayTro(
+            @Path("maday") int maDay,
+            @Body UpdateDayTroRequest request
+    );
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

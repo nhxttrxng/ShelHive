@@ -25,10 +25,10 @@ import com.bumptech.glide.Glide;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetAdminByEmailResponse;
+import com.nhom5.shelhive.ui.admin.quanly.Admin_QuanLyActivity;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
 import com.nhom5.shelhive.ui.common.customviews.HexagonImageView;
-import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,8 +59,12 @@ public class Admin_TrangChuActivity extends AppCompatActivity {
             email = prefs.getString("email", null);
         }
 
-        if (email != null) {
-            ApiService.apiService.getAdminByEmail(email).enqueue(new Callback<GetAdminByEmailResponse>() {
+        final String finalEmail = email; // dùng trong lambda
+
+        Log.d("TRANGCHU_EMAIL", "Email nhận vào: " + finalEmail);
+
+        if (finalEmail != null) {
+            ApiService.apiService.getAdminByEmail(finalEmail).enqueue(new Callback<GetAdminByEmailResponse>() {
                 @Override
                 public void onResponse(Call<GetAdminByEmailResponse> call, Response<GetAdminByEmailResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
@@ -107,13 +111,47 @@ public class Admin_TrangChuActivity extends AppCompatActivity {
         LinearLayout btnNavProfile = findViewById(R.id.nav_profile);
         LinearLayout btnNavLogout = findViewById(R.id.nav_logout);
 
-        btnQuanLy.setOnClickListener(v -> startActivity(new Intent(this, Admin_QuanLyActivity.class)));
-        btnHoaDon.setOnClickListener(v -> startActivity(new Intent(this, Admin_HoaDonActivity.class)));
-        btnThongBao.setOnClickListener(v -> startActivity(new Intent(this, Admin_ThongBaoActivity.class)));
-        btnPhanAnh.setOnClickListener(v -> startActivity(new Intent(this, Admin_PhanAnhActivity.class)));
-        btnThongKe.setOnClickListener(v -> startActivity(new Intent(this, Admin_ThongKeActivity.class)));
+        btnQuanLy.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_QuanLyActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến QuanLyActivity: " + finalEmail);
+            startActivity(intent);
+        });
 
-        btnNavProfile.setOnClickListener(v -> startActivity(new Intent(this, Admin_ThongTinActivity.class)));
+        btnHoaDon.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_HoaDonActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến HoaDonActivity: " + finalEmail);
+            startActivity(intent);
+        });
+
+        btnThongBao.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_ThongBaoActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến ThongBaoActivity: " + finalEmail);
+            startActivity(intent);
+        });
+
+        btnPhanAnh.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_PhanAnhActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến PhanAnhActivity: " + finalEmail);
+            startActivity(intent);
+        });
+
+        btnThongKe.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_ThongKeActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến ThongKeActivity: " + finalEmail);
+            startActivity(intent);
+        });
+
+        btnNavProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Admin_ThongTinActivity.class);
+            intent.putExtra("email", finalEmail);
+            Log.d("INTENT_EMAIL", "Gửi đến ThongTinActivity: " + finalEmail);
+            startActivity(intent);
+        });
 
         btnNavLogout.setOnClickListener(v -> {
             View popup = findViewById(R.id.popup_logout);

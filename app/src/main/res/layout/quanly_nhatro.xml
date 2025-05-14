@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:background="#F8F8DB">
 
+    <include
+        layout="@layout/popup_deletemotel"
+        android:id="@+id/popup_deletemotel"
+        android:visibility="gone" />
+
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/overlap"
@@ -97,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@id/overlap_wrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ImageView
         android:src="@drawable/none_motel"
@@ -108,7 +113,7 @@
         app:layout_constraintTop_toBottomOf="@id/overlap_wrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <ImageView
         android:src="@drawable/none_motel_search"
