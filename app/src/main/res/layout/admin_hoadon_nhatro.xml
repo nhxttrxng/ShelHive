@@ -65,138 +65,26 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <!-- Phần thông tin nhà trọ -->
-    <RelativeLayout
-        android:id="@+id/group_2"
-        android:layout_width="412dp"
+    <!-- RecyclerView hiển thị danh sách nhà trọ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNhaTro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/overlap_wrapper"
+        android:layout_marginTop="20dp" />
+    
+    <!-- Thông báo khi không có nhà trọ nào -->
+    <TextView
+        android:id="@+id/tv_no_motels"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="161dp">
-
-        <!-- Nhà trọ 1 -->
-        <RelativeLayout
-            android:id="@+id/overlap_group"
-            android:layout_width="412dp"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/frame"
-                android:layout_width="412dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_house" />
-
-                <LinearLayout
-                    android:layout_width="286dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textColor="#755200"
-                        android:textSize="16sp"
-                        android:text="Nhà trọ Trường Phát 1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/nunito_regular"
-                        android:textColor="#755200"
-                        android:textSize="14sp"
-                        android:text="số 41, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="18dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="372dp"
-                android:layout_marginTop="33dp">
-
-                <RelativeLayout
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/badge_circle_red">
-
-                    <TextView
-                        android:id="@+id/text_badge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/nunito_bold"
-                        android:text="1"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:background="@drawable/badge_circle_red" />
-                </RelativeLayout>
-            </FrameLayout>
-        </RelativeLayout>
-
-        <!-- Nhà trọ 2 -->
-        <LinearLayout
-            android:id="@+id/frame_2"
-            android:layout_width="412dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/overlap_group"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground">
-
-            <RelativeLayout
-                android:layout_width="60dp"
-                android:layout_height="60dp">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_house" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="286dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
-                    android:textColor="#755200"
-                    android:textSize="16sp"
-                    android:text="Nhà trọ Trường Phát 2" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/nunito_regular"
-                    android:textColor="#755200"
-                    android:textSize="14sp"
-                    android:text="số 42, đường N4, p. Mỹ Phước, tp. Bến Cát, Bình Dương" />
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_centerInParent="true"
+        android:text="Không có hóa đơn nào!"
+        android:textAlignment="center"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunito_bold"
+        android:padding="24dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

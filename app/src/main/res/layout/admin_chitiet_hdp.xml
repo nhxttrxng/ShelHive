@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8DB">
+
+    <!-- Header với nút quay lại và tiêu đề -->
+    <RelativeLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_17">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="53dp"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="42dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hóa đơn"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_extra_bold" />
+
+            <TextView
+                android:id="@+id/tv_room_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phòng 1"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:fontFamily="@font/nunito_regular" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Filter bar (Ngày và lọc) -->
+    <LinearLayout
+        android:id="@+id/filter_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_container"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp">
+
+        <!-- Thanh chọn ngày -->
+        <RelativeLayout
+            android:id="@+id/date_selector"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/date_border"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03/02/2025"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/nunito_regular" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_calendar"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+        </RelativeLayout>
+
+        <!-- Thanh chọn filter -->
+        <RelativeLayout
+            android:id="@+id/filter_selector"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/border_box"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/tv_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/nunito_regular" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_dropdown"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Nội dung chính -->
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/filter_bar"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="80dp">
+
+            <!-- YÊU CẦU GIA HẠN -->
+            <TextView
+                android:id="@+id/extension_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yêu cầu gia hạn"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="12dp"
+                android:background="#FBE27A"/>
+
+            <!-- Hóa đơn yêu cầu gia hạn -->
+            <RelativeLayout
+                android:id="@+id/extension_bill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bill_red"/>
+                    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tháng 2/2025"
+                            android:textColor="#D70000"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/nunito_bold"/>
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hạn thanh toán mới: 07/05/2025"
+                            android:textColor="#D70000"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/nunito_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trễ hạn (2 ngày)"
+                        android:textColor="#D70000"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito_regular"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.595.000 đồng"
+                        android:textColor="#D70000"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#755200"
+                android:alpha="0.3"/>
+
+            <!-- TRỄ HẠN -->
+            <TextView
+                android:id="@+id/overdue_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trễ hạn"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:background="#FBE27A"/>
+
+            <!-- Hóa đơn trễ hạn 1 -->
+            <RelativeLayout
+                android:id="@+id/overdue_bill_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bill_red"/>
+                    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tháng 2/2025"
+                            android:textColor="#D70000"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/nunito_bold"/>
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hạn thanh toán: 07/04/2025"
+                            android:textColor="#D70000"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/nunito_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trễ hạn (2 ngày)"
+                        android:textColor="#D70000"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito_regular"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.674.750 đồng"
+                        android:textColor="#D70000"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#755200"
+                android:alpha="0.3"/>
+
+            <!-- Hóa đơn trễ hạn 2 -->
+            <RelativeLayout
+                android:id="@+id/overdue_bill_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bill_red"/>
+                    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tháng 1/2025"
+                            android:textColor="#D70000"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/nunito_bold"/>
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hạn thanh toán: 07/04/2025"
+                            android:textColor="#D70000"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/nunito_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trễ hạn (2 ngày)"
+                        android:textColor="#D70000"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito_regular"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.877.750 đồng"
+                        android:textColor="#D70000"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#755200"
+                android:alpha="0.3"/>
+
+            <!-- ĐÃ ĐÓNG -->
+            <TextView
+                android:id="@+id/paid_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đã đóng"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:background="#FBE27A"/>
+
+            <!-- Hóa đơn đã đóng -->
+            <RelativeLayout
+                android:id="@+id/paid_bill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bill_green"/>
+                    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tháng 12/2024"
+                            android:textColor="#2E8B57"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/nunito_bold"/>
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hạn thanh toán: 07/01/2025"
+                            android:textColor="#2E8B57"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/nunito_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã thanh toán"
+                        android:textColor="#2E8B57"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/nunito_regular"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.450.000 đồng"
+                        android:textColor="#2E8B57"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Sau RelativeLayout extension_bill, thêm: -->
+            <TextView
+                android:id="@+id/no_extension_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có yêu cầu gia hạn nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
+
+            <!-- Sau RelativeLayout overdue_bill_2, thêm: -->
+            <TextView
+                android:id="@+id/no_overdue_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có hóa đơn trễ hạn nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
+
+            <!-- Sau RelativeLayout paid_bill, thêm: -->
+            <TextView
+                android:id="@+id/no_paid_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có hóa đơn đã đóng nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Nút thêm hóa đơn mới -->
+    <ImageView
+        android:id="@+id/add_bill_button"
+        android:src="@drawable/ic_add_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Thêm hóa đơn mới" />
+
+</RelativeLayout>

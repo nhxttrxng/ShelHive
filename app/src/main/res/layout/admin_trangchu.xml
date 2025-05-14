@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:background="#F8F8DB">
 
+    <include
+        layout="@layout/popup_logout"
+        android:id="@+id/popup_logout"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/logo_container"
         android:layout_width="wrap_content"
@@ -39,8 +44,8 @@
         android:textSize="16sp"
         />
 
-    <com.nhom5.shelhive.customviews.HexagonImageView
-        android:id="@+id/avatar_hexagon"
+    <com.nhom5.shelhive.ui.common.customviews.HexagonImageView
+        android:id="@+id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="100dp"
@@ -49,7 +54,7 @@
         android:layout_marginTop="173dp"
         android:layout_marginStart="21dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/avatar" />
+        android:src="@drawable/default_avatar" />
 
     <FrameLayout
         android:id="@+id/info_card"
@@ -61,52 +66,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Nội dung khi có dữ liệu -->
-        <LinearLayout
-            android:id="@+id/info_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="237dp"
-                android:layout_height="24dp"
-                android:text="Text 2"
-                android:textSize="14sp"
-                android:textColor="@color/darkbrown"
-                android:fontFamily="@font/nunito_semibold"
-                />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="8dp" />
-
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="237dp"
-                android:layout_height="wrap_content"
-                android:text="Text 3"
-                android:textSize="12sp"
-                android:textColor="@color/darkbrown"
-                android:fontFamily="@font/nunito_regular"
-                />
-        </LinearLayout>
-
         <!-- Thông báo khi chưa có dữ liệu -->
         <TextView
             android:id="@+id/empty_message"
-            android:layout_width="237dp"
+            android:layout_width="238dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/nunito_semibold"
+            android:fontFamily="@font/nunito_bold"
             android:gravity="center"
-            android:text="Bạn chưa tạo nhà trọ!"
+            android:text="Bắt đầu quản lý dãy trọ của bạn!"
             android:textColor="@color/darkbrown"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:visibility="visible" />
     </FrameLayout>
 

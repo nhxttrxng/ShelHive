@@ -33,6 +33,12 @@ android {
 
 dependencies {
 
+    implementation("com.daimajia.swipelayout:library:1.2.0")
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+    implementation(libs.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

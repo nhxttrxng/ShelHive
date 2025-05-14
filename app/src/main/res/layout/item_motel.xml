@@ -1,73 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_motel"
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:gravity="center_vertical"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:layout_marginVertical="4dp"
+    >
 
-    <RelativeLayout
-        android:layout_width="60dp"
-        android:layout_height="60dp">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_motel" />
-    </RelativeLayout>
-
+    <!-- View bị ẩn - các nút khi vuốt sang trái -->
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginStart="15dp"
-        android:orientation="vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#755200"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Tên nhà trọ" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_edit"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="Sửa"
+            android:textColor="@android:color/white"
+            android:background="@color/yellow" />
 
-        <TextView
-            android:id="@+id/text_address"
-            android:layout_width="268dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#755200"
-            android:textSize="14sp"
-            android:text="Địa chỉ nhà trọ" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="Xoá"
+            android:textColor="@android:color/white"
+            android:background="@color/red" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/badge_container"
-        android:layout_width="18dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_gravity="center_vertical">
+    <!-- View hiển thị mặc định -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackground">
 
-        <RelativeLayout
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@drawable/badge_circle_red">
+        <LinearLayout
+            android:id="@+id/motel_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/text_badge"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_motel" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="1"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:gravity="center" />
-        </RelativeLayout>
-    </FrameLayout>
-</LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#755200"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Tên nhà trọ" />
+
+                <TextView
+                    android:id="@+id/text_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:text="Địa chỉ nhà trọ" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#755200"
+            android:alpha="0.3"
+            android:layout_below="@id/motel_content"
+            android:layout_marginTop="8dp"/>
+    </RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

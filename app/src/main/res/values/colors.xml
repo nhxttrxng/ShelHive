@@ -8,8 +8,7 @@
     <color name="darkbrown">#755200</color>
     <color name="darkyellow">#DB9A00</color>
     <color name="red">#D80000</color>
-        <!-- Các màu khác của bạn -->
-    <color name="blue">#2196F3</color> <!-- Màu xanh dương -->
-    <color name="green">#4CAF50</color> <!-- Màu xanh lá -->
-
+    <color name="gray">#757575</color>
+    <color name="orange">#FFA500</color>
+    <color name="green">#2E8B57</color>
 </resources>

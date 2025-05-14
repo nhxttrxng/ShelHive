@@ -113,6 +113,7 @@
             app:hintTextAppearance="@style/CustomHintText">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/brown"
@@ -154,6 +155,7 @@
             app:hintTextAppearance="@style/CustomHintText">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/brown"

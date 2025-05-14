@@ -1,5 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ShelHive" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Tùy chỉnh màu sắc checkbox mặc định -->
+        <item name="colorAccent">@color/darkbrown</item>
+        <item name="colorControlActivated">@color/darkbrown</item>
+        <item name="android:colorControlActivated">@color/darkbrown</item>
+        <item name="checkboxStyle">@style/CustomCheckbox</item>
     </style>
 </resources>

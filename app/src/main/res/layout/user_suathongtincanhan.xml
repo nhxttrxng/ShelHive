@@ -55,7 +55,7 @@
         android:layout_marginRight="36dp"
         android:layout_marginTop="23dp">
         
-        <com.nhom5.shelhive.customviews.HexagonImageView
+        <com.nhom5.shelhive.ui.common.customviews.HexagonImageView
             android:id="@+id/avatar_hexagon"
             android:layout_width="92dp"
             android:layout_height="92dp"
@@ -105,7 +105,7 @@
                 android:layout_height="25.35dp">
                 
                 <EditText
-                    android:id="@+id/edit_full_name"
+                    android:id="@+id/edit_user_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -151,7 +151,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_dob"
+                    android:id="@+id/edit_user_dob"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -197,7 +197,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_que_quan"
+                    android:id="@+id/edit_user_city"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -242,7 +242,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_dia_chi"
+                    android:id="@+id/edit_user_province"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -287,7 +287,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_cccd"
+                    android:id="@+id/edit_user_idnumber"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -333,7 +333,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_email"
+                    android:id="@+id/edit_user_email"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
@@ -378,7 +378,7 @@
                 android:layout_marginTop="30dp">
                 
                 <EditText
-                    android:id="@+id/edit_phone_number"
+                    android:id="@+id/edit_user_phone"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_marginLeft="31dp"
