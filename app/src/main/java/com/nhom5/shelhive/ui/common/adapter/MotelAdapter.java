@@ -25,7 +25,7 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
     private OnActionClickListener actionClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(Motel motel, int position);
+        void onItemClick(int maDay);  // truyền ma_day
     }
 
     public interface OnActionClickListener {
@@ -67,10 +67,9 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         // Click vào item tổng thể
         holder.itemView.setOnClickListener(v -> {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(motel, position);
+                itemClickListener.onItemClick(motel.getMaday());  // truyền mã dãy
             }
         });
-
         // Click nút sửa
         holder.btnEdit.setOnClickListener(v -> {
             if (actionClickListener != null) {

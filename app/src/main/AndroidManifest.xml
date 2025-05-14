@@ -41,6 +41,7 @@
         <activity android:name=".ui.admin.quanly.Admin_QuanLyActivity"/>
         <activity android:name=".ui.admin.quanly.Admin_ThemNhaTroActivity" />
         <activity android:name=".ui.admin.quanly.Admin_SuaNhaTroActivity" />
+        <activity android:name=".ui.admin.quanly.Admin_QuanLyPhongTroActivity" />
 
         <activity android:name=".ui.auth.XacThucMailActivity"/>
 

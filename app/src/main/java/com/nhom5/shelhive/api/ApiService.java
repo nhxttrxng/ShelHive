@@ -53,5 +53,12 @@ public interface ApiService {
             @Path("maday") int maDay,
             @Body UpdateDayTroRequest request
     );
+
+    @GET("api/users/{email}")
+    Call<GetUserResponse> getUserByEmail(@Path("email") String email);
+
+    @GET("api/rooms/day/{ma_day}")
+    Call<List<GetRoom2Response>> getRoomsByMaDay(@Path("ma_day") int ma_day);
+
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

@@ -31,7 +31,7 @@
                 android:layout_marginStart="16dp">
 
                 <TextView
-                    android:id="@+id/tv_room_number"
+                    android:id="@+id/so_phong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkbrown"
@@ -40,7 +40,7 @@
                     android:fontFamily="@font/nunito_bold" />
 
                 <TextView
-                    android:id="@+id/tv_unpaid_bills"
+                    android:id="@+id/ngay_ket_thuc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkbrown"
@@ -58,7 +58,7 @@
             android:gravity="end">
 
             <TextView
-                android:id="@+id/tv_tenant_name"
+                android:id="@+id/trang_thai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên người thuê"
@@ -74,7 +74,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/tv_status"
+                    android:id="@+id/gia_thue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkbrown"

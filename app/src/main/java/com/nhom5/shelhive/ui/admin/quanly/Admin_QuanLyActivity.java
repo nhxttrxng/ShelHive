@@ -93,6 +93,7 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
         ImageView yesButton = popupDelete.findViewById(R.id.yes_button);
         ImageView closeButton = popupDelete.findViewById(R.id.close_button);
 
+        // Xử lý khi bấm vào nút Sửa/Xoá
         motelAdapter.setOnActionClickListener(new MotelAdapter.OnActionClickListener() {
             @Override
             public void onEditClick(Motel motel, int position) {
@@ -103,7 +104,7 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
                 intent.putExtra("gia_dien", motel.getGia_dien());
                 intent.putExtra("gia_nuoc", motel.getGia_nuoc());
                 intent.putExtra("email", finalEmail);
-                startActivityForResult(intent, REQUEST_EDIT_MOTEL); // Sửa ở đây
+                startActivityForResult(intent, REQUEST_EDIT_MOTEL);
             }
 
             @Override
@@ -132,6 +133,14 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
 
                 closeButton.setOnClickListener(v -> popupDelete.setVisibility(View.GONE));
             }
+        });
+
+        // ✅ Bổ sung xử lý khi click vào item
+        motelAdapter.setOnItemClickListener(maDay -> {
+            Intent intent = new Intent(Admin_QuanLyActivity.this, Admin_QuanLyPhongTroActivity.class);
+            intent.putExtra("ma_day", maDay);
+            intent.putExtra("email", finalEmail);
+            startActivity(intent);
         });
     }
 
