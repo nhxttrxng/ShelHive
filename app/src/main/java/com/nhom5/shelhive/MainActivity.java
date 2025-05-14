@@ -1,38 +1,43 @@
 package com.nhom5.shelhive;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.nhom5.shelhive.admin.Admin_HoaDonActivity;
-import com.nhom5.shelhive.admin.Admin_PhanAnhActivity;
-import com.nhom5.shelhive.admin.Admin_QuanLyActivity;
-import com.nhom5.shelhive.admin.Admin_ThongBaoActivity;
-import com.nhom5.shelhive.admin.Admin_ThongKeActivity;
-import com.nhom5.shelhive.admin.Admin_TrangChuActivity;
-import com.nhom5.shelhive.admin.Admin_XoaThongBaoActivity;
-import com.nhom5.shelhive.user.User_PhanAnhActivity;
-import com.nhom5.shelhive.user.User_ThongBaoActivity;
-import com.nhom5.shelhive.user.User_ThongKeActivity;
-import com.nhom5.shelhive.user.User_ThongTinActivity;
-import com.nhom5.shelhive.user.User_TrangChuActivity;
+import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
+import com.nhom5.shelhive.ui.auth.DangNhapActivity;
+import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String PREF_NAME = "login_prefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Mở trực tiếp HoaDonActivity
-        Intent intent = new Intent(MainActivity.this, Admin_ThongKeActivity.class);
-        startActivity(intent);
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        boolean isRemembered = sharedPreferences.getBoolean("remember", false);
+        String email = sharedPreferences.getString("email", "");
+        String role = sharedPreferences.getString("role", "");
 
-        // Đóng MainActivity nếu không cần quay lại
+        Intent intent;
+
+        if (isRemembered && !email.isEmpty() && !role.isEmpty()) {
+            if ("admin".equalsIgnoreCase(role)) {
+                intent = new Intent(MainActivity.this, Admin_TrangChuActivity.class);
+            } else {
+                intent = new Intent(MainActivity.this, User_TrangChuActivity.class);
+            }
+            intent.putExtra("email", email);
+        } else {
+            intent = new Intent(MainActivity.this, DangNhapActivity.class);
+        }
+
+        startActivity(intent);
         finish();
     }
 }
