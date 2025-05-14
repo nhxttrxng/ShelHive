@@ -25,8 +25,6 @@
         <activity android:name=".ui.auth.DangKyActivity"/>
         <activity android:name=".ui.auth.DangNhapActivity"/>
         <activity android:name=".ui.auth.QuenMatKhauActivity"/>
-        <activity android:name=".ui.admin.Admin_HoaDonActivity"/>
-        <activity android:name=".ui.user.User_HoaDonActivity"/>
         <activity android:name=".ui.auth.XacThucActivity"/>
         <activity android:name=".ui.admin.Admin_TrangChuActivity"/>
         <activity android:name=".ui.user.User_TrangChuActivity"/>
@@ -42,7 +40,16 @@
         <activity android:name=".ui.admin.quanly.Admin_ThemNhaTroActivity" />
         <activity android:name=".ui.admin.quanly.Admin_SuaNhaTroActivity" />
         <activity android:name=".ui.admin.quanly.Admin_QuanLyPhongTroActivity" />
-
+        <activity android:name=".ui.admin.hoadon.Admin_MotelListActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_RoomListActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_RoomBillDetailActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_ViewBillDetailActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_CreateBillActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_EditBillActivity" />
+        <activity android:name=".ui.admin.hoadon.Admin_ExtendBillActivity" />
+        <activity android:name=".ui.user.hoadon.User_MotelListActivity" />
+        <activity android:name=".ui.user.hoadon.User_RoomListActivity" />
+        <activity android:name=".ui.user.hoadon.User_RoomBillDetailActivity" />
         <activity android:name=".ui.auth.XacThucMailActivity"/>
 
         <meta-data

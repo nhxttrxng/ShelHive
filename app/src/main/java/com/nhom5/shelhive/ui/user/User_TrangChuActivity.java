@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,6 +22,7 @@ import com.nhom5.shelhive.api.FullUserInfoResponse;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
 import com.nhom5.shelhive.ui.common.customviews.HexagonImageView;
+import com.nhom5.shelhive.ui.user.hoadon.User_MotelListActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,7 +124,7 @@ public class User_TrangChuActivity extends AppCompatActivity {
         }
 
         // Gán OnClickListener cho các FrameLayout
-        hoadon.setOnClickListener(v -> handleNavigationClick(User_HoaDonActivity.class));
+        hoadon.setOnClickListener(v -> handleNavigationClick(User_MotelListActivity.class));
         thongbao.setOnClickListener(v -> handleNavigationClick(User_ThongBaoActivity.class));
         phananh.setOnClickListener(v -> handleNavigationClick(User_PhanAnhActivity.class));
         thongke.setOnClickListener(v -> handleNavigationClick(User_ThongKeActivity.class));

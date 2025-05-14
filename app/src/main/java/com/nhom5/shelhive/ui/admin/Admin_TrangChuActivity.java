@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetAdminByEmailResponse;
+import com.nhom5.shelhive.ui.admin.hoadon.Admin_MotelListActivity;
 import com.nhom5.shelhive.ui.admin.quanly.Admin_QuanLyActivity;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
@@ -119,7 +120,7 @@ public class Admin_TrangChuActivity extends AppCompatActivity {
         });
 
         btnHoaDon.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_HoaDonActivity.class);
+            Intent intent = new Intent(this, Admin_MotelListActivity.class);
             intent.putExtra("email", finalEmail);
             Log.d("INTENT_EMAIL", "Gửi đến HoaDonActivity: " + finalEmail);
             startActivity(intent);
