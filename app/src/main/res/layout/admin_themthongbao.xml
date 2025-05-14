@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/thong_bao_truong_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8db">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F9E4A4"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/btn_back"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
+                android:text="Thông báo"
+                android:textColor="#755200"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_motel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_regular"
+                android:text="Nhà trọ Trường Phát 1"
+                android:textColor="#755200"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Label "Tạo thông báo" -->
+    <!-- Label "Tạo thông báo" -->
+    <TextView
+        android:id="@+id/lbl_tao_thong_bao"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header_layout"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="Tạo thông báo"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_header_background" />
+
+    <!-- EditText for input -->
+
+    <!-- Gửi thông báo button -->
+    <EditText
+        android:id="@+id/edt_noi_dung_thong_bao"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/lbl_tao_thong_bao"
+        android:layout_margin="16dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@null"
+        android:fontFamily="@font/nunito_regular"
+        android:gravity="top|start"
+        android:hint="Thêm thông báo tại đây..."
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:textColor="#755200"
+        android:textColorHint="#755200"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_background"
+        />
+
+    <Button
+        android:id="@+id/btn_gui_thong_bao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="Gửi thông báo"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunito_bold"
+        android:backgroundTint="#755200"/>
+
+</RelativeLayout>

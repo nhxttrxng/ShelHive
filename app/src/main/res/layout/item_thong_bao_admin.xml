@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_thong_bao"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginHorizontal="8dp">
+
+    <TextView
+        android:id="@+id/text_thong_bao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ngày mai, lúc 19h 06/03/2025, nhà trọ tổ chức 8/3, mời mọi người cùng tham gia"
+        android:textColor="#755200"
+        android:textSize="15sp"
+        android:lineSpacingExtra="4dp"
+        android:fontFamily="sans-serif"
+        android:textAlignment="viewStart" />
+</LinearLayout>

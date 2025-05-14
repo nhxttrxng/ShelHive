@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/thong_bao_admin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8db">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F9E4A4"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btn_back"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thông báo"
+                android:textColor="#755200"
+                android:textSize="18sp"
+                android:fontFamily="@font/nunito_bold" />
+
+            <TextView
+                android:id="@+id/tv_motel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhà trọ Trường Phát 1"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:fontFamily="@font/nunito_bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Section title: "Thông báo đã tạo" -->
+    <TextView
+        android:id="@+id/tv_section_title"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/header_layout"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Thông báo đã tạo"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/rounded_xoathongbao" />
+
+    <!-- Thông báo nội dung -->
+    <RelativeLayout
+        android:id="@+id/notification_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_section_title"
+        android:layout_margin="24dp"
+        android:background="#FFF6B9"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FFF6B9"
+        android:elevation="2dp">
+
+        <EditText
+            android:id="@+id/edt_notification_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nội dung thông báo"
+            android:background="@android:color/transparent"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/nunito_bold"
+            android:focusable="false"
+            android:cursorVisible="false"/>
+
+    </RelativeLayout>
+
+    <!-- Nút Xoá & Sửa -->
+    <LinearLayout
+        android:id="@+id/action_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notification_card"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingHorizontal="29dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:backgroundTint="#F94144"
+            android:text="Xoá"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:fontFamily="@font/nunito_bold" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFE066"
+            android:text="Sửa"
+            android:textColor="#755200"
+            android:textSize="18sp"
+            android:fontFamily="@font/nunito_bold" />
+    </LinearLayout>
+
+</RelativeLayout>
