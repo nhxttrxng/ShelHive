@@ -7,8 +7,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.nhom5.shelhive.ui.admin.Admin_HoaDonActivity;
 import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
+import com.nhom5.shelhive.ui.user.User_HoaDonActivity;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (isRemembered && !email.isEmpty() && !role.isEmpty()) {
             if ("admin".equalsIgnoreCase(role)) {
-                intent = new Intent(MainActivity.this, Admin_TrangChuActivity.class);
+                intent = new Intent(MainActivity.this, Admin_HoaDonActivity.class);
             } else {
-                intent = new Intent(MainActivity.this, User_TrangChuActivity.class);
+                intent = new Intent(MainActivity.this, User_HoaDonActivity.class);
             }
             intent.putExtra("email", email);
         } else {
-            intent = new Intent(MainActivity.this, DangNhapActivity.class);
+            intent = new Intent(MainActivity.this, Admin_HoaDonActivity.class);
         }
 
         startActivity(intent);

@@ -373,32 +373,6 @@
                 android:background="#755200"
                 android:alpha="0.3"/>
 
-            <!-- CHƯA ĐÓNG -->
-            <TextView
-                android:id="@+id/unpaid_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chưa đóng"
-                android:textAlignment="center"
-                android:textColor="#755200"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_bold"
-                android:padding="12dp"
-                android:layout_marginTop="16dp"
-                android:background="#FBE27A"/>
-
-            <!-- Thông báo không có hóa đơn chưa đóng -->
-            <TextView
-                android:id="@+id/no_unpaid_bills"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Không có hóa đơn nào!"
-                android:textAlignment="center"
-                android:textColor="#755200"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_bold"
-                android:padding="24dp"/>
-
             <!-- ĐÃ ĐÓNG -->
             <TextView
                 android:id="@+id/paid_header"
@@ -478,6 +452,45 @@
                         android:fontFamily="@font/nunito_bold"/>
                 </LinearLayout>
             </RelativeLayout>
+
+            <!-- Sau RelativeLayout extension_bill, thêm: -->
+            <TextView
+                android:id="@+id/no_extension_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có yêu cầu gia hạn nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
+
+            <!-- Sau RelativeLayout overdue_bill_2, thêm: -->
+            <TextView
+                android:id="@+id/no_overdue_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có hóa đơn trễ hạn nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
+
+            <!-- Sau RelativeLayout paid_bill, thêm: -->
+            <TextView
+                android:id="@+id/no_paid_bills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có hóa đơn đã đóng nào!"
+                android:textAlignment="center"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_bold"
+                android:padding="24dp"
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 

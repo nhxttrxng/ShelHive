@@ -172,9 +172,6 @@ public class User_HoaDonActivity extends AppCompatActivity {
         overdueBill2 = findViewById(R.id.overdue_bill_2);
         paidBill = findViewById(R.id.paid_bill);
 
-        // No unpaid bills message
-        tvNoUnpaidBills = findViewById(R.id.no_unpaid_bills);
-
         // Add bill button
         addBillButton = findViewById(R.id.add_bill_button);
     }

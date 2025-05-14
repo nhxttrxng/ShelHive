@@ -45,4 +45,11 @@
         <item name="android:textColor">#000</item>
         <item name="android:layout_marginEnd">8dp</item>
     </style>
+    
+    <!-- Style tùy chỉnh cho checkbox -->
+    <style name="CustomCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingStart">4dp</item>
+    </style>
 </resources>
