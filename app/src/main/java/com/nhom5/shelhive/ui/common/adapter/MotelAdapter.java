@@ -65,11 +65,12 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         holder.addressTextView.setText(motel.getAddress());
 
         // Click vào item tổng thể
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemContainer.setOnClickListener(v -> {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(motel.getMaday());  // truyền mã dãy
+                itemClickListener.onItemClick(motel.getMaday());
             }
         });
+
         // Click nút sửa
         holder.btnEdit.setOnClickListener(v -> {
             if (actionClickListener != null) {
@@ -94,17 +95,19 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
     }
 
     public static class MotelViewHolder extends RecyclerView.ViewHolder {
-        SwipeLayout swipeLayout; // Thêm tham chiếu đến SwipeLayout
+        SwipeLayout swipeLayout;
         TextView nameTextView, addressTextView;
         AppCompatButton btnEdit, btnDelete;
+        View itemContainer; // THÊM DÒNG NÀY
 
         public MotelViewHolder(@NonNull View itemView) {
             super(itemView);
-            swipeLayout = itemView.findViewById(R.id.swipe_layout); // Ánh xạ SwipeLayout
+            swipeLayout = itemView.findViewById(R.id.swipe_layout);
             nameTextView = itemView.findViewById(R.id.text_name);
             addressTextView = itemView.findViewById(R.id.text_address);
             btnEdit = itemView.findViewById(R.id.btn_edit);
             btnDelete = itemView.findViewById(R.id.btn_delete);
+            itemContainer = itemView.findViewById(R.id.item_container); // THÊM DÒNG NÀY
         }
     }
 }

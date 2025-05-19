@@ -1,21 +1,36 @@
 package com.nhom5.shelhive.ui.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Room2 {
+    @SerializedName("ma_phong")
     private String ma_phong;
+
+    @SerializedName("ma_day")
     private int ma_day;
+
+    @SerializedName("email_user")
     private String email_user;
-    private String trang_thai_phong;
-    private String ngay_bat_dau; // Format: "yyyy-MM-dd" (sử dụng String để tương thích dễ hơn)
+
+    @SerializedName("da_thue")
+    private Boolean da_thue;  // Field boolean
+
+    @SerializedName("ngay_bat_dau")
+    private String ngay_bat_dau;
+
+    @SerializedName("ngay_ket_thuc")
     private String ngay_ket_thuc;
+
+    @SerializedName("gia_thue")
     private Double gia_thue;
 
     // Constructor đầy đủ
-    public Room2(String ma_phong, int ma_day, String email_user, String trang_thai_phong,
-                String ngay_bat_dau, String ngay_ket_thuc, Double gia_thue) {
+    public Room2(String ma_phong, int ma_day, String email_user, Boolean da_thue,
+                 String ngay_bat_dau, String ngay_ket_thuc, Double gia_thue) {
         this.ma_phong = ma_phong;
         this.ma_day = ma_day;
         this.email_user = email_user;
-        this.trang_thai_phong = trang_thai_phong;
+        this.da_thue = da_thue;
         this.ngay_bat_dau = ngay_bat_dau;
         this.ngay_ket_thuc = ngay_ket_thuc;
         this.gia_thue = gia_thue;
@@ -34,8 +49,8 @@ public class Room2 {
         return email_user;
     }
 
-    public String getTrang_thai_phong() {
-        return trang_thai_phong;
+    public Boolean getDa_thue() {
+        return da_thue;
     }
 
     public String getNgay_bat_dau() {
@@ -63,8 +78,8 @@ public class Room2 {
         this.email_user = email_user;
     }
 
-    public void setTrang_thai_phong(String trang_thai_phong) {
-        this.trang_thai_phong = trang_thai_phong;
+    public void setDa_thue(Boolean da_thue) {
+        this.da_thue = da_thue;
     }
 
     public void setNgay_bat_dau(String ngay_bat_dau) {

@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quanly_nhatro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8DB">
+
+    <!-- Header cố định -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overlap"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_17"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="53dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="54dp"
+            android:fontFamily="@font/nunito_extra_bold"
+            android:text="Tên phòng trọ"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Nội dung cuộn -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/overlap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="140dp"
+            android:paddingTop="12dp">
+
+            <!-- Title -->
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp">
+
+                <LinearLayout
+                    android:id="@+id/motel_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#755200"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="THÔNG TIN THUÊ PHÒNG" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:textColor="#755200"
+                            android:textSize="14sp"
+                            android:textStyle="italic"
+                            android:text="Vui lòng nhập đầy đủ các thông tin dưới đây" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#755200"
+                    android:alpha="0.3"
+                    android:layout_below="@id/motel_content"
+                    android:layout_marginTop="8dp"/>
+            </RelativeLayout>
+
+            <!-- Form -->
+            <LinearLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp">
+
+                <!-- Giá thuê -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giá thuê"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editName"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="Aa"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:inputType="number"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/name_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light"
+                        android:paddingTop="4dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingStart="48dp"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toBottomOf="@id/editName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Ngày thuê -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/text_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày thuê"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editAddress"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:hint="dd/MM/yyyy"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_address"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                    <TextView
+                        android:id="@+id/address_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light"
+                        android:paddingTop="4dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingStart="48dp"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toBottomOf="@id/editAddress"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Ngày hết hạn -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/text_room_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày hết hạn"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editRoomCount"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:hint="dd/MM/yyyy"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_room_count"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                    <TextView
+                        android:id="@+id/roomcount_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light"
+                        android:paddingTop="4dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingStart="48dp"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toBottomOf="@id/editRoomCount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <!-- Thông tin người thuê -->
+            <RelativeLayout
+                android:id="@+id/title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="32dp">
+
+                <LinearLayout
+                    android:id="@+id/user_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#755200"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="THÔNG TIN NGƯỜI THUÊ" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:textColor="#755200"
+                            android:textSize="14sp"
+                            android:textStyle="italic"
+                            android:text="Vui lòng nhập đầy đủ các thông tin dưới đây" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#755200"
+                    android:alpha="0.3"
+                    android:layout_below="@id/user_content"
+                    android:layout_marginTop="8dp"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/form2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp">
+                <!-- Form thông tin người thuê -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editEmail"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="example@gmail.com"
+                        android:inputType="textEmailAddress"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_email"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                    <TextView
+                        android:id="@+id/email_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light"
+                        android:paddingTop="4dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingStart="48dp"
+                        android:visibility="invisible"
+                        app:layout_constraintTop_toBottomOf="@id/editEmail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Repeat this block for each field -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_fullname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Họ tên"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editFullname"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="Nguyễn Văn A"
+                        android:inputType="textPersonName"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_fullname"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Ngày sinh -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày sinh"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editBirthday"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="dd/MM/yyyy"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_birthday"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Quê quán -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_hometown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quê quán"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editHometown"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="Tỉnh/Thành phố"
+                        android:inputType="text"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_hometown"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Địa chỉ thường trú -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_address_permanent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Địa chỉ thường trú"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editAddressPermanent"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="Số nhà, đường, phường/xã"
+                        android:inputType="textPostalAddress"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_address_permanent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Số điện thoại -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Số điện thoại"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editPhone"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="0xxx-xxx-xxx"
+                        android:inputType="phone"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_phone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- CCCD -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:id="@+id/text_cccd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CCCD"
+                        android:fontFamily="@font/nunito_bold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editCCCD"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/search_border"
+                        android:hint="123456789012"
+                        android:inputType="number"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="@color/darkbrown"
+                        android:textSize="16sp"
+                        android:textColorHint="#D1C19C"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_cccd"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Nút tạo cố định -->
+    <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/delete_user_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <ImageView
+        android:id="@+id/create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/upd_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

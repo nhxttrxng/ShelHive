@@ -40,6 +40,9 @@
         <activity android:name=".ui.admin.quanly.Admin_ThemNhaTroActivity" />
         <activity android:name=".ui.admin.quanly.Admin_SuaNhaTroActivity" />
         <activity android:name=".ui.admin.quanly.Admin_QuanLyPhongTroActivity" />
+        <activity android:name=".ui.admin.quanly.Admin_XemPhongTroActivity" />
+        <activity android:name=".ui.admin.quanly.Admin_TaoPhongTroActivity" />
+        <activity android:name=".ui.admin.quanly.Admin_SuaPhongTroActivity" />
         <activity android:name=".ui.admin.hoadon.Admin_MotelListActivity" />
         <activity android:name=".ui.admin.hoadon.Admin_RoomListActivity" />
         <activity android:name=".ui.admin.hoadon.Admin_RoomBillDetailActivity" />
