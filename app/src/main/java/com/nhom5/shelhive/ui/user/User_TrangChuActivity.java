@@ -23,6 +23,10 @@ import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
 import com.nhom5.shelhive.ui.common.customviews.HexagonImageView;
 import com.nhom5.shelhive.ui.user.hoadon.User_MotelListActivity;
+import com.nhom5.shelhive.ui.user.phananh.User_PhanAnhActivity;
+import com.nhom5.shelhive.ui.user.thongbao.User_ThongBaoActivity;
+import com.nhom5.shelhive.ui.user.thongke.User_ThongKeActivity;
+import com.nhom5.shelhive.ui.user.thongtin.User_ThongTinActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,14 +1,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f8db">
+    android:background="#f8f8db"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F8F8DB">
+        android:background="#F8F8DB"
+        android:paddingBottom="16dp">
 
+        <!-- Header -->
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
@@ -53,9 +56,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-
-        <!-- Tiêu đề "Phản ánh chưa xử lý" -->
-
+        <!-- Tìm kiếm -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -81,78 +82,30 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+        <!-- Tiêu đề "Chưa xử lý" -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:fontFamily="@font/nunito_bold"
+            android:background="@drawable/bg_section_title"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Phản ánh chưa xử lí"
-            android:background="@drawable/bg_section_title"
+            android:text="Phản ánh chưa xử lý"
             android:textColor="#755200"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold" />
 
-        <LinearLayout
-            android:id="@+id/unresolved_feedback_container"
-            android:orientation="vertical"
+        <!-- RecyclerView phản ánh chưa xử lý -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_unresolved_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:divider="?android:attr/dividerVertical"
-                android:showDividers="middle">
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_electric"
-                    android:layout_marginEnd="16dp" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:text="Phòng 101"
-                        android:textColor="#755200"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/nunito_bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:text="Hư bóng đèn"
-                        android:textColor="#755200"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/nunito_regular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
-                    android:text="Chưa xử lý"
-                    android:textColor="#755200"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Tiêu đề "Phản ánh đã xử lý" -->
+        <!-- Tiêu đề "Đã xử lý" -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -160,69 +113,20 @@
             android:background="@drawable/bg_section_title"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Phản ánh chưa xử lí"
+            android:text="Phản ánh đã xử lý"
             android:textColor="#755200"
             android:textSize="16sp"
             android:fontFamily="@font/nunito_bold" />
 
-
-        <!-- Danh sách phản ánh đã xử lý -->
-        <LinearLayout
-            android:id="@+id/resolved_feedback_container"
-            android:orientation="vertical"
+        <!-- RecyclerView phản ánh đã xử lý -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_resolved_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-            <!-- Các item phản ánh sẽ được thêm vào đây bằng code -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:divider="?android:attr/dividerVertical"
-                android:showDividers="middle">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_electric"
-                    android:layout_marginEnd="16dp" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_bold"
-                        android:text="Phòng 101"
-                        android:textColor="#755200"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_regular"
-                        android:text="Hư bóng đèn"
-                        android:textColor="#755200"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
-                    android:text="Đã xử lý"
-                    android:textColor="#4CAF50"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-        </LinearLayout>
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
 
     </LinearLayout>
 </ScrollView>

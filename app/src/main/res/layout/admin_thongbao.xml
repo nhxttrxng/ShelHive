@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_regular"
-                android:text="Phòng 1"
+                android:text="Nhà trọ Trường Phát 1"
                 android:textColor="#755200"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -93,59 +93,43 @@
 
         <!-- Tab Thông báo chung -->
         <TextView
-            android:id="@+id/tab_thong_bao_chung"
+            android:id="@+id/tab_thong_bao_chung_admin"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Thông báo chung"
-            android:textColor="#755200"
+            android:textColor="#ffffff"
             android:textSize="16sp"
-
-            android:background="@drawable/bc_tab_chung2"
+            android:textStyle="bold"
+            android:background="@drawable/bg_tab_chung"
             android:clickable="true"
             android:focusable="true" />
 
         <!-- Tab Thông báo hóa đơn -->
         <TextView
-            android:id="@+id/tab_thong_bao_hoa_don"
+            android:id="@+id/tab_thong_bao_hoa_don_admin"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Thông báo hóa đơn"
-            android:textColor="#ffff"
-            android:textSize="16sp"
-            android:background="@drawable/bc_tab_hoa_don2"
-            android:clickable="true"
-            android:focusable="true"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <!-- Thông báo trống -->
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="223dp"
-        android:layout_centerHorizontal="true"
-        android:background="#fff6b9"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#fff6b9"
-        android:clipToOutline="true">
-
-        <TextView
-            android:id="@+id/thong_bao_trong"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_bold"
-            android:text="Hiện tại bạn chưa nhận được thông báo nào!"
-            android:textAlignment="center"
             android:textColor="#755200"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:background="@drawable/bg_tab_hoa_don"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_thong_bao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="223dp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:clipToPadding="false"
+        />
+
 
 </RelativeLayout>

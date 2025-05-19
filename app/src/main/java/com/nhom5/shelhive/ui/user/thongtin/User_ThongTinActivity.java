@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.ui.user;
+package com.nhom5.shelhive.ui.user.thongtin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 public class User_ThongTinActivity extends AppCompatActivity {
     

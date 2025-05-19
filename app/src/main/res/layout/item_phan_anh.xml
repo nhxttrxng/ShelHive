@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:divider="?android:attr/dividerVertical"
+    android:showDividers="middle">
+
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="22dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_electric"
+        android:layout_marginEnd="16dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phòng 101"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hư bóng đèn"
+            android:textColor="#755200"
+            android:textSize="14sp"
+            android:fontFamily="@font/nunito_regular" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="Chưa xử lý"
+        android:textColor="#755200"
+        android:textSize="14sp"
+        android:fontFamily="@font/nunito_bold" />
+</LinearLayout>

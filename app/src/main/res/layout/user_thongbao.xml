@@ -121,30 +121,15 @@
             android:focusable="true"/>
     </LinearLayout>
 
-    <!-- Thông báo trống -->
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="74dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_thong_bao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="223dp"
-        android:layout_centerHorizontal="true"
-        android:background="#fff6b9"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#fff6b9"
-        android:clipToOutline="true">
+        android:layout_centerHorizontal="true"
+        android:clipToPadding="false"
+        />
 
-        <TextView
-            android:id="@+id/thong_bao_trong"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_bold"
-            android:text="Hiện tại bạn chưa nhận được thông báo nào!"
-            android:textAlignment="center"
-            android:textColor="#755200"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 </RelativeLayout>

@@ -30,3 +30,4 @@ swipereveallayout = { module = "com.github.chthai64:SwipeRevealLayout", version.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 
+
