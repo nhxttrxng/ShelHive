@@ -1,6 +1,6 @@
 package com.nhom5.shelhive.api;
 
-public class GetDayTroResponse {
+public class GetMotelResponse {
     private int ma_day;
     private String email_admin;
     private String ten_tro;

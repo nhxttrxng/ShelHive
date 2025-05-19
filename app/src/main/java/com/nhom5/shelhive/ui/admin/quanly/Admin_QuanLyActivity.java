@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.api.GetDayTroResponse;
+import com.nhom5.shelhive.api.GetMotelResponse;
 import com.nhom5.shelhive.ui.common.adapter.MotelAdapter;
 import com.nhom5.shelhive.ui.model.Motel;
 
@@ -188,16 +188,16 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
     private void loadMotelsFromApi(String email, ImageView noneMotel) {
         Log.d("API_CALL", "Gọi API với email: " + email);
         ApiService.apiService.getDayTroByAdminEmail(email)
-                .enqueue(new Callback<List<GetDayTroResponse>>() {
+                .enqueue(new Callback<List<GetMotelResponse>>() {
                     @Override
-                    public void onResponse(Call<List<GetDayTroResponse>> call, Response<List<GetDayTroResponse>> response) {
+                    public void onResponse(Call<List<GetMotelResponse>> call, Response<List<GetMotelResponse>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            List<GetDayTroResponse> responseList = response.body();
+                            List<GetMotelResponse> responseList = response.body();
 
                             Log.d("API_RESPONSE", "Dữ liệu nhận được: " + responseList.toString());
 
                             motelList.clear();
-                            for (GetDayTroResponse dto : responseList) {
+                            for (GetMotelResponse dto : responseList) {
                                 motelList.add(new Motel(
                                         dto.getMa_day(),
                                         dto.getTen_tro(),
@@ -226,7 +226,7 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<List<GetDayTroResponse>> call, Throwable t) {
+                    public void onFailure(Call<List<GetMotelResponse>> call, Throwable t) {
                         Log.e("API_ERROR", "Lỗi khi gọi API: " + t.getMessage(), t);
                         recyclerViewMotels.setVisibility(View.GONE);
                         noneMotel.setVisibility(View.VISIBLE);

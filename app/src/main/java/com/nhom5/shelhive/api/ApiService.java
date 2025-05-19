@@ -41,7 +41,7 @@ public interface ApiService {
     Call<GetAdminByEmailResponse> getAdminByEmail(@Path("email") String email);
 
     @GET("/api/motels/{email}")
-    Call<List<GetDayTroResponse>> getDayTroByAdminEmail(@Path("email") String email);
+    Call<List<GetMotelResponse>> getDayTroByAdminEmail(@Path("email") String email);
 
     @POST("/api/motels/")
     Call<ResponseBody> createDayTro(@Body CreateDayTroRequest createDayTroRequest);
@@ -52,7 +52,7 @@ public interface ApiService {
     @PUT("api/motels/{maday}")
     Call<ResponseBody> updateDayTro(
             @Path("maday") int maDay,
-            @Body UpdateDayTroRequest request
+            @Body UpdateMotelRequest request
     );
 
     @GET("api/users/{email}")
@@ -63,6 +63,9 @@ public interface ApiService {
 
     @GET("/api/rooms/{ma_phong}")
     Call<GetRoomInfoResponse> getRoomInfoByMaPhong(@Path("ma_phong") int maPhong);
+
+    @POST("/api/rooms/")
+    Call<ResponseBody> createRoom(@Body CreateRoomRequest request);
 
     @PUT("/api/rooms/{ma_phong}")
     Call<ResponseBody> updateRoom(

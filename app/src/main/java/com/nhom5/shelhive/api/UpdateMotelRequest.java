@@ -1,12 +1,12 @@
 package com.nhom5.shelhive.api;
 
-public class UpdateDayTroRequest {
+public class UpdateMotelRequest {
     private String ten_tro;
     private String dia_chi;
     private double gia_dien;
     private double gia_nuoc;
 
-    public UpdateDayTroRequest(String ten_tro, String dia_chi, double gia_dien, double gia_nuoc) {
+    public UpdateMotelRequest(String ten_tro, String dia_chi, double gia_dien, double gia_nuoc) {
         this.ten_tro = ten_tro;
         this.dia_chi = dia_chi;
         this.gia_dien = gia_dien;
