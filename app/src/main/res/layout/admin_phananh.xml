@@ -12,60 +12,59 @@
         android:paddingBottom="16dp">
 
         <!-- Header -->
+
+        <!-- Tìm kiếm -->
         <RelativeLayout
-            android:id="@+id/header_layout"
+            android:id="@+id/overlap"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F9E4A4"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp">
+            android:layout_height="90dp"
+            android:background="@drawable/rectangle_17">
 
             <ImageView
                 android:id="@+id/btn_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerVertical="true"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="53dp"
                 android:src="@drawable/ic_arrow_back" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/btn_back"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="42dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_bold"
                     android:text="Phản ánh"
                     android:textColor="#755200"
-                    android:textSize="18sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nunito_extra_bold" />
 
                 <TextView
                     android:id="@+id/tv_motel_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_regular"
                     android:text="Nhà trọ Trường Phát 1"
                     android:textColor="#755200"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Tìm kiếm -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_width="361dp"
+            android:layout_height="31dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/border_box"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingEnd="12dp"
+            android:layout_gravity="center_horizontal">>
 
             <ImageView
                 android:layout_width="24dp"
@@ -84,9 +83,10 @@
 
         <!-- Tiêu đề "Chưa xử lý" -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_section_title"
             android:gravity="center"
             android:padding="10dp"
@@ -94,7 +94,6 @@
             android:textColor="#755200"
             android:textSize="16sp"
             android:fontFamily="@font/nunito_bold" />
-
         <!-- RecyclerView phản ánh chưa xử lý -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_unresolved_feedback"
@@ -107,7 +106,7 @@
 
         <!-- Tiêu đề "Đã xử lý" -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/bg_section_title"
@@ -116,7 +115,8 @@
             android:text="Phản ánh đã xử lý"
             android:textColor="#755200"
             android:textSize="16sp"
-            android:fontFamily="@font/nunito_bold" />
+            android:fontFamily="@font/nunito_bold"
+            android:layout_gravity="center_horizontal" />
 
         <!-- RecyclerView phản ánh đã xử lý -->
         <androidx.recyclerview.widget.RecyclerView

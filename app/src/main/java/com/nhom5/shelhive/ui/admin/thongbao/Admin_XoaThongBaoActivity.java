@@ -1,9 +1,11 @@
 package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,13 @@ public class Admin_XoaThongBaoActivity extends AppCompatActivity {
         edtNoiDung = findViewById(R.id.edt_notification_content); // Giờ là EditText
         btnXoa = findViewById(R.id.btn_delete);
         btnSua = findViewById(R.id.btn_edit);
-
+        ImageView btnBack=findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(Admin_XoaThongBaoActivity.this, Admin_ThongBaoActivity.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
         String noiDung = getIntent().getStringExtra("noiDungThongBao");
         edtNoiDung.setText(noiDung);
 

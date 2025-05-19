@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
+import com.nhom5.shelhive.ui.admin.quanly.Admin_QuanLyActivity;
+import com.nhom5.shelhive.ui.admin.quanly.Admin_QuanLyPhongTroActivity;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 

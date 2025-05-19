@@ -26,10 +26,14 @@ import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetAdminByEmailResponse;
 import com.nhom5.shelhive.ui.admin.hoadon.Admin_MotelListActivity;
+import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnhActivity;
+import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnh_NhaTro;
 import com.nhom5.shelhive.ui.admin.quanly.Admin_QuanLyActivity;
-import com.nhom5.shelhive.ui.admin.thongbao.Admin_PhanAnhActivity;
 import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBaoActivity;
-import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongKeActivity;
+import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBao_NhaTro;
+import com.nhom5.shelhive.ui.admin.thongke.Admin_ThongKeActivity;
+import com.nhom5.shelhive.ui.admin.thongke.Admin_ThongKe_NhaTro;
+import com.nhom5.shelhive.ui.admin.thongtin.Admin_ThongTinActivity;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
 import com.nhom5.shelhive.ui.common.customviews.HexagonImageView;
@@ -130,21 +134,21 @@ public class Admin_TrangChuActivity extends AppCompatActivity {
         });
 
         btnThongBao.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_ThongBaoActivity.class);
+            Intent intent = new Intent(this, Admin_ThongBao_NhaTro.class);
             intent.putExtra("email", finalEmail);
             Log.d("INTENT_EMAIL", "Gửi đến ThongBaoActivity: " + finalEmail);
             startActivity(intent);
         });
 
         btnPhanAnh.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_PhanAnhActivity.class);
+            Intent intent = new Intent(this, Admin_PhanAnh_NhaTro.class);
             intent.putExtra("email", finalEmail);
             Log.d("INTENT_EMAIL", "Gửi đến PhanAnhActivity: " + finalEmail);
             startActivity(intent);
         });
 
         btnThongKe.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_ThongKeActivity.class);
+            Intent intent = new Intent(this, Admin_ThongKe_NhaTro.class);
             intent.putExtra("email", finalEmail);
             Log.d("INTENT_EMAIL", "Gửi đến ThongKeActivity: " + finalEmail);
             startActivity(intent);

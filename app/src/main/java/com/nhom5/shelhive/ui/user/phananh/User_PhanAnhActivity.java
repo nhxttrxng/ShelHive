@@ -1,5 +1,6 @@
-package com.nhom5.shelhive.ui.user;
+package com.nhom5.shelhive.ui.user.phananh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBaoActivity;
+import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBao_NhaTro;
+import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 public class User_PhanAnhActivity extends AppCompatActivity {
 
@@ -33,7 +37,12 @@ public class User_PhanAnhActivity extends AppCompatActivity {
         btnBaoCao = findViewById(R.id.btn_bao_cao);
         btnBack = findViewById(R.id.btn_back);
         tvTenPhong = findViewById(R.id.tv_motel_name);
-
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(User_PhanAnhActivity.this, User_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
         // Thiết lập Spinner
         String[] loaiVanDe = {"Điện", "Nước", "Wifi", "Vệ sinh", "Khác"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, loaiVanDe);

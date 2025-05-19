@@ -1,12 +1,28 @@
 package com.nhom5.shelhive.api;
 
+import com.google.gson.annotations.SerializedName;
+
 public class GetRoom2Response {
+    @SerializedName("ma_phong")
     private String ma_phong;
+
+    @SerializedName("ma_day")
     private int ma_day;
+
+    @SerializedName("email_user")
     private String email_user;
-    private String trang_thai_phong;
+
+    // Đã chuyển sang cột boolean da_thue, không còn dùng trang_thai_phong
+    @SerializedName("da_thue")
+    private Boolean da_thue;
+
+    @SerializedName("ngay_bat_dau")
     private String ngay_bat_dau;
+
+    @SerializedName("ngay_ket_thuc")
     private String ngay_ket_thuc;
+
+    @SerializedName("gia_thue")
     private Double gia_thue;
 
     // Getters
@@ -22,8 +38,8 @@ public class GetRoom2Response {
         return email_user;
     }
 
-    public String getTrang_thai_phong() {
-        return trang_thai_phong;
+    public Boolean getDa_thue() {
+        return da_thue;
     }
 
     public String getNgay_bat_dau() {
@@ -51,8 +67,8 @@ public class GetRoom2Response {
         this.email_user = email_user;
     }
 
-    public void setTrang_thai_phong(String trang_thai_phong) {
-        this.trang_thai_phong = trang_thai_phong;
+    public void setDa_thue(Boolean da_thue) {
+        this.da_thue = da_thue;
     }
 
     public void setNgay_bat_dau(String ngay_bat_dau) {

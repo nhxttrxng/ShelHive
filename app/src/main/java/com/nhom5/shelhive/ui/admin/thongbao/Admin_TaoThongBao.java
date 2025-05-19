@@ -1,9 +1,11 @@
 package com.nhom5.shelhive.ui.admin.thongbao;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,13 @@ public class Admin_TaoThongBao extends AppCompatActivity {
         // Initialize views
         edtThongBao = findViewById(R.id.edt_noi_dung_thong_bao);
         btnTaoThongBao = findViewById(R.id.btn_gui_thong_bao);
-
+        ImageView btnBack=findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(Admin_TaoThongBao.this, Admin_ThongBaoActivity.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
         // Set button click listener
         btnTaoThongBao.setOnClickListener(new View.OnClickListener() {
             @Override

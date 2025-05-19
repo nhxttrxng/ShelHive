@@ -9,22 +9,22 @@
     <RelativeLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F9E4A4"
-        android:padding="16dp">
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_17">
 
         <ImageView
             android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_centerVertical="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="53dp"
             android:src="@drawable/ic_arrow_back" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btn_back"
-            android:layout_marginStart="8dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="42dp"
             android:orientation="vertical">
 
             <TextView
@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:text="Thông báo"
                 android:textColor="#755200"
-                android:textSize="18sp"
-                android:fontFamily="@font/nunito_bold" />
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_extra_bold" />
 
             <TextView
                 android:id="@+id/tv_motel_name"
@@ -43,7 +43,7 @@
                 android:text="Nhà trọ Trường Phát 1"
                 android:textColor="#755200"
                 android:textSize="14sp"
-                android:fontFamily="@font/nunito_bold" />
+                android:fontFamily="@font/nunito_regular" />
         </LinearLayout>
     </RelativeLayout>
 

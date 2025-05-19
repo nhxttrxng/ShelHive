@@ -1,6 +1,7 @@
 package com.nhom5.shelhive.api;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -59,6 +60,17 @@ public interface ApiService {
 
     @GET("api/rooms/day/{ma_day}")
     Call<List<GetRoom2Response>> getRoomsByMaDay(@Path("ma_day") int ma_day);
+
+    @GET("/api/rooms/{ma_phong}")
+    Call<GetRoomInfoResponse> getRoomInfoByMaPhong(@Path("ma_phong") int maPhong);
+
+    @PUT("/api/rooms/{ma_phong}")
+    Call<ResponseBody> updateRoom(
+            @Path("ma_phong") int maPhong,
+            @Body Map<String, Object> request
+    );
+
+
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

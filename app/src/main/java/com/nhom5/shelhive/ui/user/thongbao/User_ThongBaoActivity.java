@@ -1,7 +1,9 @@
-package com.nhom5.shelhive.ui.user;
+package com.nhom5.shelhive.ui.user.thongbao;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.adapter.ThongBaoAdapter;
+import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
+import com.nhom5.shelhive.ui.user.thongke.User_ThongKeActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +23,7 @@ public class User_ThongBaoActivity extends AppCompatActivity {
     TextView tabThongBaoChung, tabThongBaoHoaDon;
     RecyclerView recyclerView;
     ThongBaoAdapter adapter;
-
+    private ImageView btnBack;
     List<String> thongBaoChungList;
     List<String> thongBaoHoaDonList;
 
@@ -33,7 +37,13 @@ public class User_ThongBaoActivity extends AppCompatActivity {
         tabThongBaoHoaDon = findViewById(R.id.tab_thong_bao_hoa_don);
         recyclerView = findViewById(R.id.recycler_view_thong_bao);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(User_ThongBaoActivity.this, User_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
         // Dữ liệu mẫu
         thongBaoChungList = Arrays.asList(
                 "Ngày mai, lúc 19h 06/03/2025, nhà trọ tổ chức 8/3, mời mọi người cùng tham gia",

@@ -1,5 +1,6 @@
-package com.nhom5.shelhive.ui.admin.thongbao;
 
+package com.nhom5.shelhive.ui.admin.thongke;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,8 +14,11 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnhActivity;
+import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnh_NhaTro;
 
 import android.graphics.Color;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -33,11 +37,17 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
         pieChartSoPhong = findViewById(R.id.pieChartThanhToan);
         barChartDien = findViewById(R.id.barChartDien);
         barChartNuoc = findViewById(R.id.barChartNuoc);
-
+        ImageView btnBack = findViewById(R.id.btn_back);
         setupBarChartTienTro();
         setupPieChartSoPhong();
         setupBarChartDien();
         setupBarChartNuoc();
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(Admin_ThongKeActivity.this, Admin_ThongKe_NhaTro.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void setupBarChartTienTro() {

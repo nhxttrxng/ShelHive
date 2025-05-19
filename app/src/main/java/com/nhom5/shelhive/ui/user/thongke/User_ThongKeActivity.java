@@ -1,5 +1,6 @@
-package com.nhom5.shelhive.ui.user;
+package com.nhom5.shelhive.ui.user.thongke;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,8 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
+import com.nhom5.shelhive.ui.user.phananh.User_PhanAnhActivity;
 
 import java.util.ArrayList;
 
@@ -26,19 +29,23 @@ public class User_ThongKeActivity extends AppCompatActivity {
 
         // Initialize Views
         tvTitle = findViewById(R.id.tv_title);
-        tvMotelName = findViewById(R.id.tv_motel_name);
+        tvMotelName = findViewById(R.id.tv_room_name);
         btnBack = findViewById(R.id.btn_back);
 
         barChartDien = findViewById(R.id.barChartDien);
         barChartNuoc = findViewById(R.id.barChartNuoc);
-
         // Set up Title and Motel Name
         tvTitle.setText("Thống kê");
         tvMotelName.setText("Phòng 1");
 
         // Setup back button click listener
         btnBack.setOnClickListener(v -> onBackPressed());
-
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(User_ThongKeActivity.this, User_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
         // Setup charts with data from invoices
         setupCharts();
     }
