@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.admin;
+package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.os.Bundle;
 import android.view.View;

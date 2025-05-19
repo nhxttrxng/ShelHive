@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.ui.admin;
+package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.content.Intent;
 import android.graphics.Color;

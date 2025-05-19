@@ -1,7 +1,6 @@
-package com.nhom5.shelhive.admin;
+package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;

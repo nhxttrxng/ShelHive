@@ -1,10 +1,8 @@
-package com.nhom5.shelhive.ui.admin;
+package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,7 +56,7 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
         unresolvedAdapter.setOnItemClickListener(new PhanAnhAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PhanAnh phanAnh) {
-                Intent intent = new Intent(Admin_PhanAnhActivity.this, com.nhom5.shelhive.admin.Admin_XuLiPhanAnhActivity.class);
+                Intent intent = new Intent(Admin_PhanAnhActivity.this, com.nhom5.shelhive.ui.admin.thongbao.Admin_XuLiPhanAnhActivity.class);
                 intent.putExtra("tieu_de", phanAnh.getTieuDe());
                 intent.putExtra("loai_van_de", phanAnh.getLoaiVanDe());
                 intent.putExtra("mo_ta", phanAnh.getMoTa());

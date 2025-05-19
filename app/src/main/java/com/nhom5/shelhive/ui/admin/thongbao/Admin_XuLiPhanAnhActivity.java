@@ -1,18 +1,11 @@
-package com.nhom5.shelhive.admin;
+package com.nhom5.shelhive.ui.admin.thongbao;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
-
-
-import android.os.Bundle;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class Admin_XuLiPhanAnhActivity extends AppCompatActivity {
 
