@@ -34,7 +34,7 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thông báo"
+                    android:text="Thống kê"
                     android:textColor="#755200"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_extra_bold" />
