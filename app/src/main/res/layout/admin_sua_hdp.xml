@@ -31,7 +31,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hóa đơn"
+                android:text="Sửa hóa đơn"
                 android:textColor="#755200"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_extra_bold" />
@@ -68,6 +68,16 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhập hạn thanh toán mới"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:fontFamily="@font/nunito_regular"
+                android:layout_marginStart="24dp" />
 
             <!-- Tháng -->
             <TextView
@@ -120,29 +130,51 @@
                 android:enabled="false" />
 
             <!-- Hạn thanh toán mới -->
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hạn thanh toán mới"
-                android:textColor="#755200"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_bold"
+                android:orientation="horizontal"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp">
 
-            <EditText
-                android:id="@+id/ed_new_due_date"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hạn thanh toán mới"
+                    android:textColor="#755200"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nunito_bold" />
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="12dp"
-                android:text="07/04/2025"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_semibold"
-                android:textColor="#755200"
-                android:background="@drawable/border_box"
-                android:enabled="false" />
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/ed_new_due_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingHorizontal="12dp"
+                    android:text="07/05/2025"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:textColor="#755200"
+                    android:background="@drawable/border_box"
+                    android:enabled="true"
+                    android:inputType="date" />
+
+                <ImageView
+                    android:id="@+id/ic_calendar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_calendar" />
+            </RelativeLayout>
 
             <!-- DỊCH VỤ SỬ DỤNG -->
             <TextView
@@ -179,7 +211,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,6 +222,7 @@
                     android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
 
+            <!-- Số điện mới và cũ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,8 +256,7 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="true"
-                        android:inputType="number" />
+                        android:enabled="false" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -253,7 +285,7 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="true" />
+                        android:enabled="false" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -265,7 +297,7 @@
                 android:layout_marginTop="8dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -314,7 +346,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -325,6 +357,7 @@
                     android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
 
+            <!-- Số nước mới và cũ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -358,8 +391,7 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="true"
-                        android:inputType="number" />
+                        android:enabled="false" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -388,7 +420,7 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="true" />
+                        android:enabled="false" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -400,7 +432,7 @@
                 android:layout_marginTop="8dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -449,9 +481,8 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
-                    android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.100.000 đ/tháng"
@@ -498,7 +529,7 @@
                     android:textColor="#755200"
                     android:background="@drawable/border_box"
                     android:gravity="center"
-                    android:enabled="true" />
+                    android:inputType="numberDecimal" />
             </LinearLayout>
 
             <!-- Tiền lãi -->
@@ -526,11 +557,12 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
                 <TextView
+                    android:id="@+id/tv_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="59 ngày"
+                    android:text="89 ngày"
                     android:textColor="#755200"
                     android:textSize="16sp" />
 
@@ -564,16 +596,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="427.750 đồng"
+                        android:text="645.250 đồng"
                         android:textColor="#D70000"
                         android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp">
                 </LinearLayout>
             </LinearLayout>
 
@@ -636,7 +661,7 @@
                     android:id="@+id/tv_interest_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="427.750 đồng"
+                    android:text="72.500 đồng"
                     android:textColor="#D70000"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
@@ -663,7 +688,7 @@
                     android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.877.750 đồng"
+                    android:text="2.095.250 đồng"
                     android:textColor="#D70000"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
@@ -694,8 +719,7 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_regular"
                 android:textColor="#755200"
-                android:background="@drawable/border_box"
-                android:enabled="true" />
+                android:background="@drawable/border_box" />
         </LinearLayout>
     </ScrollView>
 
@@ -710,31 +734,19 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btn_remind"
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Nhắc nhở"
-            android:textColor="#755200"
+            android:text="Hủy"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"
-            android:backgroundTint="#FBE27A"/>
+            android:backgroundTint="#FF7E7E"/>
 
         <Button
-            android:id="@+id/btn_extend"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="8dp"
-            android:text="Gia hạn"
-            android:textColor="#755200"
-            android:textSize="15sp"
-            android:fontFamily="@font/nunito_bold"
-            android:backgroundTint="#FBE27A" />
-
-        <Button
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
