@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.ThongBaoAdapter;
+import com.nhom5.shelhive.ui.common.adapter.ThongBaoAdapter;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 import com.nhom5.shelhive.ui.user.thongke.User_ThongKeActivity;
 

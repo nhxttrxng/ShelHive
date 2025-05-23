@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.PhanAnhAdapter;
+import com.nhom5.shelhive.ui.common.adapter.PhanAnhAdapter;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.ui.model.PhanAnh;
 
