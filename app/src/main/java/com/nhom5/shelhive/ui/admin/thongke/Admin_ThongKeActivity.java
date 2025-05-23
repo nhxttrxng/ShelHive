@@ -66,7 +66,6 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(14f, "Đã đóng"));
         entries.add(new PieEntry(7f, "Trễ hạn"));
-        entries.add(new PieEntry(9f, "Chưa đóng"));
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(

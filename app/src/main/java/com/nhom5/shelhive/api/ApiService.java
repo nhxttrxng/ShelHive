@@ -1,16 +1,20 @@
 package com.nhom5.shelhive.api;
+import com.nhom5.shelhive.api.RetrofitClient;
 
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+
 
 public interface ApiService {
     @POST("/api/auth/register")
@@ -73,7 +77,29 @@ public interface ApiService {
             @Body Map<String, Object> request
     );
 
+    // Lấy tất cả hóa đơn
+    @GET("/api/invoices")
+    Call<List<Bill>> getAllInvoices();
 
+    // Lấy hóa đơn theo phòng
+    @GET("/api/invoices/room/{roomId}")
+    Call<List<Bill>> getInvoicesByRoom(@Path("roomId") String roomId);
+    
+    // Lấy hóa đơn theo dãy trọ
+    @GET("/api/invoices/motel/{motelId}")
+    Call<List<Bill>> getInvoicesByMotel(@Path("motelId") int motelId);
+    
+    // Tạo hóa đơn mới
+    @POST("/api/invoices")
+    Call<Bill> createInvoice(@Body Map<String, Object> body);
+    
+    // Sửa hóa đơn
+    @PUT("/api/invoices/{id}")
+    Call<Bill> updateInvoice(@Path("id") int id, @Body Map<String, Object> body);
+    
+    // Xóa hóa đơn
+    @DELETE("/api/invoices/{id}")
+    Call<ResponseBody> deleteInvoice(@Path("id") int id);
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }
