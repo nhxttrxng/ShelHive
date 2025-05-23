@@ -1,5 +1,8 @@
 package com.nhom5.shelhive.api;
 
+import com.nhom5.shelhive.ui.model.PhanAnh;
+import com.nhom5.shelhive.ui.model.ThongBao;
+
 import java.util.List;
 import java.util.Map;
 
@@ -78,20 +81,26 @@ public interface ApiService {
 
     @POST("reports/")
     Call<ResponseBody> createPhanAnh(@Body PhanAnhRequest phanAnhRequest);
-    //@GET("/api/reports/")
-    //Call<List<PhanAnh>> getAllPhanAnh();
+    @GET("reports/day/{ma_day}")
+    Call<List<PhanAnh>> getByMaDay(@Path("ma_day") int maDay);
+
 
     @PUT("reports/{ma_phan_anh}")
     Call<ResponseBody> updateTinhTrang(@Path("ma_phan_anh") int id, @Body Map<String, String> body);
-    public interface NotificationApi {
-        @GET("notifications/{user_id}")
-        Call<List<ThongBao>> getThongBaoTheoUser(@Path("user_id") String userId);
-    }
+    @GET("notifications/phong/{ma_phong}")
+    Call<List<ThongBao>> getThongBaoChungTheoPhong(@Path("ma_phong") int ma_phong);
+
+    Call<List<ThongBao>> getThongBaoHoaDonTheoPhong(int maPhong);
+
     @PUT("users/{email}")
     Call<ResponseBody> updateUser(
             @Path("email") String email,
             @Body UpdateUserRequest request
     );
+    @GET("notifications/day/{ma_day}")
+    Call<ThongBaoResponse> getThongBaoByMaDay(@Path("ma_day") int maDay);
+    @GET("invoice_notifications/day/{ma_day}")
+    Call<List<ThongBao>> getThongBaoHoaDonByMaDay(@Path("ma_day") int maDay);
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

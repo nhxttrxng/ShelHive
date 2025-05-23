@@ -9,20 +9,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.ui.model.ThongBao;
 
 import java.util.List;
 
 public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHolder> {
-    private List<String> thongBaoList;
+    private List<ThongBao> thongBaoList;
     private final Context context;
     private final ItemClickListener itemClickListener;
 
-    // Interface để lắng nghe sự kiện click
+    // Interface để lắng nghe sự kiện click, trả về đối tượng ThongBao
     public interface ItemClickListener {
-        void onItemClick(String noiDung);
+        void onItemClick(ThongBao thongBao);
     }
 
-    public ThongBaoAdapter(List<String> thongBaoList, Context context, ItemClickListener itemClickListener) {
+    public ThongBaoAdapter(List<ThongBao> thongBaoList, Context context, ItemClickListener itemClickListener) {
         this.thongBaoList = thongBaoList;
         this.context = context;
         this.itemClickListener = itemClickListener;
@@ -36,10 +37,9 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String thongBao = thongBaoList.get(position);
-        holder.textView.setText(thongBao);
+        ThongBao thongBao = thongBaoList.get(position);
+        holder.textView.setText(thongBao.getNoiDung());
 
-        // Xử lý sự kiện click trên item
         holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(thongBao));
     }
 
@@ -48,7 +48,7 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHo
         return thongBaoList.size();
     }
 
-    public void capNhatDuLieu(List<String> newThongBaoList) {
+    public void capNhatDuLieu(List<ThongBao> newThongBaoList) {
         this.thongBaoList = newThongBaoList;
         notifyDataSetChanged();
     }

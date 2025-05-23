@@ -1,5 +1,6 @@
 package com.nhom5.shelhive.ui.admin.phananh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,6 +81,9 @@ public class Admin_XuLiPhanAnhActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(Admin_XuLiPhanAnhActivity.this, "Xử lí thành công!", Toast.LENGTH_SHORT).show();
+
+                    // ✅ Gửi kết quả thành công về activity trước đó
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     Toast.makeText(Admin_XuLiPhanAnhActivity.this, "Không thể cập nhật trạng thái!", Toast.LENGTH_SHORT).show();
@@ -91,4 +95,5 @@ public class Admin_XuLiPhanAnhActivity extends AppCompatActivity {
                 Toast.makeText(Admin_XuLiPhanAnhActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-}}
+    }
+}

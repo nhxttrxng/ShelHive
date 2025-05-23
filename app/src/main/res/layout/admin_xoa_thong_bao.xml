@@ -48,23 +48,25 @@
     </RelativeLayout>
 
     <!-- Section title: "Thông báo đã tạo" -->
+
+    <!-- Thông báo nội dung -->
+
     <TextView
         android:id="@+id/tv_section_title"
-        android:layout_width="400dp"
+        android:layout_width="378dp"
         android:layout_height="40dp"
         android:layout_below="@id/header_layout"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_xoathongbao"
+        android:fontFamily="@font/nunito_bold"
         android:gravity="center"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="Thông báo đã tạo"
         android:textColor="#755200"
-        android:textSize="16sp"
-        android:fontFamily="@font/nunito_bold"
-        android:background="@drawable/rounded_xoathongbao" />
+        android:textSize="16sp" />
 
-    <!-- Thông báo nội dung -->
     <RelativeLayout
         android:id="@+id/notification_card"
         android:layout_width="match_parent"
