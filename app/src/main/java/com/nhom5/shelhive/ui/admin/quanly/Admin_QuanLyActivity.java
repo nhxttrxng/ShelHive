@@ -40,6 +40,14 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
     private static final int REQUEST_EDIT_MOTEL = 100;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (finalEmail != null) {
+            loadMotelsFromApi(finalEmail, noneMotel);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quanly_nhatro);
@@ -110,7 +118,7 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
             @Override
             public void onDeleteClick(int ma_day) {
                 popupDelete.setVisibility(View.VISIBLE);
-
+                popupDelete.bringToFront();
                 yesButton.setOnClickListener(v -> {
                     ApiService.apiService.deleteDayTro(ma_day).enqueue(new Callback<ResponseBody>() {
                         @Override
