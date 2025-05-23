@@ -14,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.GetUserResponse;
 import com.nhom5.shelhive.api.LoginRequest;
 import com.nhom5.shelhive.api.LoginResponse;
 import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
+import com.nhom5.shelhive.ui.user.xacthuc.User_XacThucActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +54,6 @@ public class DangNhapActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         loadSavedLogin();
 
-        // Bắt sự kiện rời khỏi ô nhập để kiểm tra
         edtEmail.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String email = edtEmail.getText().toString().trim();
@@ -152,16 +153,48 @@ public class DangNhapActivity extends AppCompatActivity {
 
                     saveLoginInfo(email, password, checkBoxRemember.isChecked(), role);
 
-                    Intent intent;
+                    // Nếu là admin => vào luôn trang chủ admin
                     if ("admin".equalsIgnoreCase(role)) {
-                        intent = new Intent(DangNhapActivity.this, Admin_TrangChuActivity.class);
-                    } else {
-                        intent = new Intent(DangNhapActivity.this, User_TrangChuActivity.class);
+                        Intent intent = new Intent(DangNhapActivity.this, Admin_TrangChuActivity.class);
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                        finish();
+                        return;
                     }
 
-                    intent.putExtra("email", email);
-                    startActivity(intent);
-                    finish();
+                    // Nếu là user thì gọi API lấy chi tiết user, kiểm tra cccd
+                    ApiService.apiService.getUserByEmail(email).enqueue(new Callback<GetUserResponse>() {
+                        @Override
+                        public void onResponse(Call<GetUserResponse> call, Response<GetUserResponse> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                String cccd = response.body().getCccd();
+
+                                if (cccd == null || cccd.trim().isEmpty()) {
+                                    // Chuyển tới activity xác thực
+                                    Intent xacThucIntent = new Intent(DangNhapActivity.this, User_XacThucActivity.class);
+                                    xacThucIntent.putExtra("email", email); // nếu cần truyền email
+                                    startActivity(xacThucIntent);
+                                    finish();
+                                } else {
+                                    // Đã có CCCD, chuyển vào trang chủ user
+                                    Intent intent = new Intent(DangNhapActivity.this, User_TrangChuActivity.class);
+                                    intent.putExtra("email", email);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            } else {
+                                passwordError.setText("Lỗi kiểm tra CCCD người dùng!");
+                                passwordError.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<GetUserResponse> call, Throwable t) {
+                            passwordError.setText("Lỗi kết nối khi lấy thông tin người dùng!");
+                            passwordError.setVisibility(View.VISIBLE);
+                        }
+                    });
+
                 } else {
                     passwordError.setText("Email hoặc mật khẩu không đúng");
                     passwordError.setVisibility(View.VISIBLE);
