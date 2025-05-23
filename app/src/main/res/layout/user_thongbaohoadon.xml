@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/thong_bao_truong_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8db">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F9E4A4"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/btn_back"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
+                android:text="Thông báo"
+                android:textColor="#755200"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_motel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_regular"
+                android:text="Phòng 1"
+                android:textColor="#755200"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <!-- Thanh tìm kiếm -->
+    <RelativeLayout
+        android:id="@+id/overlap_wrapper"
+        android:layout_width="363dp"
+        android:layout_height="31dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="110dp">
+
+        <RelativeLayout
+            android:layout_width="361dp"
+            android:layout_height="31dp"
+            android:background="@drawable/search_border"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Tìm kiếm"
+                android:textColor="#D1C19C"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ic_search" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- Tabs -->
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="161dp"
+        android:orientation="horizontal">
+
+        <!-- Tab Thông báo chung -->
+        <TextView
+            android:id="@+id/tab_thong_bao_chung"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Thông báo chung"
+            android:textColor="#755200"
+            android:textSize="16sp"
+
+            android:background="@drawable/bc_tab_chung2"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <!-- Tab Thông báo hóa đơn -->
+        <TextView
+            android:id="@+id/tab_thong_bao_hoa_don"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Thông báo hóa đơn"
+            android:textColor="#ffff"
+            android:textSize="16sp"
+            android:background="@drawable/bc_tab_hoa_don2"
+            android:clickable="true"
+            android:focusable="true"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Thông báo trống -->
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="223dp"
+        android:layout_centerHorizontal="true"
+        android:background="#fff6b9"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#fff6b9"
+        android:clipToOutline="true">
+
+        <TextView
+            android:id="@+id/thong_bao_trong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:text="Hiện tại bạn chưa nhận được thông báo nào!"
+            android:textAlignment="center"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

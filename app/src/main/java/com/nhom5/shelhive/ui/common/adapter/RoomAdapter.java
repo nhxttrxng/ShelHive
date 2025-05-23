@@ -1,40 +1,43 @@
 package com.nhom5.shelhive.ui.common.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.ui.model.Room;
+import com.nhom5.shelhive.api.GetRoomInfoResponse;
+import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.ui.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
     private Context context;
-    private List<Room> roomList;
-    private OnRoomClickListener listener;
+    private List<GetRoomInfoResponse> roomList;
+    private OnItemClickListener listener;
 
-    public interface OnRoomClickListener {
-        void onRoomClick(Room room, int position);
+    public interface OnItemClickListener {
+        void onClick(GetRoomInfoResponse room);
     }
 
-    public RoomAdapter(Context context, List<Room> roomList) {
+    public RoomAdapter(Context context, List<GetRoomInfoResponse> roomList) {
         this.context = context;
-        this.roomList = roomList != null ? roomList : new ArrayList<>();
+        this.roomList = roomList;
     }
 
-    public void setOnRoomClickListener(OnRoomClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setData(List<GetRoomInfoResponse> newList) {
+        this.roomList = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -46,55 +49,37 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
-        Room room = roomList.get(position);
+        GetRoomInfoResponse roomInfo = roomList.get(position);
+        Room2 room = roomInfo.getRoom();
+        User user = roomInfo.getUser();
 
-        // Thiết lập số phòng
-        holder.tvRoomNumber.setText("Phòng " + room.getRoomNumber());
-
-        // Thiết lập thông tin hóa đơn chưa thanh toán
-        holder.tvUnpaidBills.setText("Chưa thanh toán: " + room.getUnpaidBills() + " hoá đơn");
-
-        // Thiết lập tên người thuê
-        holder.tvTenantName.setText(room.getTenantName());
-
-        // Thiết lập trạng thái
-        holder.tvStatus.setText(room.getStatus().getLabel());
-
-        // Thiết lập màu sắc dựa trên trạng thái
-        int color = Color.parseColor(room.getStatus().getColor());
-        holder.tvRoomNumber.setTextColor(color);
-        holder.tvUnpaidBills.setTextColor(color);
-        holder.tvTenantName.setTextColor(color);
-        holder.tvStatus.setTextColor(color);
-
-        // Thiết lập icon phòng
-        int iconResId = 0;
-        switch(room.getStatus().getIconName()) {
-            case "ic_room_red":
-                iconResId = R.drawable.ic_room_red;
-                break;
-            case "ic_room_brown":
-                iconResId = R.drawable.ic_room_brown;
-                break;
-            case "ic_room_green":
-                iconResId = R.drawable.ic_room_green;
-                break;
-        }
-        if (iconResId != 0) {
-            holder.imgRoom.setImageResource(iconResId);
+        // ✅ Lấy 2 chữ số cuối của mã phòng
+        String maPhong = room.getMa_phong();
+        String shortMaPhong;
+        try {
+            int phongSo = Integer.parseInt(maPhong);
+            shortMaPhong = String.format("%02d", phongSo % 100); // lấy 2 số cuối
+        } catch (NumberFormatException e) {
+            shortMaPhong = maPhong; // fallback nếu không phải số
         }
 
-        // Hiển thị badge nếu có hóa đơn trễ hạn
-        if (room.getOverdueCount() > 0) {
+        holder.tvRoomNumber.setText("Phòng " + shortMaPhong);
+
+        if (user != null) {
+            holder.tvTenantName.setText(user.getHoTen());
+            holder.tvStatus.setText("Đã thuê");
             holder.tvBadge.setVisibility(View.VISIBLE);
-            holder.tvBadge.setText(String.valueOf(room.getOverdueCount()));
+            holder.tvUnpaidBills.setText("Chưa thanh toán: 1 hoá đơn"); // bạn có thể thay bằng dữ liệu thật
         } else {
+            holder.tvTenantName.setText("Chưa có người thuê");
+            holder.tvStatus.setText("Trống");
             holder.tvBadge.setVisibility(View.GONE);
+            holder.tvUnpaidBills.setText("Không có hoá đơn");
         }
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onRoomClick(room, position);
+                listener.onClick(roomInfo);
             }
         });
     }
@@ -104,25 +89,16 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         return roomList != null ? roomList.size() : 0;
     }
 
-    public void updateRoomList(List<Room> newRoomList) {
-        this.roomList = newRoomList != null ? newRoomList : new ArrayList<>();
-        notifyDataSetChanged();
-    }
-
     public static class RoomViewHolder extends RecyclerView.ViewHolder {
         TextView tvRoomNumber, tvUnpaidBills, tvTenantName, tvStatus, tvBadge;
-        ImageView imgRoom;
-        LinearLayout statusContainer;
 
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgRoom = itemView.findViewById(R.id.img_room);
             tvRoomNumber = itemView.findViewById(R.id.tv_room_number);
             tvUnpaidBills = itemView.findViewById(R.id.tv_unpaid_bills);
             tvTenantName = itemView.findViewById(R.id.tv_tenant_name);
             tvStatus = itemView.findViewById(R.id.tv_status);
             tvBadge = itemView.findViewById(R.id.tv_badge);
-            statusContainer = itemView.findViewById(R.id.status_container);
         }
     }
 }

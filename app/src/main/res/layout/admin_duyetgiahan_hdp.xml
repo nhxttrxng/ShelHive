@@ -31,7 +31,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gia hạn hóa đơn"
+                android:text="Duyệt gia hạn hóa đơn"
                 android:textColor="#755200"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_extra_bold" />
@@ -68,7 +68,7 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_bold"
                 android:padding="12dp" />
-                
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 android:orientation="horizontal"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp">
-                
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,14 +144,7 @@
                     android:textColor="#755200"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
-                    
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" *"
-                    android:textColor="#D80000"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/nunito_bold" />
+
             </LinearLayout>
 
             <RelativeLayout
@@ -159,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp">
-                
+
                 <EditText
                     android:id="@+id/ed_new_due_date"
                     android:layout_width="match_parent"
@@ -172,7 +165,7 @@
                     android:background="@drawable/border_box"
                     android:enabled="true"
                     android:inputType="date" />
-                    
+
                 <ImageView
                     android:id="@+id/ic_calendar"
                     android:layout_width="24dp"
@@ -218,7 +211,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -228,7 +221,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
-            
+
             <!-- Số điện mới và cũ -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -295,7 +288,7 @@
                         android:enabled="false" />
                 </LinearLayout>
             </LinearLayout>
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,7 +346,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -363,7 +356,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
-            
+
             <!-- Số nước mới và cũ -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -430,7 +423,7 @@
                         android:enabled="false" />
                 </LinearLayout>
             </LinearLayout>
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -488,7 +481,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -498,7 +491,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_regular" />
             </LinearLayout>
-            
+
             <!-- Lãi suất gia hạn -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -746,7 +739,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Hủy"
+            android:text="Từ chối"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"
@@ -758,7 +751,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Gia hạn"
+            android:text="Đồng ý"
             android:textColor="#755200"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"

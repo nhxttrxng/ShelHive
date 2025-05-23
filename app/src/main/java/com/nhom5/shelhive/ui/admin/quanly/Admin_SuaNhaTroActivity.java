@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.api.UpdateDayTroRequest;
+import com.nhom5.shelhive.api.UpdateMotelRequest;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -61,7 +61,7 @@ public class Admin_SuaNhaTroActivity extends AppCompatActivity {
             double newGiaDien = Double.parseDouble(editElectric.getText().toString().trim());
             double newGiaNuoc = Double.parseDouble(editWater.getText().toString().trim());
 
-            UpdateDayTroRequest request = new UpdateDayTroRequest(newName, newAddress, newGiaDien, newGiaNuoc);
+            UpdateMotelRequest request = new UpdateMotelRequest(newName, newAddress, newGiaDien, newGiaNuoc);
 
             ApiService.apiService.updateDayTro(maDay, request).enqueue(new Callback<ResponseBody>() {
                 @Override

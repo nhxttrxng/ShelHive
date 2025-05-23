@@ -65,9 +65,9 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
         filterSelector.setOnClickListener(v -> {
             android.widget.PopupMenu popup = new android.widget.PopupMenu(this, filterSelector);
             popup.getMenu().add("Tất cả");
+            popup.getMenu().add("Chưa đóng");
             popup.getMenu().add("Yêu cầu gia hạn");
             popup.getMenu().add("Trễ hạn");
-            popup.getMenu().add("Chưa đóng");
             popup.getMenu().add("Đã đóng");
 
             popup.setOnMenuItemClickListener(item -> {
@@ -103,12 +103,6 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
                 }
                 break;
             case "Yêu cầu gia hạn":
-            case "Chưa đóng":
-                if ("1".equals(roomNumber)) {
-                    extensionBill.setVisibility(View.VISIBLE);
-                    hasData = true;
-                }
-                break;
             case "Đã đóng":
                 paidBill.setVisibility(View.VISIBLE);
                 hasData = true;

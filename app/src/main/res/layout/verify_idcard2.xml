@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8DB">
+
+    <include
+        android:id="@+id/popup_deletemotel"
+        layout="@layout/popup_deletemotel"
+        android:visibility="gone" />
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overlap"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="@drawable/rectangle_17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="53dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name_nhatro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="54dp"
+            android:fontFamily="@font/nunito_extra_bold"
+            android:text="Xác thực thông tin"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_guide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="19dp"
+        android:fontFamily="@font/nunito_semibold"
+        android:text="Vui lòng thực hiện đầy đủ các bước theo hướng dẫn để xác thực thông tin cá nhân"
+        android:textColor="#755200"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/overlap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:padding="16dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_guide"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_16">
+
+            <TextView
+                android:id="@+id/step2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="2. Kiểm tra thông tin"
+                android:textColor="#755200"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/frame_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/step2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Nhập liệu -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/cccd_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CCCD"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/cccd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/name_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Họ tên"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/birthday_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Ngày sinh"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sex_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Giới tính"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/quequan_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Quê quán"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/quequan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/address_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Địa chỉ thường trú"
+                    app:endIconMode="none"
+                    app:hintTextColor="@color/brown"
+                    app:boxBackgroundMode="none"
+                    android:textColorHint="@color/brown"
+                    app:hintTextAppearance="@style/CustomHintText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:fontFamily="@font/nunito_bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/brown"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Nút nằm dưới cùng, luôn visible -->
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/recapture"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_bold"
+            android:text="Quay lại"
+            android:textColor="@color/yellow"
+            android:textSize="20sp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2dp" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/yellow"
+            android:fontFamily="@font/nunito_bold"
+            android:text="Tiếp tục"
+            android:textSize="20sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.nhom5.shelhive.ui.model;
 
 import android.graphics.Color;
+import com.google.gson.annotations.SerializedName;
 
 public class Room {
     private String roomNumber;
@@ -8,11 +9,13 @@ public class Room {
     private int unpaidBills;
     private RoomStatus status;
     private int overdueCount;
+    @SerializedName("trang_thai")
+    private String trangThai;
 
     public enum RoomStatus {
         PAID("Đã đóng", "#2E8B57", "ic_room_green"),
-        UNPAID("Chưa đóng", "#755200", "ic_room_brown"),
-        OVERDUE("Trễ hạn", "#D70000", "ic_room_red");
+        OVERDUE("Trễ hạn", "#D70000", "ic_room_red"),
+        UNPAID("Chưa đóng", "#755200", "ic_room_brown");
 
         private final String label;
         private final String color;
