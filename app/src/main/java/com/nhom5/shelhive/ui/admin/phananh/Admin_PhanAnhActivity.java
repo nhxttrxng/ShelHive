@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +15,10 @@ import com.google.gson.Gson;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.adapter.PhanAnhAdapter;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.model.PhanAnh;
+import com.nhom5.shelhive.ui.model.PhanAnh;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

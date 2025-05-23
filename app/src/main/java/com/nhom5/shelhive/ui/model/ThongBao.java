@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.model;
+package com.nhom5.shelhive.ui.model;
 
 import java.sql.Timestamp; // hoặc java.util.Date nếu dùng kiểu này
 

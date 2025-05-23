@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.model.PhanAnh;
+import com.nhom5.shelhive.ui.model.PhanAnh;
 
 import java.util.List;
 
