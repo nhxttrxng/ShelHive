@@ -1,5 +1,8 @@
 package com.nhom5.shelhive.api;
 
+import com.nhom5.shelhive.ui.model.PhanAnh;
+import com.nhom5.shelhive.ui.model.ThongBao;
+
 import java.util.List;
 import java.util.Map;
 
