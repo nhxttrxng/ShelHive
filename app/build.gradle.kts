@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nhom5.shelhive"
-        minSdk = 35
+        minSdk = 34
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -33,6 +33,12 @@ android {
 
 dependencies {
 
+    implementation ("androidx.camera:camera-core:1.3.1")
+    implementation ("androidx.camera:camera-camera2:1.3.1")
+    implementation ("androidx.camera:camera-lifecycle:1.3.1")
+    implementation ("androidx.camera:camera-view:1.3.1")
+    implementation ("androidx.camera:camera-extensions:1.3.1")
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
     implementation("com.daimajia.swipelayout:library:1.2.0")
     implementation(libs.glide)
     annotationProcessor(libs.compiler)

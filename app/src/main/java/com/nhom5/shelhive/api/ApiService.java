@@ -13,67 +13,71 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @POST("/api/auth/register")
+    @POST("auth/register")
     Call<ResponseBody> register(@Body RegisterRequest registerRequest);
 
-    @POST("/api/auth/login")
+    @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("/api/auth/forgot-password")
+    @POST("auth/forgot-password")
     Call<ResponseBody> forgotPassword(@Body ForgotPasswordRequest request);
 
-    @POST("/api/auth/reset-password")
+    @POST("auth/reset-password")
     Call<ResponseBody> resetPassword(@Body ResetPasswordRequest request);
 
-    @POST("/api/auth/verify-otp")
+    @POST("auth/verify-otp")
     Call<ResponseBody> verifyOtp(@Body VerifyOtpRequest request);
 
-    @POST("/api/auth/resend-otp")
+    @POST("/auth/resend-otp")
     Call<ResponseBody> resendOtp(@Body ResendOtpRequest request);
 
-    @GET("/api/auth/check-verify")
+    @GET("auth/check-verify")
     Call<ResponseBody> checkVerify(@Body CheckVerifyRequest request);
 
-    @GET("/api/users/phong/{email}")
+    @GET("users/phong/{email}")
     Call<FullUserInfoResponse> getFullInfoByEmail(@Path("email") String email);
 
-    @GET("/api/admins/{email}")
+    @GET("admins/{email}")
     Call<GetAdminByEmailResponse> getAdminByEmail(@Path("email") String email);
 
-    @GET("/api/motels/{email}")
+    @GET("motels/{email}")
     Call<List<GetMotelResponse>> getDayTroByAdminEmail(@Path("email") String email);
 
-    @POST("/api/motels/")
+    @POST("motels/")
     Call<ResponseBody> createDayTro(@Body CreateDayTroRequest createDayTroRequest);
 
-    @DELETE("api/motels/{ma_day}")
+    @DELETE("motels/{ma_day}")
     Call<ResponseBody> deleteDayTro(@Path("ma_day") int maDay);
 
-    @PUT("api/motels/{maday}")
+    @PUT("motels/{maday}")
     Call<ResponseBody> updateDayTro(
             @Path("maday") int maDay,
             @Body UpdateMotelRequest request
     );
 
-    @GET("api/users/{email}")
+    @GET("users/{email}")
     Call<GetUserResponse> getUserByEmail(@Path("email") String email);
 
-    @GET("api/rooms/day/{ma_day}")
+    @GET("rooms/day/{ma_day}")
     Call<List<GetRoom2Response>> getRoomsByMaDay(@Path("ma_day") int ma_day);
 
-    @GET("/api/rooms/{ma_phong}")
+    @GET("rooms/{ma_phong}")
     Call<GetRoomInfoResponse> getRoomInfoByMaPhong(@Path("ma_phong") int maPhong);
 
-    @POST("/api/rooms/")
+    @POST("rooms/")
     Call<ResponseBody> createRoom(@Body CreateRoomRequest request);
 
-    @PUT("/api/rooms/{ma_phong}")
+    @PUT("rooms/{ma_phong}")
     Call<ResponseBody> updateRoom(
             @Path("ma_phong") int maPhong,
             @Body Map<String, Object> request
     );
 
-
+    @PUT("users/{email}")
+    Call<ResponseBody> updateUser(
+            @Path("email") String email,
+            @Body UpdateUserRequest request
+    );
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

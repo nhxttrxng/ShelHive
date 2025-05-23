@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.ApiServiceWithNull;
 import com.nhom5.shelhive.api.GetRoomInfoResponse;
 import com.nhom5.shelhive.api.GetUserResponse;
 import com.nhom5.shelhive.ui.model.Room2;
@@ -335,7 +336,7 @@ public class Admin_SuaPhongTroActivity extends AppCompatActivity {
 
         Log.d("DEBUG_UPDATE_REQ", new Gson().toJson(req));
 
-        ApiService.apiService.updateRoom(maPhong, req).enqueue(new Callback<ResponseBody>() {
+        ApiServiceWithNull.apiServiceWithNull.updateRoom(maPhong, req).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {

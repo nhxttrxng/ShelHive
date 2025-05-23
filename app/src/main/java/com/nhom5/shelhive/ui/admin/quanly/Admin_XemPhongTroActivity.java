@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.ApiServiceWithNull;
 import com.nhom5.shelhive.api.GetRoomInfoResponse;
 import com.nhom5.shelhive.ui.model.Room2;
 import com.nhom5.shelhive.ui.model.User;
@@ -90,7 +91,7 @@ public class Admin_XemPhongTroActivity extends AppCompatActivity {
             map.put("ngay_ket_thuc", null);
             map.put("gia_thue", null);
 
-            ApiService.apiService.updateRoom(maPhong, map).enqueue(new Callback<ResponseBody>() {
+            ApiServiceWithNull.apiServiceWithNull.updateRoom(maPhong, map).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
