@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.adapter;
+package com.nhom5.shelhive.ui.common.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

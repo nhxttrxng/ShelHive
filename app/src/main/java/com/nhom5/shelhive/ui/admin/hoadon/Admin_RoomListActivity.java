@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.RoomAdapter;
+import com.nhom5.shelhive.ui.common.adapter.RoomAdapter;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetRoom2Response;
 import com.nhom5.shelhive.api.GetRoomInfoResponse;

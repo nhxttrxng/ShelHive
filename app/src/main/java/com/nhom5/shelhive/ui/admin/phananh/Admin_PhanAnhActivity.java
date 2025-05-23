@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.PhanAnhAdapter;
+import com.nhom5.shelhive.ui.common.adapter.PhanAnhAdapter;
 import com.nhom5.shelhive.model.PhanAnh;
 
 import java.util.ArrayList;

@@ -14,10 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.adapter.MotelAdapter;
+import com.nhom5.shelhive.ui.common.adapter.MotelAdapter;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetMotelResponse;
-import com.nhom5.shelhive.ui.admin.quanly.Admin_SuaNhaTroActivity;
 import com.nhom5.shelhive.ui.model.Motel;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class Admin_MotelListActivity extends AppCompatActivity {
     private MotelAdapter motelAdapter;
     private List<Motel> nhaTroList = new ArrayList<>();
     private TextView tvNoMotels;
-    private String adminEmail; // đưa vào đây
+    private String adminEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +64,8 @@ public class Admin_MotelListActivity extends AppCompatActivity {
         motelAdapter = new MotelAdapter(this, nhaTroList);
         recyclerViewNhaTro.setAdapter(motelAdapter);
 
+        // Chỉ click vào dãy để xem danh sách phòng, không có edit/xóa
         motelAdapter.setOnItemClickListener(maDay -> openRoomList(maDay));
-
-        motelAdapter.setOnItemActionListener(new MotelAdapter.OnItemActionListener() {
-            @Override
-            public void onEdit(Motel motel) {
-                Intent intent = new Intent(Admin_MotelListActivity.this, Admin_SuaNhaTroActivity.class);
-                intent.putExtra("MA_DAY", motel.getMaday());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onDelete(Motel motel) {
-                Toast.makeText(Admin_MotelListActivity.this, "Xoá: " + motel.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         fetchMotelsFromApi();
     }
@@ -134,4 +120,3 @@ public class Admin_MotelListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
