@@ -1,5 +1,6 @@
 package com.nhom5.shelhive.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,12 @@ public class PhanAnhAdapter extends RecyclerView.Adapter<PhanAnhAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull PhanAnhAdapter.ViewHolder holder, int position) {
-        PhanAnh item = list.get(position);
-        holder.tvRoom.setText(item.getPhong());
-        holder.tvContent.setText(item.getNoiDung());
-        holder.tvStatus.setText(item.isDaXuLy() ? "Đã xử lý" : "Chưa xử lý");
 
+        PhanAnh item = list.get(position);
+        holder.tvMaPhong.setText("Phòng: " + item.getMaPhong());
+        holder.tvTieuDe.setText("Tiêu đề: " + item.getTieuDe());
+        holder.tvTinhTrang.setText("Tình trạng: " + item.getTinhTrang());
+        Log.d("AdapterDebug", "TinhTrang: " + item.getTinhTrang());
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(item);
@@ -58,13 +60,13 @@ public class PhanAnhAdapter extends RecyclerView.Adapter<PhanAnhAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvRoom, tvContent, tvStatus;
+        TextView tvMaPhong, tvTieuDe, tvTinhTrang;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvRoom = itemView.findViewById(R.id.tv_room);
-            tvContent = itemView.findViewById(R.id.tv_content);
-            tvStatus = itemView.findViewById(R.id.tv_status);
+            tvMaPhong = itemView.findViewById(R.id.tv_room);
+            tvTieuDe = itemView.findViewById(R.id.tv_content);
+            tvTinhTrang = itemView.findViewById(R.id.tv_status);
         }
     }
 }

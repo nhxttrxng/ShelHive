@@ -1,60 +1,73 @@
 package com.nhom5.shelhive.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PhanAnh {
-    private String tieuDe;
-    private String loaiVanDe;
-    private String moTa;
-    private boolean daXuLy;
-    private String phong;
-    private String noiDung;
 
-    public PhanAnh(String phong, String noiDung, boolean daXuLy) {
-        this.phong = phong;
-        this.noiDung = noiDung;
-        this.daXuLy = daXuLy;
-        this.tieuDe = tieuDe;
-        this.loaiVanDe = loaiVanDe;
-        this.moTa = "";
+    @SerializedName("ma_phan_anh")
+    private int ma_phan_anh;
+
+    @SerializedName("ma_phong")
+    private int ma_phong;
+
+    @SerializedName("tieu_de")
+    private String tieu_de;
+
+    @SerializedName("loai_su_co")
+    private String loai_su_co;
+
+    @SerializedName("noi_dung")
+    private String noi_dung;
+
+    @SerializedName("tinh_trang")
+    private String tinh_trang;
+
+    // Getters and Setters
+    public int getMaPhanAnh() {
+        return ma_phan_anh;
     }
 
-    public String getPhong() {
-        return phong;
+    public void setMaPhanAnh(int maPhanAnh) {
+        this.ma_phan_anh = maPhanAnh;
     }
 
-    public String getNoiDung() {
-        return noiDung;
+    public int getMaPhong() {
+        return ma_phong;
     }
 
+    public void setMaPhong(int maPhong) {
+        this.ma_phong = maPhong;
+    }
 
     public String getTieuDe() {
-        return tieuDe;
+        return tieu_de;
     }
 
     public void setTieuDe(String tieuDe) {
-        this.tieuDe = tieuDe;
+        this.tieu_de = tieuDe;
     }
 
-    public String getLoaiVanDe() {
-        return loaiVanDe;
+    public String getLoaiSuCo() {
+        return loai_su_co;
     }
 
-    public void setLoaiVanDe(String loaiVanDe) {
-        this.loaiVanDe = loaiVanDe;
+    public void setLoaiSuCo(String loaiSuCo) {
+        this.loai_su_co = loaiSuCo;
     }
 
-    public String getMoTa() {
-        return moTa;
+    public String getNoiDung() {
+        return noi_dung;
     }
 
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
+    public void setNoiDung(String noiDung) {
+        this.noi_dung = noiDung;
     }
 
-    public boolean isDaXuLy() {
-        return daXuLy;
+    public String getTinhTrang() {
+        return tinh_trang;
     }
 
-    public void setDaXuLy(boolean daXuLy) {
-        this.daXuLy = daXuLy;
+    public void setTinhTrang(String tinhTrang) {
+        this.tinh_trang = tinhTrang;
     }
 }

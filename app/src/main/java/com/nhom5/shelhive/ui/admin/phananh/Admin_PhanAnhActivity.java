@@ -1,55 +1,67 @@
 package com.nhom5.shelhive.ui.admin.phananh;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
-
+import android.widget.Toast;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.adapter.PhanAnhAdapter;
+import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.model.PhanAnh;
-import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Admin_PhanAnhActivity extends AppCompatActivity {
 
     private RecyclerView rvUnresolved, rvResolved;
     private PhanAnhAdapter unresolvedAdapter, resolvedAdapter;
-    private List<PhanAnh> allPhanAnh;
+    private List<PhanAnh> unresolvedList = new ArrayList<>();
+    private List<PhanAnh> resolvedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String email = getIntent().getStringExtra("EMAIL");
+        if (email == null) {
+            SharedPreferences prefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
+            email = prefs.getString("email", null);
+        }
+
+        if (email == null) {
+            Log.e("Admin_PhanAnh", "Không có email trong SharedPreferences!");
+            // Có thể hiển thị thông báo hoặc quay lại màn hình trước
+            finish();
+            return;
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_phananh);
+
         ImageView btnBack = findViewById(R.id.btn_back);
         rvUnresolved = findViewById(R.id.rv_unresolved_feedback);
         rvResolved = findViewById(R.id.rv_resolved_feedback);
 
-        // Thay đổi sự kiện nút back để chuyển sang Admin_PhanAnhNhaTroActivity
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_PhanAnh_NhaTro.class); // thay bằng Activity chính admin của bạn
+            Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_PhanAnh_NhaTro.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
         });
-        allPhanAnh = fakeData(); // lấy dữ liệu giả
-
-        List<PhanAnh> unresolvedList = new ArrayList<>();
-        List<PhanAnh> resolvedList = new ArrayList<>();
-
-        for (PhanAnh p : allPhanAnh) {
-            if (p.isDaXuLy()) {
-                resolvedList.add(p);
-            } else {
-                unresolvedList.add(p);
-            }
-        }
 
         unresolvedAdapter = new PhanAnhAdapter(unresolvedList);
         resolvedAdapter = new PhanAnhAdapter(resolvedList);
@@ -60,24 +72,53 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
         rvResolved.setLayoutManager(new LinearLayoutManager(this));
         rvResolved.setAdapter(resolvedAdapter);
 
+        // Gọi API lấy danh sách phản ánh chưa xử lý
+        fetchPhanAnh("chưa xử lí");
+        fetchPhanAnh("đã xử lí");
+
         unresolvedAdapter.setOnItemClickListener(new PhanAnhAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PhanAnh phanAnh) {
                 Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_XuLiPhanAnhActivity.class);
+                intent.putExtra("ma_phan_anh", phanAnh.getMaPhanAnh());// <-- THÊM DÒNG NÀY
+                intent.putExtra("ma_phong", phanAnh.getMaPhong());// <-- THÊM DÒNG NÀY
                 intent.putExtra("tieu_de", phanAnh.getTieuDe());
-                intent.putExtra("loai_van_de", phanAnh.getLoaiVanDe());
-                intent.putExtra("mo_ta", phanAnh.getMoTa());
+                intent.putExtra("loai_van_de", phanAnh.getLoaiSuCo());
+                intent.putExtra("tinh_trang", phanAnh.getTinhTrang());
+                intent.putExtra("noi_dung", phanAnh.getNoiDung());
+
                 startActivity(intent);
             }
         });
     }
 
-    private List<PhanAnh> fakeData() {
-        List<PhanAnh> list = new ArrayList<>();
-        list.add(new PhanAnh("Phòng 101", "Hư bóng đèn", false));
-        list.add(new PhanAnh("Phòng 102", "Rò rỉ nước", true));
-        list.add(new PhanAnh("Phòng 103", "Hư ổ điện", false));
-        list.add(new PhanAnh("Phòng 104", "Tiếng ồn lớn", true));
-        return list;
+    private void fetchPhanAnh(String tinh_trang) {
+
+        ApiService.apiService.getPhanAnhByTinhTrang(tinh_trang).enqueue(new Callback<List<PhanAnh>>() {
+            @Override
+            public void onResponse(Call<List<PhanAnh>> call, Response<List<PhanAnh>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API_RESPONSE", new Gson().toJson(response.body()));
+                    if (tinh_trang.equalsIgnoreCase("chưa xử lí")) {
+                        unresolvedList.clear();
+                        unresolvedList.addAll(response.body());
+                        unresolvedAdapter.notifyDataSetChanged();
+                    } else {
+                        resolvedList.clear();
+                        resolvedList.addAll(response.body());
+                        resolvedAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Toast.makeText(Admin_PhanAnhActivity.this, "Không có dữ liệu phản ánh", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("URL", call.request().url().toString());
+            }
+
+            @Override
+            public void onFailure(Call<List<PhanAnh>> call, Throwable t) {
+                Toast.makeText(Admin_PhanAnhActivity.this, "Lỗi gọi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

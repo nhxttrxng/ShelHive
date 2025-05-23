@@ -2,7 +2,7 @@ package com.nhom5.shelhive.ui.user.phananh;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,12 +10,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBaoActivity;
-import com.nhom5.shelhive.ui.admin.thongbao.Admin_ThongBao_NhaTro;
-import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
+import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.PhanAnhRequest;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class User_PhanAnhActivity extends AppCompatActivity {
 
@@ -24,66 +29,76 @@ public class User_PhanAnhActivity extends AppCompatActivity {
     private Button btnBaoCao;
     private ImageView btnBack;
     private TextView tvTenPhong;
+    private int maPhong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_phananh);
 
-        // Ánh xạ view
         edtTieuDe = findViewById(R.id.tieu_de_input);
         edtMoTa = findViewById(R.id.mo_ta_input);
         spinnerLoaiVanDe = findViewById(R.id.spinner_loai_van_de);
         btnBaoCao = findViewById(R.id.btn_bao_cao);
         btnBack = findViewById(R.id.btn_back);
         tvTenPhong = findViewById(R.id.tv_motel_name);
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(User_PhanAnhActivity.this, User_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
-        // Thiết lập Spinner
+
+        // Danh sách loại sự cố
         String[] loaiVanDe = {"Điện", "Nước", "Wifi", "Vệ sinh", "Khác"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, loaiVanDe);
         spinnerLoaiVanDe.setAdapter(adapter);
 
-        // Set tên phòng (có thể truyền từ intent)
+        // Nhận dữ liệu từ intent
+        String maPhongStr = getIntent().getStringExtra("maPhong");
         String tenPhong = getIntent().getStringExtra("tenPhong");
-        if (tenPhong != null) {
-            tvTenPhong.setText(tenPhong);
+
+        try {
+            maPhong = Integer.parseInt(maPhongStr);
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi: không xác định được mã phòng", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        // Nút back
+        if (tenPhong != null) {
+            tvTenPhong.setText("Phòng " + tenPhong);
+        }
+
         btnBack.setOnClickListener(v -> finish());
 
-        // Xử lý báo cáo
-        btnBaoCao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tieuDe = edtTieuDe.getText().toString().trim();
-                String loaiVanDe = spinnerLoaiVanDe.getSelectedItem().toString();
-                String moTa = edtMoTa.getText().toString().trim();
+        btnBaoCao.setOnClickListener(v -> {
+            String tieuDe = edtTieuDe.getText().toString().trim();
+            String noiDung = edtMoTa.getText().toString().trim();
+            String loaiSuCo = spinnerLoaiVanDe.getSelectedItem().toString();
 
-                if (tieuDe.isEmpty() || moTa.isEmpty()) {
-                    Toast.makeText(User_PhanAnhActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                    return;
+            if (tieuDe.isEmpty() || noiDung.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập tiêu đề và nội dung phản ánh", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            PhanAnhRequest phanAnh = new PhanAnhRequest(maPhong, tieuDe, loaiSuCo, noiDung);
+
+
+            ApiService.apiService.createPhanAnh(phanAnh).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(User_PhanAnhActivity.this, "Gửi phản ánh thành công!", Toast.LENGTH_LONG).show();
+                        edtTieuDe.setText("");
+                        edtMoTa.setText("");
+                        spinnerLoaiVanDe.setSelection(0);
+                    } else {
+                        Toast.makeText(User_PhanAnhActivity.this, "Gửi thất bại. Thử lại sau!", Toast.LENGTH_LONG).show();
+                        Log.e("PHANANH_API", "Response code: " + response.code());
+                    }
                 }
 
-                // TODO: Gửi dữ liệu đến server qua API
-                // Ở đây chỉ hiển thị Toast mẫu
-                Toast.makeText(User_PhanAnhActivity.this,
-                        "Đã gửi phản ánh:\nTiêu đề: " + tieuDe +
-                                "\nLoại: " + loaiVanDe +
-                                "\nMô tả: " + moTa,
-                        Toast.LENGTH_LONG).show();
-
-                // Reset form nếu muốn
-                edtTieuDe.setText("");
-                edtMoTa.setText("");
-                spinnerLoaiVanDe.setSelection(0);
-            }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(User_PhanAnhActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e("PHANANH_API", "onFailure: " + t.getMessage());
+                }
+            });
         });
     }
 }
-

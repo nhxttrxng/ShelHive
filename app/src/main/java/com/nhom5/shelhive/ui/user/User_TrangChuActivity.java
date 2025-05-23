@@ -164,10 +164,21 @@ public class User_TrangChuActivity extends AppCompatActivity {
 
     private void handleNavigationClick(Class<?> activityClass) {
         if (maPhong != null && !maPhong.trim().isEmpty() && !maPhong.equals("null")) {
-            startActivity(new Intent(User_TrangChuActivity.this, activityClass));
+            Intent intent = new Intent(User_TrangChuActivity.this, activityClass);
+
+            // Truyền maPhong và email nếu là PhanAnhActivity
+            if (activityClass == User_PhanAnhActivity.class) {
+                intent.putExtra("maPhong", maPhong);
+                SharedPreferences prefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
+                String email = prefs.getString("email", null);
+                intent.putExtra("emailNguoiGui", email);  // Optional: truyền email
+            }
+
+            startActivity(intent);
         } else {
             popupLayout.setVisibility(View.VISIBLE);
             popupLayout.bringToFront();
         }
     }
+
 }

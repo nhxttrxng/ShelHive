@@ -1,5 +1,8 @@
 package com.nhom5.shelhive.api;
 
+import com.nhom5.shelhive.model.PhanAnh;
+import com.nhom5.shelhive.model.ThongBao;
+
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +73,20 @@ public interface ApiService {
             @Body Map<String, Object> request
     );
 
+    @GET("/api/reports/{tinh_trang}")
+    Call<List<PhanAnh>> getPhanAnhByTinhTrang(@Path("tinh_trang") String tinhTrang);
 
+    @POST("/api/reports/")
+    Call<ResponseBody> createPhanAnh(@Body PhanAnhRequest phanAnhRequest);
+    //@GET("/api/reports/")
+    //Call<List<PhanAnh>> getAllPhanAnh();
+
+    @PUT("/api/reports/{ma_phan_anh}")
+    Call<ResponseBody> updateTinhTrang(@Path("ma_phan_anh") int id, @Body Map<String, String> body);
+    public interface NotificationApi {
+        @GET("notifications/{user_id}")
+        Call<List<ThongBao>> getThongBaoTheoUser(@Path("user_id") String userId);
+    }
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }
