@@ -90,7 +90,8 @@ public interface ApiService {
     @GET("notifications/phong/{ma_phong}")
     Call<List<ThongBao>> getThongBaoChungTheoPhong(@Path("ma_phong") int ma_phong);
 
-    Call<List<ThongBao>> getThongBaoHoaDonTheoPhong(int maPhong);
+    @GET("invoice-notifications/phong/{ma_phong}")
+    Call<List<ThongBao>> getThongBaoHoaDonTheoPhong(@Path("ma_phong") int ma_phong);
 
     @PUT("users/{email}")
     Call<ResponseBody> updateUser(

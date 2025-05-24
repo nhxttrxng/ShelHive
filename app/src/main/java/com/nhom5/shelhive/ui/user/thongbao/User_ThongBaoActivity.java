@@ -3,6 +3,7 @@ package com.nhom5.shelhive.ui.user.thongbao;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,6 +119,7 @@ public class User_ThongBaoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ThongBao>> call, Throwable t) {
+                Log.e("API_ERROR", "onFailure: " + t.getMessage());
                 Toast.makeText(User_ThongBaoActivity.this, "Lỗi khi lấy thông báo hóa đơn: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
