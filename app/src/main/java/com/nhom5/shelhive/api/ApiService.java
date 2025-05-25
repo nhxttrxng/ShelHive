@@ -6,13 +6,16 @@ import com.nhom5.shelhive.ui.model.ThongBao;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -95,6 +98,29 @@ public interface ApiService {
             @Path("email") String email,
             @Body UpdateUserRequest request
     );
+
+    @PUT("admins/{email}")
+    Call<ResponseBody> updateAdmin(
+            @Path("email") String email,
+            @Body UpdateAdminRequest request
+    );
+
+    @Multipart
+    @POST("users/upload-avt/{email}")
+    Call<ResponseBody> uploadAvatar(
+            @Path("email") String email,
+            @Part MultipartBody.Part image
+    );
+
+    @Multipart
+    @POST("admins/upload-avt/{email}")
+    Call<ResponseBody> uploadAdminAvatar(
+            @Path("email") String email,
+            @Part MultipartBody.Part image
+    );
+
+    @POST("auth/change-password")
+    Call<ResponseBody> changePassword(@Body ChangePasswordRequest request);
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }
