@@ -38,6 +38,8 @@ public class User_TrangChuActivity extends AppCompatActivity {
     private String email = null;
     private View popupLayout;
 
+    private Integer maDay = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,7 @@ public class User_TrangChuActivity extends AppCompatActivity {
 
                         // Thông tin phòng
                         maPhong = String.valueOf(info.getMa_phong());
+                        maDay = info.getMa_day();
                         String tenTro = info.getTen_tro();
                         String diaChi = info.getDia_chi();
 
@@ -164,6 +167,7 @@ public class User_TrangChuActivity extends AppCompatActivity {
         if (maPhong != null && !maPhong.trim().isEmpty() && !maPhong.equals("null")) {
             Intent intent = new Intent(User_TrangChuActivity.this, activityClass);
             intent.putExtra("maPhong", maPhong);
+            intent.putExtra("maDay", maDay);
             if (email != null) {
                 intent.putExtra("email", email);
             }

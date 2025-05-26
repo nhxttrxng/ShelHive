@@ -46,6 +46,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
     private RelativeLayout dateSelector;
     private int selectedMonth = -1;
     private int selectedYear = -1;
+    private int maDay = -1;
 
     // Lưu toàn bộ danh sách bill để lọc theo tab
     private List<Bill> allBills = new ArrayList<>();
@@ -64,6 +65,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         }
         tenantName = intent.getStringExtra("TENANT_NAME");
         if (tenantName == null) tenantName = "Chưa có";
+        maDay = intent.getIntExtra("MA_DAY", -1);
 
         // Ánh xạ view
         tvRoomInfo = findViewById(R.id.tv_room_info);
@@ -97,6 +99,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         billAdapter = new BillAdapter(this, bill -> {
             Intent intent1 = new Intent(this, Admin_ViewBillDetailActivity.class);
             intent1.putExtra("BILL_ID", bill.getId());
+            intent1.putExtra("MA_DAY", maDay);
             startActivity(intent1);
         });
         recyclerViewBills.setAdapter(billAdapter);
@@ -105,6 +108,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         addBillButton.setOnClickListener(v -> {
             Intent intent2 = new Intent(this, Admin_CreateBillActivity.class);
             intent2.putExtra("MA_PHONG", maPhong);
+            intent2.putExtra("MA_DAY", maDay);
             startActivity(intent2);
         });
 

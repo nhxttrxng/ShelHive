@@ -69,6 +69,7 @@
         <activity android:name=".ui.admin.hoadon.Admin_EditBillActivity"/>
         <activity android:name=".ui.admin.hoadon.Admin_ExtendBillActivity"/>
         <activity android:name=".ui.user.hoadon.User_RoomBillDetailActivity"/>
+        <activity android:name=".ui.user.hoadon.User_ViewBillDetailActivity"/>
         <activity android:name=".ui.auth.XacThucMailActivity"/>
         <activity android:name=".ui.user.xacthuc.User_XacThucActivity"/>
         <activity android:name=".ui.user.xacthuc.CameraCCCDActivity"/>

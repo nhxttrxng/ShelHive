@@ -2,11 +2,12 @@ package com.nhom5.shelhive.api;
 
 public class FullUserInfoResponse {
     private String ho_ten;
-
     private String avt;
     private Integer ma_phong;
     private String ten_tro;
     private String dia_chi;
+
+    private int ma_day;
 
     // Getter
     public String getHo_ten() {
@@ -29,6 +30,10 @@ public class FullUserInfoResponse {
         return dia_chi;
     }
 
+    public int getMa_day() {     // <-- Getter cho ma_day
+        return ma_day;
+    }
+
     // Setter
     public void setHo_ten(String ho_ten) {
         this.ho_ten = ho_ten;
@@ -49,5 +54,8 @@ public class FullUserInfoResponse {
     public void setDia_chi(String dia_chi) {
         this.dia_chi = dia_chi;
     }
-}
 
+    public void setMa_day(int ma_day) {  // <-- Setter cho ma_day
+        this.ma_day = ma_day;
+    }
+}

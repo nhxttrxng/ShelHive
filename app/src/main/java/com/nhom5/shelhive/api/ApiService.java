@@ -130,5 +130,8 @@ public interface ApiService {
     @GET("invoices/room/{ma_phong}")
     Call<List<GetBillByRoomResponse>> getBillsByRoom(@Path("ma_phong") int maPhong);
 
+    @GET("motels/{ma_day}")
+    Call<GetMotelByIdResponse> getMotelById(@Path("ma_day") int maDay);
+
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

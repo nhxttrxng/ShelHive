@@ -10,7 +10,7 @@
         android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="#FBE27A">
+        android:background="@drawable/rectangle_17">
 
         <ImageView
             android:id="@+id/btn_back"
@@ -57,6 +57,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:orientation="vertical">
 
             <!-- THÔNG TIN HÓA ĐƠN -->
@@ -169,7 +170,7 @@
                     android:layout_height="24dp"
                     android:checked="true"
                     style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                    android:enabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -179,8 +180,9 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
+                    android:id="@+id/ed_electricity_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3.500 đ/kwh"
@@ -303,7 +305,7 @@
                     android:layout_height="24dp"
                     android:checked="true"
                     style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                    android:enabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -313,12 +315,13 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
+                    android:id="@+id/ed_water_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7.000 đ/m³"
-                    android:textColor="#755200"
+                    android:textColor="@color/darkbrown"
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_regular" />
@@ -437,7 +440,7 @@
                     android:layout_height="24dp"
                     android:checked="true"
                     style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                    android:enabled="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -447,7 +450,7 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
                     android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
@@ -473,7 +476,7 @@
                     android:layout_height="24dp"
                     android:checked="true"
                     style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                    android:enabled="false" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -490,7 +493,7 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:paddingHorizontal="12dp"
-                    android:text="0.5"
+                    android:text="0.0"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_semibold"
                     android:textColor="#755200"
@@ -524,11 +527,12 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
                 <TextView
+                    android:id="@+id/tv_late_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="59 ngày"
+                    android:text="0 ngày"
                     android:textColor="#755200"
                     android:textSize="16sp" />
 
@@ -562,8 +566,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="427.750 đồng"
-                        android:textColor="#D70000"
+                        android:text="0 đồng"
+                        android:textColor="@color/darkbrown"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -634,8 +638,8 @@
                     android:id="@+id/tv_interest_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="427.750 đồng"
-                    android:textColor="#D70000"
+                    android:text="000.0 đồng"
+                    android:textColor="#FF8C00"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
             </LinearLayout>
@@ -662,38 +666,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.877.750 đồng"
-                    android:textColor="#D70000"
+                    android:textColor="#FF8C00"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
             </LinearLayout>
-
-            <!-- Ghi chú -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ghi chú"
-                android:textColor="#755200"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_bold"
-                android:padding="12dp"
-                android:layout_marginTop="16dp" />
-
-            <EditText
-                android:id="@+id/ed_note"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:paddingHorizontal="12dp"
-                android:gravity="top|start"
-                android:paddingTop="8dp"
-                android:hint="Nhập ghi chú..."
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_regular"
-                android:textColor="#755200"
-                android:background="@drawable/border_box"
-                android:enabled="false" />
         </LinearLayout>
     </ScrollView>
 

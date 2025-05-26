@@ -1,142 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nested_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8DB">
+    android:background="#F8F8DB"
+    android:fillViewport="true">
 
-    <!-- Header với nút quay lại và tiêu đề -->
-    <RelativeLayout
-        android:id="@+id/header_container"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/rectangle_17">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="53dp"
-            android:src="@drawable/ic_arrow_back" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="42dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hóa đơn"
-                android:textColor="#755200"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_extra_bold" />
-
-            <TextView
-                android:id="@+id/tv_room_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phòng 1"
-                android:textColor="#755200"
-                android:textSize="14sp"
-                android:fontFamily="@font/nunito_regular" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <!-- Filter bar (Ngày và lọc) -->
     <LinearLayout
-        android:id="@+id/filter_bar"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/header_container"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="16dp">
+        android:layout_height="wrap_content">
 
-        <!-- Thanh chọn ngày -->
+        <!-- Header với nút quay lại và tiêu đề -->
         <RelativeLayout
-            android:id="@+id/date_selector"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/date_border"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="03/02/2025"
-                android:textColor="#755200"
-                android:textSize="14sp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/nunito_regular" />
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/rectangle_17">
 
             <ImageView
+                android:id="@+id/btn_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_calendar"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp" />
-        </RelativeLayout>
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="53dp"
+                android:src="@drawable/ic_arrow_back" />
 
-        <!-- Thanh chọn filter -->
-        <RelativeLayout
-            android:id="@+id/filter_selector"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_box"
-            android:layout_marginStart="8dp">
-
-            <TextView
-                android:id="@+id/tv_filter"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tất cả"
-                android:textColor="#755200"
-                android:textSize="14sp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/nunito_regular" />
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="42dp"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_dropdown"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hóa đơn"
+                    android:textColor="#755200"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nunito_extra_bold" />
+
+                <TextView
+                    android:id="@+id/tv_room_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phòng 1"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/nunito_regular" />
+            </LinearLayout>
         </RelativeLayout>
+
+        <!-- Filter bar (Ngày và lọc) -->
+        <LinearLayout
+            android:id="@+id/filter_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="16dp">
+
+            <!-- Thanh chọn ngày -->
+            <RelativeLayout
+                android:id="@+id/date_selector"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/date_border"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lọc theo tháng năm"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/nunito_regular" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_calendar"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!-- ==== TAB BAR NGANG - chỉ còn 3 tab ==== -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:id="@+id/tab_container"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_centerInParent="true">
+
+                <!-- Tab: Trễ hạn -->
+                <TextView
+                    android:id="@+id/tab_trehan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Trễ hạn"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/tab_unselected_bg"/>
+
+                <!-- Tab: Chưa thanh toán -->
+                <TextView
+                    android:id="@+id/tab_chua_thanhtoan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Chưa Thanh Toán"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/tab_unselected_bg"/>
+
+                <!-- Tab: Đã thanh toán -->
+                <TextView
+                    android:id="@+id/tab_da_thanhtoan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Đã Thanh Toán"
+                    android:textColor="#755200"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_bold"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/tab_unselected_bg"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <!-- ==== END TAB BAR ==== -->
+
+        <!-- Text thông báo khi không có hóa đơn -->
+        <TextView
+            android:id="@+id/tv_no_bills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Không có hóa đơn nào!"
+            android:textAlignment="center"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="24dp"
+            android:visibility="gone"/>
+
+        <!-- RecyclerView để hiển thị danh sách hóa đơn -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_bills"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:padding="8dp"/>
     </LinearLayout>
-
-    <!-- RecyclerView thay cho ScrollView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_bills"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/filter_bar"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"/>
-
-    <!-- Text thông báo khi không có hóa đơn -->
-    <TextView
-        android:id="@+id/tv_no_bills"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Không có hóa đơn nào!"
-        android:textAlignment="center"
-        android:textColor="#755200"
-        android:textSize="16sp"
-        android:fontFamily="@font/nunito_bold"
-        android:padding="24dp"
-        android:visibility="gone"
-        android:layout_below="@id/filter_bar"/>
-
-</RelativeLayout>
+</androidx.core.widget.NestedScrollView>
