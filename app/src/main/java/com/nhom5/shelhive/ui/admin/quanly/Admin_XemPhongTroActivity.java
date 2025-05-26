@@ -13,7 +13,7 @@ import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.ApiServiceWithNull;
 import com.nhom5.shelhive.api.GetRoomInfoResponse;
-import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.ui.model.Room;
 import com.nhom5.shelhive.ui.model.User;
 
 import java.text.DecimalFormat;
@@ -123,7 +123,7 @@ public class Admin_XemPhongTroActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetRoomInfoResponse> call, Response<GetRoomInfoResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Room2 room = response.body().getRoom();
+                    Room room = response.body().getRoom();
                     User user = response.body().getUser();
 
                     // Set dữ liệu phòng

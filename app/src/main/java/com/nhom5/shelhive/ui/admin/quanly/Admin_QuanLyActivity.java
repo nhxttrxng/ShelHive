@@ -40,6 +40,14 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
     private static final int REQUEST_EDIT_MOTEL = 100;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (finalEmail != null) {
+            loadMotelsFromApi(finalEmail, noneMotel);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quanly_nhatro);
@@ -110,7 +118,7 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
             @Override
             public void onDeleteClick(int ma_day) {
                 popupDelete.setVisibility(View.VISIBLE);
-
+                popupDelete.bringToFront();
                 yesButton.setOnClickListener(v -> {
                     ApiService.apiService.deleteDayTro(ma_day).enqueue(new Callback<ResponseBody>() {
                         @Override
@@ -135,22 +143,13 @@ public class Admin_QuanLyActivity extends AppCompatActivity {
             }
         });
 
-        // ✅ Bổ sung xử lý khi click vào item
-        motelAdapter.setOnItemClickListener(maDay -> {
-            // Lấy tên nhà trọ từ danh sách gốc dựa trên maDay
-            String tenTro = null;
-            for (Motel m : motelList) {
-                if (m.getMaday() == maDay) {
-                    tenTro = m.getName();
-                    break;
-                }
-            }
-
+        // ✅ Sửa callback click item: nhận đủ (maDay, tenTro)
+        motelAdapter.setOnItemClickListener((maDay, tenTro) -> {
             Log.d("ITEM_CLICK", "ma_day click: " + maDay + ", ten_tro: " + tenTro);
 
             Intent intent = new Intent(Admin_QuanLyActivity.this, Admin_QuanLyPhongTroActivity.class);
             intent.putExtra("ma_day", maDay);
-            intent.putExtra("ten_tro", tenTro); // ✅ Truyền thêm tên trọ
+            intent.putExtra("ten_tro", tenTro); // ✅ Truyền luôn tên trọ
             intent.putExtra("email", finalEmail);
             startActivity(intent);
         });

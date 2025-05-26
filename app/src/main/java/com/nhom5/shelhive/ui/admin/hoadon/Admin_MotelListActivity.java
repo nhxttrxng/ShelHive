@@ -65,7 +65,7 @@ public class Admin_MotelListActivity extends AppCompatActivity {
         recyclerViewNhaTro.setAdapter(motelAdapter);
 
         // Chỉ click vào dãy để xem danh sách phòng, không có edit/xóa
-        motelAdapter.setOnItemClickListener(maDay -> openRoomList(maDay));
+        motelAdapter.setOnItemClickListener((maDay, tenTro) -> openRoomList(maDay, tenTro));
 
         fetchMotelsFromApi();
     }
@@ -114,9 +114,10 @@ public class Admin_MotelListActivity extends AppCompatActivity {
         }
     }
 
-    private void openRoomList(int maDay) {
+    private void openRoomList(int maDay, String tenTro) {
         Intent intent = new Intent(this, Admin_RoomListActivity.class);
         intent.putExtra("MA_DAY", maDay);
+        intent.putExtra("MOTEL_NAME", tenTro); // <-- Truyền tên nhà trọ
         startActivity(intent);
     }
 }

@@ -1,21 +1,21 @@
 package com.nhom5.shelhive.api;
 
-import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.ui.model.Room;
 import com.nhom5.shelhive.ui.model.User;
 import com.google.gson.annotations.SerializedName;
 
 public class GetRoomInfoResponse {
     @SerializedName("room")
-    private Room2 room;
+    private Room room;
 
     @SerializedName("user")
     private User user;  // Có thể là null nếu phòng chưa có người thuê
 
-    public Room2 getRoom() {
+    public Room getRoom() {
         return room;
     }
 
-    public void setRoom(Room2 room) {
+    public void setRoom(Room room) {
         this.room = room;
     }
 

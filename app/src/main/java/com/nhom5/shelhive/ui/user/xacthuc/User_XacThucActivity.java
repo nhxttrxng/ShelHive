@@ -165,74 +165,181 @@ public class User_XacThucActivity extends AppCompatActivity {
     private HashMap<String, String> extractCCCDInfo(String ocrText) {
         HashMap<String, String> info = new HashMap<>();
         String[] lines = ocrText.split("\\n");
-        // 1. Số CCCD: lấy chuỗi số dài nhất 9-12 số xuất hiện trên toàn văn bản (ưu tiên dòng chứa từ "số" hoặc "no")
+
+        // 1. Số CCCD
         String cccd = null;
+        Pattern cccdPattern = Pattern.compile("\\b\\d{9,12}\\b");
         for (String line : lines) {
             String l = line.toLowerCase();
-            if (l.contains("số") || l.contains("so") || l.contains("só") || l.contains("no")) {
-                Matcher m = Pattern.compile("(\\d{9,12})").matcher(line);
+            if (l.contains("số") || l.contains("no")) {
+                Matcher m = cccdPattern.matcher(line);
                 if (m.find()) {
-                    cccd = m.group(1);
+                    cccd = m.group();
                     break;
                 }
             }
         }
         if (cccd == null) {
-            Matcher m = Pattern.compile("(\\d{9,12})").matcher(ocrText);
-            if (m.find()) cccd = m.group(1);
+            Matcher m = cccdPattern.matcher(ocrText);
+            if (m.find()) cccd = m.group();
         }
         info.put("cccd", cccd);
 
-        // 2. Họ tên: như cũ (tìm dòng sau "họ và tên" hoặc "full name", ghép dòng nếu IN HOA)
+        // 2. Họ tên
+        String name = null;
         for (int i = 0; i < lines.length; i++) {
-            String line = lines[i].toLowerCase();
-            if (line.contains("họ và tên") || line.contains("full name")) {
-                String ten = "";
-                if (i + 1 < lines.length) ten = lines[i + 1].trim();
-                if (i + 2 < lines.length && lines[i + 2].trim().matches("[A-ZÀ-Ỹ ]{3,}"))
-                    ten += " " + lines[i + 2].trim();
-                ten = ten.replaceAll("^[^A-ZÀ-Ỹ]*", "");
-                info.put("name", ten.trim());
+            String l = lines[i].toLowerCase();
+            if (l.contains("họ và tên") || l.contains("full name")) {
+                String afterColon = getAfterColon(lines[i]);
+                if (afterColon != null && isNameCandidate(afterColon))
+                    name = afterColon;
+                else if (i + 1 < lines.length && isNameCandidate(lines[i + 1]))
+                    name = lines[i + 1].trim();
                 break;
             }
         }
+        // Lọc lỗi dính từ Việt Nam hoặc null
+        if (name == null || name.equalsIgnoreCase("VIỆT NAM")) {
+            for (String line : lines) {
+                if (isNameCandidate(line)) {
+                    name = line.trim();
+                    break;
+                }
+            }
+        }
+        info.put("name", name);
 
-        // 3. Ngày sinh: lấy date đầu tiên đúng định dạng
-        Matcher dobMatcher = Pattern.compile("([0-9]{2}/[0-9]{2}/[0-9]{4})").matcher(ocrText);
-        if (dobMatcher.find()) info.put("birthday", dobMatcher.group(1));
+        // 3. Ngày sinh
+        String birthday = null;
+        Pattern datePattern = Pattern.compile("(\\d{2}/\\d{2}/\\d{4})");
+        for (int i = 0; i < lines.length; i++) {
+            String l = lines[i].toLowerCase();
+            if (l.contains("ngày sinh") || l.contains("date of birth")) {
+                Matcher m = datePattern.matcher(lines[i]);
+                if (m.find()) {
+                    birthday = m.group(1);
+                    break;
+                }
+                // Dòng sau
+                if (i + 1 < lines.length) {
+                    Matcher m2 = datePattern.matcher(lines[i + 1]);
+                    if (m2.find()) {
+                        birthday = m2.group(1);
+                        break;
+                    }
+                }
+            }
+        }
+        if (birthday == null) {
+            for (String line : lines) {
+                Matcher m = datePattern.matcher(line);
+                if (m.find()) {
+                    String d = m.group(1);
+                    try {
+                        int year = Integer.parseInt(d.split("/")[2]);
+                        if (year < 2020) {
+                            birthday = d;
+                            break;
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }
+        }
+        info.put("birthday", birthday);
 
         // 4. Giới tính
-        Pattern sexPattern = Pattern.compile("Giới tính[^:]*[:\\s]*([A-Za-zÀ-ỹ]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-        Matcher sexMatcher = sexPattern.matcher(ocrText);
-        if (sexMatcher.find()) {
-            info.put("sex", sexMatcher.group(1).replaceAll("Quốc.*", "").trim());
-        } else {
-            Pattern sexPatternEn = Pattern.compile("Sex[^:]*[:\\s]*([A-Za-zÀ-ỹ]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-            Matcher sexMatcherEn = sexPatternEn.matcher(ocrText);
-            if (sexMatcherEn.find()) {
-                info.put("sex", sexMatcherEn.group(1).trim());
+        String sex = null;
+        Pattern sexPattern = Pattern.compile("(Nam|Nữ|Nử|Male|Female)", Pattern.CASE_INSENSITIVE);
+        for (int i = 0; i < lines.length; i++) {
+            String l = lines[i].toLowerCase();
+            if (l.contains("giới tính") || l.contains("sex")) {
+                Matcher m = sexPattern.matcher(lines[i]);
+                if (m.find()) {
+                    sex = m.group(1);
+                } else if (i + 1 < lines.length) {
+                    Matcher m2 = sexPattern.matcher(lines[i + 1]);
+                    if (m2.find()) {
+                        sex = m2.group(1);
+                    }
+                }
+                break;
             }
         }
+        info.put("sex", sex);
 
-        // 5. Quê quán
-        Pattern quequanPattern = Pattern.compile("(Quê quán|Place of origin)[^:]*[:\\s]*([^\n]+)", Pattern.CASE_INSENSITIVE);
-        Matcher quequanMatcher = quequanPattern.matcher(ocrText);
-        if (quequanMatcher.find()) {
-            info.put("quequan", quequanMatcher.group(2).trim());
-        }
-
-        // 6. Nơi thường trú
-        Pattern addressPattern = Pattern.compile("(Nơi thường trú|Place of residence)[^:]*[:\\s]*([^\n]+)\\n*([^\n]*)", Pattern.CASE_INSENSITIVE);
-        Matcher addressMatcher = addressPattern.matcher(ocrText);
-        if (addressMatcher.find()) {
-            String diaChi = addressMatcher.group(2).trim();
-            if (addressMatcher.groupCount() >= 3) {
-                String nextLine = addressMatcher.group(3).trim();
-                if (!nextLine.isEmpty() && !nextLine.toLowerCase().matches("^[a-z /:]{3,}.*"))
-                    diaChi += " " + nextLine;
+        // 5. Quê quán (label chung dòng hoặc dòng sau, value không phải label, lấy luôn value ngắn nếu nhận diện không ra)
+        String quequan = null;
+        for (int i = 0; i < lines.length; i++) {
+            String l = lines[i].toLowerCase();
+            if (l.contains("quê quán") || l.contains("place of origin")) {
+                String afterColon = getAfterColon(lines[i]);
+                if (afterColon != null && !isLabelLine(afterColon)) {
+                    quequan = afterColon;
+                } else if (i + 1 < lines.length && !isLabelLine(lines[i + 1])) {
+                    quequan = lines[i + 1].trim();
+                }
+                break;
             }
-            info.put("address", diaChi.trim());
         }
+        // Bổ sung: Nếu vẫn null, tìm dòng có địa danh (dùng regex cho các tỉnh/thành)
+        if (quequan == null || isLabelLine(quequan)) {
+            for (String line : lines) {
+                if (line.matches(".*(An Giang|Long An|Thanh Hóa|Nghệ An|Quảng Nam|Bình Dương|Gia Lai|Bến Cát|Hồ Chí Minh).*") && line.length() > 6 && !isLabelLine(line)) {
+                    quequan = line.trim();
+                    break;
+                }
+            }
+        }
+        info.put("quequan", quequan);
+
+        // 6. Địa chỉ (gom tối đa 2 dòng sau label, chỉ nếu không phải label, không bị rác)
+        String address = null;
+        for (int i = 0; i < lines.length; i++) {
+            String l = lines[i].toLowerCase();
+            if (l.contains("nơi thường trú") || l.contains("place of residence")) {
+                StringBuilder addressBuilder = new StringBuilder();
+                String afterColon = getAfterColon(lines[i]);
+                if (afterColon != null && !isLabelLine(afterColon)) {
+                    addressBuilder.append(afterColon);
+                }
+                int lineCount = 0;
+                for (int j = i + 1; j < lines.length && lineCount < 2; j++) {
+                    if (!isLabelLine(lines[j]) && lines[j].length() > 5) {
+                        if (addressBuilder.length() > 0) addressBuilder.append(", ");
+                        addressBuilder.append(lines[j].trim());
+                        lineCount++;
+                    }
+                }
+                address = addressBuilder.length() > 0 ? addressBuilder.toString().replaceAll(",\\s*$", "") : null;
+                break;
+            }
+        }
+        // Fallback: lấy dòng cuối nếu không ra
+        if ((address == null || isLabelLine(address)) && lines.length > 2) {
+            address = lines[lines.length - 1].trim();
+        }
+        info.put("address", address);
+
         return info;
+    }
+
+    // Hàm phụ trợ phải nằm ngoài extractCCCDInfo
+    private String getAfterColon(String line) {
+        if (line == null) return null;
+        int idx = line.indexOf(":");
+        if (idx == -1) idx = line.indexOf("：");
+        if (idx != -1 && idx + 1 < line.length()) {
+            String result = line.substring(idx + 1).trim();
+            return result.isEmpty() ? null : result;
+        }
+        return null;
+    }
+    private boolean isLabelLine(String line) {
+        if (line == null) return false;
+        String l = line.toLowerCase();
+        return l.matches(".*(số|no|họ và tên|full name|ngày sinh|date of birth|giới tính|sex|quê quán|place of origin|nơi thường trú|place of residence|quốc tịch|nationality).*");
+    }
+    private boolean isNameCandidate(String line) {
+        return line != null && line.matches("[A-ZÀ-Ỹ\\s]{8,}") && !line.equals("VIỆT NAM") && !isLabelLine(line);
     }
 }

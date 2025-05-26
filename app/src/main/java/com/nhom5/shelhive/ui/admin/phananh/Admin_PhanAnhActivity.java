@@ -1,19 +1,20 @@
 package com.nhom5.shelhive.ui.admin.phananh;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.ui.common.adapter.PhanAnhAdapter;
+import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.ui.model.PhanAnh;
 
 import java.util.ArrayList;
@@ -29,33 +30,35 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
     private PhanAnhAdapter unresolvedAdapter, resolvedAdapter;
     private List<PhanAnh> unresolvedList = new ArrayList<>();
     private List<PhanAnh> resolvedList = new ArrayList<>();
-    private int maDay;
-
-    private final ActivityResultLauncher<Intent> xuLiPhanAnhLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    // ✅ Load lại danh sách nếu phản ánh đã được xử lý
-                    fetchPhanAnhTheoDay(maDay);
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_phananh);
+        String email = getIntent().getStringExtra("EMAIL");
+        if (email == null) {
+            SharedPreferences prefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
+            email = prefs.getString("email", null);
+        }
 
-        maDay = getIntent().getIntExtra("MA_DAY", -1);
-        if (maDay == -1) {
-            Toast.makeText(this, "Không tìm thấy mã dãy", Toast.LENGTH_SHORT).show();
+        if (email == null) {
+            Log.e("Admin_PhanAnh", "Không có email trong SharedPreferences!");
+            // Có thể hiển thị thông báo hoặc quay lại màn hình trước
             finish();
             return;
         }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.admin_phananh);
 
         ImageView btnBack = findViewById(R.id.btn_back);
         rvUnresolved = findViewById(R.id.rv_unresolved_feedback);
         rvResolved = findViewById(R.id.rv_resolved_feedback);
 
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_PhanAnh_NhaTro.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
 
         unresolvedAdapter = new PhanAnhAdapter(unresolvedList);
         resolvedAdapter = new PhanAnhAdapter(resolvedList);
@@ -66,47 +69,53 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
         rvResolved.setLayoutManager(new LinearLayoutManager(this));
         rvResolved.setAdapter(resolvedAdapter);
 
-        fetchPhanAnhTheoDay(maDay);
+        // Gọi API lấy danh sách phản ánh chưa xử lý
+        fetchPhanAnh("chưa xử lí");
+        fetchPhanAnh("đã xử lí");
 
-        unresolvedAdapter.setOnItemClickListener(phanAnh -> {
-            Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_XuLiPhanAnhActivity.class);
-            intent.putExtra("ma_phan_anh", phanAnh.getMaPhanAnh());
-            intent.putExtra("ma_phong", phanAnh.getMaPhong());
-            intent.putExtra("tieu_de", phanAnh.getTieuDe());
-            intent.putExtra("loai_van_de", phanAnh.getLoaiSuCo());
-            intent.putExtra("tinh_trang", phanAnh.getTinhTrang());
-            intent.putExtra("noi_dung", phanAnh.getNoiDung());
+        unresolvedAdapter.setOnItemClickListener(new PhanAnhAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PhanAnh phanAnh) {
+                Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_XuLiPhanAnhActivity.class);
+                intent.putExtra("ma_phan_anh", phanAnh.getMaPhanAnh());// <-- THÊM DÒNG NÀY
+                intent.putExtra("ma_phong", phanAnh.getMaPhong());// <-- THÊM DÒNG NÀY
+                intent.putExtra("tieu_de", phanAnh.getTieuDe());
+                intent.putExtra("loai_van_de", phanAnh.getLoaiSuCo());
+                intent.putExtra("tinh_trang", phanAnh.getTinhTrang());
+                intent.putExtra("noi_dung", phanAnh.getNoiDung());
 
-            // ✅ Mở activity xử lý và chờ kết quả
-            xuLiPhanAnhLauncher.launch(intent);
+                startActivity(intent);
+            }
         });
     }
 
-    private void fetchPhanAnhTheoDay(int maDay) {
-        ApiService.apiService.getByMaDay(maDay).enqueue(new Callback<List<PhanAnh>>() {
+    private void fetchPhanAnh(String tinh_trang) {
+
+        ApiService.apiService.getPhanAnhByTinhTrang(tinh_trang).enqueue(new Callback<List<PhanAnh>>() {
             @Override
             public void onResponse(Call<List<PhanAnh>> call, Response<List<PhanAnh>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    unresolvedList.clear();
-                    resolvedList.clear();
-                    for (PhanAnh item : response.body()) {
-                        if (item.getTinhTrang().equalsIgnoreCase("chưa xử lí")) {
-                            unresolvedList.add(item);
-                        } else {
-                            resolvedList.add(item);
-                        }
+                    Log.d("API_RESPONSE", new Gson().toJson(response.body()));
+                    if (tinh_trang.equalsIgnoreCase("chưa xử lí")) {
+                        unresolvedList.clear();
+                        unresolvedList.addAll(response.body());
+                        unresolvedAdapter.notifyDataSetChanged();
+                    } else {
+                        resolvedList.clear();
+                        resolvedList.addAll(response.body());
+                        resolvedAdapter.notifyDataSetChanged();
                     }
-                    unresolvedAdapter.notifyDataSetChanged();
-                    resolvedAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(Admin_PhanAnhActivity.this, "Không có dữ liệu phản ánh", Toast.LENGTH_SHORT).show();
                 }
+                Log.d("URL", call.request().url().toString());
             }
 
             @Override
             public void onFailure(Call<List<PhanAnh>> call, Throwable t) {
-                Toast.makeText(Admin_PhanAnhActivity.this, "Lỗi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Admin_PhanAnhActivity.this, "Lỗi gọi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }
