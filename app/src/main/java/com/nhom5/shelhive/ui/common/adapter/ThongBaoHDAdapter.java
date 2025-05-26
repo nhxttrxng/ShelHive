@@ -12,21 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.ui.admin.thongbao.Admin_XoaThongBaoActivity;
 import com.nhom5.shelhive.ui.model.ThongBao;
+import com.nhom5.shelhive.ui.model.ThongBaoHoaDon;
 
 import java.util.List;
 
-public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHolder> {
-    private List<ThongBao> thongBaoList;
+public class ThongBaoHDAdapter extends RecyclerView.Adapter<ThongBaoHDAdapter.ViewHolder> {
+    private List<ThongBaoHoaDon> thongBaoHoaDonList;
     private final Context context;
     private final ItemClickListener itemClickListener;
 
     // Interface để lắng nghe sự kiện click, trả về đối tượng ThongBao
     public interface ItemClickListener {
-        void onItemClick(ThongBao thongBao);
+        void onItemClick(ThongBaoHoaDon thongBao);
     }
 
-    public ThongBaoAdapter(List<ThongBao> thongBaoList, Context context, ItemClickListener itemClickListener) {
-        this.thongBaoList = thongBaoList;
+    public ThongBaoHDAdapter(List<ThongBaoHoaDon> thongBaoList, Context context, ItemClickListener itemClickListener) {
+        this.thongBaoHoaDonList = thongBaoList;
         this.context = context;
         this.itemClickListener = itemClickListener;
     }
@@ -39,8 +40,8 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ThongBao thongBao = thongBaoList.get(position);
-        holder.textView.setText(thongBao.getNoiDung());
+        ThongBaoHoaDon thongBao = thongBaoHoaDonList.get(position);
+        holder.textView.setText(thongBao.getNoi_dung());
 
         holder.itemView.setOnClickListener(v -> {
             if (itemClickListener != null) {
@@ -52,11 +53,11 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return thongBaoList.size();
+        return thongBaoHoaDonList.size();
     }
 
-    public void capNhatDuLieu(List<ThongBao> newThongBaoList) {
-        this.thongBaoList = newThongBaoList;
+    public void capNhatDuLieu(List<ThongBaoHoaDon> newThongBaoList) {
+        this.thongBaoHoaDonList = newThongBaoList;
         notifyDataSetChanged();
     }
 

@@ -3,6 +3,7 @@ package com.nhom5.shelhive.api;
 import com.nhom5.shelhive.ui.model.PhanAnh;
 import com.nhom5.shelhive.ui.model.ThongBao;
 import com.nhom5.shelhive.ui.model.Bill;
+import com.nhom5.shelhive.ui.model.ThongBaoHoaDon;
 
 
 import java.util.List;
@@ -123,12 +124,40 @@ public interface ApiService {
 
     @POST("auth/change-password")
     Call<ResponseBody> changePassword(@Body ChangePasswordRequest request);
-
+    @GET("notifications/phong/{ma_phong}")
+    Call<ThongBaoResponse1> getThongBaoChungTheoPhong(@Path("ma_phong") int ma_phong);
     @GET("invoices/{invoiceId}")
     Call<Bill> getInvoiceById(@Path("invoiceId") int invoiceId);
 
     @GET("invoices/room/{ma_phong}")
     Call<List<GetBillByRoomResponse>> getBillsByRoom(@Path("ma_phong") int maPhong);
+    @GET("invoice-notifications/phong/{ma_phong}")
+    Call<ThongBaoHoaDonResponse1> getThongBaoHoaDonTheoPhong(@Path("ma_phong") int ma_phong);
+    @POST("notifications/")
+    Call<ThongBaoRequest> taoThongBao(@Body ThongBaoRequest thongBao);
+    // Xóa thông báo
+    @DELETE("notifications/{ma_thong_bao}")
+    Call<Void> xoaThongBao(@Path("ma_thong_bao") int maThongBao);
+
+    // Sửa thông báo
+    @PUT("notifications/{ma_thong_bao}")
+    Call<Void> suaThongBao(
+            @Path("ma_thong_bao") int maThongBao,
+            @Body Map<String, Object> requestBody
+    );
+    // Sửa thông báo hd
+    @PUT("invoice-notifications/{ma_thong_bao_hoa_don}")
+    Call<Void> suaThongBaoHoaDon(
+            @Path("ma_thong_bao_hoa_don") int maThongBaoHD,
+            @Body Map<String, Object> requestBody
+    );
+    // Xóa thông báo hd
+    @DELETE("invoice-notifications/{ma_thong_bao_hoa_don}")
+    Call<Void> xoaThongBaoHoaDon(@Path("ma_thong_bao_hoa_don") int maThongBaoHD);
+    @GET("notifications/day/{ma_day}")
+    Call<ThongBaoResponse> getThongBaoByMaDay(@Path("ma_day") int maDay);
+    @GET("invoice-notifications/day/{ma_day}")
+    Call<List<ThongBaoHoaDon>> getThongBaoHoaDonByMaDay(@Path("ma_day") int maDay);
 
     @GET("motels/{ma_day}")
     Call<GetMotelByIdResponse> getMotelById(@Path("ma_day") int maDay);

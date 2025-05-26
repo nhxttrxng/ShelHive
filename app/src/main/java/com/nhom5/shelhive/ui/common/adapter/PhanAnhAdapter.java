@@ -45,7 +45,7 @@ public class PhanAnhAdapter extends RecyclerView.Adapter<PhanAnhAdapter.ViewHold
         PhanAnh item = list.get(position);
         holder.tvMaPhong.setText("Phòng: " + item.getMaPhong());
         holder.tvTieuDe.setText("Tiêu đề: " + item.getTieuDe());
-        holder.tvTinhTrang.setText("Tình trạng: " + item.getTinhTrang());
+        holder.tvTinhTrang.setText(item.getTinhTrang());
         Log.d("AdapterDebug", "TinhTrang: " + item.getTinhTrang());
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
