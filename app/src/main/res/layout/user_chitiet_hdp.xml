@@ -116,7 +116,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!-- RecyclerView để hiển thị danh sách hóa đơn -->
+    <!-- RecyclerView thay cho ScrollView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_bills"
         android:layout_width="match_parent"
@@ -138,17 +138,5 @@
         android:padding="24dp"
         android:visibility="gone"
         android:layout_below="@id/filter_bar"/>
-
-    <!-- Nút thêm hóa đơn mới -->
-    <ImageView
-        android:id="@+id/add_bill_button"
-        android:src="@drawable/ic_add_bill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="Thêm hóa đơn mới" />
 
 </RelativeLayout>

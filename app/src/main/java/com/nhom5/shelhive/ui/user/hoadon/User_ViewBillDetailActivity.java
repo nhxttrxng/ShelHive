@@ -1,4 +1,4 @@
-package com.nhom5.shelhive.ui.admin.hoadon;
+package com.nhom5.shelhive.ui.user.hoadon;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Admin_ViewBillDetailActivity extends AppCompatActivity {
+public class User_ViewBillDetailActivity extends AppCompatActivity {
 
     private int billId;
 
@@ -27,12 +27,12 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
             edWaterOld, edWaterNew, edInterestRate, edNote;
     private CheckBox cbElectricity, cbWater, cbRoom, cbInterest, cbLateFee;
 
-    private Button btnRemind, btnExtend, btnEdit;
+    private Button btnRemind, btnExtend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_xem_hdp);
+        setContentView(R.layout.user_xem_hdp);
 
         billId = getIntent().getIntExtra("BILL_ID", -1);
 
@@ -42,15 +42,11 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         btnRemind.setOnClickListener(v -> {
-            // Xử lý logic nhắc nhở hóa đơn
+            // Xử lý logic nhắc nhở
         });
 
         btnExtend.setOnClickListener(v -> {
-            // Xử lý logic gia hạn hóa đơn
-        });
-
-        btnEdit.setOnClickListener(v -> {
-            // Xử lý logic chỉnh sửa hóa đơn
+            // Xử lý logic gia hạn
         });
 
         loadBillDetail(billId);
@@ -82,7 +78,6 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
 
         btnRemind = findViewById(R.id.btn_remind);
         btnExtend = findViewById(R.id.btn_extend);
-        btnEdit = findViewById(R.id.btn_edit);
     }
 
     private void loadBillDetail(int billId) {
@@ -114,7 +109,7 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         edWaterOld.setText(String.valueOf(bill.getWaterOldIndex()));
         edWaterNew.setText(String.valueOf(bill.getWaterNewIndex()));
         edInterestRate.setText(String.valueOf(bill.getExtensionFee()));
-        edNote.setText(""); // Set nếu có ghi chú
+        edNote.setText(""); // Giả sử có ghi chú từ server thì set ở đây
 
         tvElectricityTotal.setText(String.format("%,.0f đ", bill.getElectricityAmount()));
         tvWaterTotal.setText(String.format("%,.0f đ", bill.getWaterAmount()));
