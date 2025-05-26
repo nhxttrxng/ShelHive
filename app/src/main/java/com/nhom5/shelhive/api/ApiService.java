@@ -67,7 +67,7 @@ public interface ApiService {
     Call<GetUserResponse> getUserByEmail(@Path("email") String email);
 
     @GET("rooms/day/{ma_day}")
-    Call<List<GetRoom2Response>> getRoomsByMaDay(@Path("ma_day") int ma_day);
+    Call<List<GetRoomResponse>> getRoomsByMaDay(@Path("ma_day") int ma_day);
 
     @GET("rooms/{ma_phong}")
     Call<GetRoomInfoResponse> getRoomInfoByMaPhong(@Path("ma_phong") int maPhong);
@@ -124,11 +124,11 @@ public interface ApiService {
     @POST("auth/change-password")
     Call<ResponseBody> changePassword(@Body ChangePasswordRequest request);
 
-    @GET("invoices/room/{roomId}")
-    Call<List<Bill>> getInvoicesByRoom(@Path("roomId") int roomId);
-
     @GET("invoices/{invoiceId}")
     Call<Bill> getInvoiceById(@Path("invoiceId") int invoiceId);
+
+    @GET("invoices/room/{ma_phong}")
+    Call<List<GetBillByRoomResponse>> getBillsByRoom(@Path("ma_phong") int maPhong);
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

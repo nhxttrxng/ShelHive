@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.GetBillByRoomResponse;
 import com.nhom5.shelhive.ui.common.adapter.BillAdapter;
 import com.nhom5.shelhive.ui.model.Bill;
 
@@ -31,7 +32,7 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
     private TextView tvRoomInfo;
     private ImageView btnBack;
     private RecyclerView recyclerViewBills;
-    private LinearLayout emptyView;
+    private TextView emptyView;
     private BillAdapter billAdapter;
 
     @Override
@@ -46,8 +47,8 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
         // Ánh xạ view
         tvRoomInfo = findViewById(R.id.tv_room_info);
         btnBack = findViewById(R.id.btn_back);
-        recyclerViewBills = findViewById(R.id.recyclerViewBills);
-        emptyView = findViewById(R.id.empty_view);
+        recyclerViewBills = findViewById(R.id.recycler_bills);
+        emptyView = findViewById(R.id.tv_no_bills);
 
         tvRoomInfo.setText("Phòng " + roomId + " - " + tenantName);
 
@@ -66,11 +67,13 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
     }
 
     private void loadBillsForRoom(int roomId) {
-        ApiService.apiService.getInvoicesByRoom(roomId).enqueue(new Callback<List<Bill>>() {
+        // Gọi API, nếu trả về List<GetBillByRoomResponse>
+        ApiService.apiService.getBillsByRoom(roomId).enqueue(new Callback<List<GetBillByRoomResponse>>() {
             @Override
-            public void onResponse(Call<List<Bill>> call, Response<List<Bill>> response) {
+            public void onResponse(Call<List<GetBillByRoomResponse>> call, Response<List<GetBillByRoomResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Bill> bills = response.body();
+                    // Convert sang List<Bill>
+                    List<Bill> bills = Bill.fromGetBillByRoomResponseList(response.body());
                     if (!bills.isEmpty()) {
                         billAdapter.setBills(bills);
                         recyclerViewBills.setVisibility(View.VISIBLE);
@@ -86,7 +89,7 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Bill>> call, Throwable t) {
+            public void onFailure(Call<List<GetBillByRoomResponse>> call, Throwable t) {
                 Log.e("API_ERROR", "Lỗi khi lấy hóa đơn: " + t.getMessage());
                 recyclerViewBills.setVisibility(View.GONE);
                 emptyView.setVisibility(View.VISIBLE);

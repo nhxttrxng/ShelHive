@@ -57,13 +57,14 @@ public class Admin_PhanAnh_NhaTro extends AppCompatActivity {
         }
 
         motelAdapter = new MotelAdapter(this, nhaTroList);
-        motelAdapter.setOnItemClickListener(maDay -> openRoomList(maDay)); // sửa ở đây
+        motelAdapter.setOnItemClickListener((maDay, tenTro) -> openRoomList(maDay, tenTro));
         recyclerViewNhaTro.setAdapter(motelAdapter);
     }
 
-    private void openRoomList(int maDay) { // sửa kiểu tham số
+    private void openRoomList(int maDay, String tenTro) { // sửa kiểu tham số
         Intent intent = new Intent(this, Admin_PhanAnhActivity.class);
         intent.putExtra("MA_DAY", maDay); // truyền đúng key
+        intent.putExtra("MOTEL_NAME", tenTro);
         startActivity(intent);
     }
 }

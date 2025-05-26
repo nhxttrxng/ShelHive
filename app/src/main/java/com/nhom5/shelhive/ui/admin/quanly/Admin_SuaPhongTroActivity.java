@@ -1,7 +1,6 @@
 package com.nhom5.shelhive.ui.admin.quanly;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,7 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +22,7 @@ import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.ApiServiceWithNull;
 import com.nhom5.shelhive.api.GetRoomInfoResponse;
 import com.nhom5.shelhive.api.GetUserResponse;
-import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.ui.model.Room;
 import com.nhom5.shelhive.ui.model.User;
 
 import java.text.DecimalFormat;
@@ -216,7 +214,7 @@ public class Admin_SuaPhongTroActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetRoomInfoResponse> call, Response<GetRoomInfoResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Room2 room = response.body().getRoom();
+                    Room room = response.body().getRoom();
                     User user = response.body().getUser();
                     if (room != null) {
                         editName.setText(room.getGia_thue() != null ? formatCurrency(room.getGia_thue().longValue()) : "");

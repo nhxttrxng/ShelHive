@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daimajia.swipe.SwipeLayout; // Import SwipeLayout
+import com.daimajia.swipe.SwipeLayout;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.ui.model.Motel;
 
@@ -24,13 +24,14 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
     private OnItemClickListener itemClickListener;
     private OnActionClickListener actionClickListener;
 
+    // Sửa interface: Trả về cả maDay và tenTro
     public interface OnItemClickListener {
-        void onItemClick(int maDay);  // truyền ma_day
+        void onItemClick(int maDay, String tenTro);
     }
 
     public interface OnActionClickListener {
         void onEditClick(Motel motel, int position);
-        void onDeleteClick(int maDay); // Chỉ truyền maDay thay vì Motel
+        void onDeleteClick(int maDay);
     }
 
     public MotelAdapter(Context context, List<Motel> motelList) {
@@ -64,27 +65,24 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         holder.nameTextView.setText(motel.getName());
         holder.addressTextView.setText(motel.getAddress());
 
-        // Click vào item tổng thể
+        // Truyền cả maDay và tenTro vào callback khi click
         holder.itemContainer.setOnClickListener(v -> {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(motel.getMaday());
+                itemClickListener.onItemClick(motel.getMaday(), motel.getName());
             }
         });
 
-        // Click nút sửa
         holder.btnEdit.setOnClickListener(v -> {
             if (actionClickListener != null) {
                 actionClickListener.onEditClick(motel, position);
-                holder.swipeLayout.close(true); // Đóng SwipeLayout sau khi click
+                holder.swipeLayout.close(true);
             }
         });
 
-        // Click nút xoá
         holder.btnDelete.setOnClickListener(v -> {
             if (actionClickListener != null) {
-                // Truyền ma_day vào phương thức onDeleteClick
                 actionClickListener.onDeleteClick(motel.getMaday());
-                holder.swipeLayout.close(true); // Đóng SwipeLayout sau khi click
+                holder.swipeLayout.close(true);
             }
         });
     }
@@ -98,7 +96,7 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
         SwipeLayout swipeLayout;
         TextView nameTextView, addressTextView;
         AppCompatButton btnEdit, btnDelete;
-        View itemContainer; // THÊM DÒNG NÀY
+        View itemContainer;
 
         public MotelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +105,7 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
             addressTextView = itemView.findViewById(R.id.text_address);
             btnEdit = itemView.findViewById(R.id.btn_edit);
             btnDelete = itemView.findViewById(R.id.btn_delete);
-            itemContainer = itemView.findViewById(R.id.item_container); // THÊM DÒNG NÀY
+            itemContainer = itemView.findViewById(R.id.item_container);
         }
     }
 }

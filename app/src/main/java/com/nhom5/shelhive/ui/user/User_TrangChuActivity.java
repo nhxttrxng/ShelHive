@@ -22,7 +22,7 @@ import com.nhom5.shelhive.api.FullUserInfoResponse;
 import com.nhom5.shelhive.ui.auth.DangNhapActivity;
 import com.nhom5.shelhive.ui.common.customviews.CustomTypefaceSpan;
 import com.nhom5.shelhive.ui.common.customviews.HexagonImageView;
-import com.nhom5.shelhive.ui.user.hoadon.User_MotelListActivity;
+import com.nhom5.shelhive.ui.user.hoadon.User_RoomBillDetailActivity;
 import com.nhom5.shelhive.ui.user.phananh.User_PhanAnhActivity;
 import com.nhom5.shelhive.ui.user.thongbao.User_ThongBaoActivity;
 import com.nhom5.shelhive.ui.user.thongke.User_ThongKeActivity;
@@ -129,7 +129,7 @@ public class User_TrangChuActivity extends AppCompatActivity {
         }
 
         // Dùng chung một hàm truyền cả maPhong và email cho tất cả activity
-        hoadon.setOnClickListener(v -> startActivityWithPhongVaEmail(User_MotelListActivity.class));
+        hoadon.setOnClickListener(v -> startActivityWithPhongVaEmail(User_RoomBillDetailActivity.class));
         thongbao.setOnClickListener(v -> startActivityWithPhongVaEmail(User_ThongBaoActivity.class));
         phananh.setOnClickListener(v -> startActivityWithPhongVaEmail(User_PhanAnhActivity.class));
         thongke.setOnClickListener(v -> startActivityWithPhongVaEmail(User_ThongKeActivity.class));

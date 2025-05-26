@@ -1,6 +1,9 @@
 package com.nhom5.shelhive.ui.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.nhom5.shelhive.api.GetBillByRoomResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bill {
 
@@ -70,7 +73,7 @@ public class Bill {
     @SerializedName("thang_nam")
     private String billMonthYear;
 
-    // Getter và Setter
+    // ==== GETTER & SETTER ====
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -136,4 +139,50 @@ public class Bill {
 
     public String getBillMonthYear() { return billMonthYear; }
     public void setBillMonthYear(String billMonthYear) { this.billMonthYear = billMonthYear; }
+
+    // ==== CONVERTER FROM GetBillByRoomResponse ====
+    public static Bill fromGetBillByRoomResponse(GetBillByRoomResponse res) {
+        Bill bill = new Bill();
+        bill.setId(res.getMaHoaDon());
+        bill.setRoomId(res.getMaPhong());
+        bill.setAmount(parseDouble(res.getTongTien()));
+        bill.setElectricityUsed(res.getSoDien());
+        bill.setWaterUsed(res.getSoNuoc());
+        bill.setDueDate(res.getHanDongTien());
+        bill.setStatus(res.getTrangThai());
+        bill.setExtensionApproved(res.isDaDuyetGiaHan());
+        bill.setExtendedDueDate(res.getNgayGiaHan());
+        bill.setElectricityOldIndex(res.getChiSoDienCu());
+        bill.setElectricityNewIndex(res.getChiSoDienMoi());
+        bill.setWaterOldIndex(res.getChiSoNuocCu());
+        bill.setWaterNewIndex(res.getChiSoNuocMoi());
+        bill.setElectricityAmount(parseDouble(res.getTienDien()));
+        bill.setWaterAmount(parseDouble(res.getTienNuoc()));
+        bill.setRoomAmount(parseDouble(res.getTienPhong()));
+        bill.setCreatedAt(res.getNgayTao());
+        bill.setExtensionFee(parseDouble(res.getTienLaiGiaHan()));
+        bill.setExtensionDays(res.getSoNgayGiaHan());
+        bill.setExtensionUpdateDate(res.getNgayCapNhatGiaHan());
+        bill.setPaymentDate(res.getNgayThanhToan());
+        bill.setBillMonthYear(res.getThangNam());
+        return bill;
+    }
+
+    public static List<Bill> fromGetBillByRoomResponseList(List<GetBillByRoomResponse> src) {
+        List<Bill> result = new ArrayList<>();
+        if (src != null) {
+            for (GetBillByRoomResponse item : src) {
+                result.add(fromGetBillByRoomResponse(item));
+            }
+        }
+        return result;
+    }
+
+    private static double parseDouble(String s) {
+        try {
+            return s == null ? 0 : Double.parseDouble(s);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

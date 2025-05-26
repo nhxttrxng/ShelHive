@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.api.GetRoom2Response;
-import com.nhom5.shelhive.ui.common.adapter.Room2Adapter;
-import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.api.GetRoomResponse;
+import com.nhom5.shelhive.ui.common.adapter.RoomManagementAdapter;
+import com.nhom5.shelhive.ui.model.Room;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +32,9 @@ import retrofit2.Response;
 public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewRooms;
-    private Room2Adapter room2Adapter;
-    private List<Room2> roomList;
-    private List<Room2> allRooms;
+    private RoomManagementAdapter roomManagementAdapter;
+    private List<Room> roomList;
+    private List<Room> allRooms;
     private int maDay;
     private String email;
 
@@ -86,7 +86,7 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
         allRooms = new ArrayList<>();
 
         // Adapter truyền đúng với trạng thái mới
-        room2Adapter = new Room2Adapter(this, roomList, room -> {
+        roomManagementAdapter = new RoomManagementAdapter(this, roomList, room -> {
             int maPhong = -1;
             try {
                 maPhong = Integer.parseInt(room.getMa_phong());
@@ -97,7 +97,7 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
             intentRoom.putExtra("ma_phong", maPhong);
             startActivity(intentRoom);
         });
-        recyclerViewRooms.setAdapter(room2Adapter);
+        recyclerViewRooms.setAdapter(roomManagementAdapter);
 
         loadRoomList();
     }
@@ -109,14 +109,14 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
     }
 
     private void loadRoomList() {
-        ApiService.apiService.getRoomsByMaDay(maDay).enqueue(new Callback<List<GetRoom2Response>>() {
+        ApiService.apiService.getRoomsByMaDay(maDay).enqueue(new Callback<List<GetRoomResponse>>() {
             @Override
-            public void onResponse(Call<List<GetRoom2Response>> call, Response<List<GetRoom2Response>> response) {
+            public void onResponse(Call<List<GetRoomResponse>> call, Response<List<GetRoomResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     roomList.clear();
                     allRooms.clear();
-                    for (GetRoom2Response dto : response.body()) {
-                        Room2 room = new Room2(
+                    for (GetRoomResponse dto : response.body()) {
+                        Room room = new Room(
                                 dto.getMa_phong(),
                                 dto.getMa_day(),
                                 dto.getEmail_user(),
@@ -129,7 +129,7 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
                         allRooms.add(room);
                     }
                     // Sắp xếp theo ma_phong tăng dần
-                    Comparator<Room2> roomComparator = (a, b) -> {
+                    Comparator<Room> roomComparator = (a, b) -> {
                         try {
                             return Integer.compare(Integer.parseInt(a.getMa_phong()), Integer.parseInt(b.getMa_phong()));
                         } catch (Exception e) {
@@ -139,22 +139,22 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
                     Collections.sort(roomList, roomComparator);
                     Collections.sort(allRooms, roomComparator);
 
-                    room2Adapter.updateList(roomList);
+                    roomManagementAdapter.updateList(roomList);
                 } else {
                     Log.e("QLPhong", "Không lấy được danh sách phòng: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<GetRoom2Response>> call, Throwable t) {
+            public void onFailure(Call<List<GetRoomResponse>> call, Throwable t) {
                 Log.e("QLPhong", "Lỗi kết nối: " + t.getMessage());
             }
         });
     }
 
     private void filterRooms(String keyword) {
-        List<Room2> filtered = new ArrayList<>();
-        for (Room2 room : allRooms) {
+        List<Room> filtered = new ArrayList<>();
+        for (Room room : allRooms) {
             String maPhong = room.getMa_phong();
             String soPhongDisplay = maPhong.length() >= 2 ? maPhong.substring(maPhong.length() - 2) : maPhong;
             // Có thể dùng field trạng thái mới để filter (nếu muốn), ví dụ: "Đã thuê", "Trống"
@@ -173,6 +173,6 @@ public class Admin_QuanLyPhongTroActivity extends AppCompatActivity {
                 return a.getMa_phong().compareTo(b.getMa_phong());
             }
         });
-        room2Adapter.updateList(filtered);
+        roomManagementAdapter.updateList(filtered);
     }
 }

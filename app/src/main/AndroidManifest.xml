@@ -68,8 +68,6 @@
         <activity android:name=".ui.admin.hoadon.Admin_CreateBillActivity"/>
         <activity android:name=".ui.admin.hoadon.Admin_EditBillActivity"/>
         <activity android:name=".ui.admin.hoadon.Admin_ExtendBillActivity"/>
-        <activity android:name=".ui.user.hoadon.User_MotelListActivity"/>
-        <activity android:name=".ui.user.hoadon.User_RoomListActivity"/>
         <activity android:name=".ui.user.hoadon.User_RoomBillDetailActivity"/>
         <activity android:name=".ui.auth.XacThucMailActivity"/>
         <activity android:name=".ui.user.xacthuc.User_XacThucActivity"/>

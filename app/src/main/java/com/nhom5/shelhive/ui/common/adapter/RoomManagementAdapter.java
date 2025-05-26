@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetUserResponse;
-import com.nhom5.shelhive.ui.model.Room2;
+import com.nhom5.shelhive.ui.model.Room;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -26,17 +26,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Room2Adapter extends RecyclerView.Adapter<Room2Adapter.Room2ViewHolder> {
+public class RoomManagementAdapter extends RecyclerView.Adapter<RoomManagementAdapter.Room2ViewHolder> {
 
     private Context context;
-    private List<Room2> roomList;
+    private List<Room> roomList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Room2 room);
+        void onItemClick(Room room);
     }
 
-    public Room2Adapter(Context context, List<Room2> roomList, OnItemClickListener listener) {
+    public RoomManagementAdapter(Context context, List<Room> roomList, OnItemClickListener listener) {
         this.context = context;
         this.roomList = roomList;
         this.listener = listener;
@@ -46,7 +46,7 @@ public class Room2Adapter extends RecyclerView.Adapter<Room2Adapter.Room2ViewHol
         this.listener = listener;
     }
 
-    public void updateList(List<Room2> newList) {
+    public void updateList(List<Room> newList) {
         this.roomList = newList;
         notifyDataSetChanged();
     }
@@ -60,7 +60,7 @@ public class Room2Adapter extends RecyclerView.Adapter<Room2Adapter.Room2ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull Room2ViewHolder holder, int position) {
-        Room2 room = roomList.get(position);
+        Room room = roomList.get(position);
 
         // Hiển thị "Phòng XX"
         String maPhong = room.getMa_phong();

@@ -70,7 +70,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="03/02/2025"
+                android:text="Lọc theo tháng năm"
                 android:textColor="#755200"
                 android:textSize="14sp"
                 android:layout_centerVertical="true"
@@ -86,43 +86,90 @@
                 android:layout_marginEnd="8dp" />
         </RelativeLayout>
 
-        <!-- Thanh chọn filter -->
-        <RelativeLayout
-            android:id="@+id/filter_selector"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_box"
-            android:layout_marginStart="8dp">
+        <!-- Thanh chọn filter (để trống cho sau này nếu muốn) -->
+    </LinearLayout>
 
+    <!-- ==== TAB BAR NGANG ==== -->
+    <HorizontalScrollView
+        android:id="@+id/tab_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filter_bar"
+        android:background="@android:color/transparent"
+        android:scrollbars="none"
+        android:fillViewport="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/tab_container"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Tab: Yêu cầu gia hạn -->
             <TextView
-                android:id="@+id/tv_filter"
+                android:id="@+id/tab_yeucau_giahan"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tất cả"
+                android:layout_height="match_parent"
+                android:text="Yêu cầu gia hạn"
                 android:textColor="#755200"
                 android:textSize="14sp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/nunito_regular" />
+                android:gravity="center"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/tab_unselected_bg"/>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_dropdown"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp" />
-        </RelativeLayout>
-    </LinearLayout>
+            <!-- Tab: Trễ hạn -->
+            <TextView
+                android:id="@+id/tab_trehan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Trễ hạn"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/tab_unselected_bg"/>
+
+            <!-- Tab: Chưa thanh toán -->
+            <TextView
+                android:id="@+id/tab_chua_thanhtoan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Chưa Thanh Toán"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/tab_unselected_bg"/>
+
+            <!-- Tab: Đã thanh toán -->
+            <TextView
+                android:id="@+id/tab_da_thanhtoan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Đã Thanh Toán"
+                android:textColor="#755200"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/tab_unselected_bg"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <!-- ==== END TAB BAR ==== -->
 
     <!-- RecyclerView để hiển thị danh sách hóa đơn -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_bills"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/filter_bar"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/tab_scroll"
+        android:layout_marginTop="4dp"
         android:padding="8dp"/>
 
     <!-- Text thông báo khi không có hóa đơn -->
@@ -137,7 +184,7 @@
         android:fontFamily="@font/nunito_bold"
         android:padding="24dp"
         android:visibility="gone"
-        android:layout_below="@id/filter_bar"/>
+        android:layout_below="@id/tab_scroll"/>
 
     <!-- Nút thêm hóa đơn mới -->
     <ImageView

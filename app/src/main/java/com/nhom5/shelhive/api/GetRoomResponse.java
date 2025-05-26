@@ -2,7 +2,7 @@ package com.nhom5.shelhive.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GetRoom2Response {
+public class GetRoomResponse {
     @SerializedName("ma_phong")
     private String ma_phong;
 

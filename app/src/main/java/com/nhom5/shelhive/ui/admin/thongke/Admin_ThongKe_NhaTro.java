@@ -24,7 +24,6 @@ public class Admin_ThongKe_NhaTro extends AppCompatActivity {
     private List<Motel> nhaTroList;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_thongke_nhatro);
@@ -33,7 +32,7 @@ public class Admin_ThongKe_NhaTro extends AppCompatActivity {
         recyclerViewNhaTro.setLayoutManager(new LinearLayoutManager(this));
         ImageView btnBack = findViewById(R.id.mingcute_arrow_up);
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Admin_ThongKe_NhaTro.this, Admin_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
+            Intent intent = new Intent(Admin_ThongKe_NhaTro.this, Admin_TrangChuActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
@@ -57,13 +56,16 @@ public class Admin_ThongKe_NhaTro extends AppCompatActivity {
         }
 
         motelAdapter = new MotelAdapter(this, nhaTroList);
-        motelAdapter.setOnItemClickListener(maDay -> openRoomList(maDay)); // sửa ở đây
+        // Sửa callback: nhận đủ 2 tham số
+        motelAdapter.setOnItemClickListener((maDay, tenTro) -> openRoomList(maDay, tenTro));
         recyclerViewNhaTro.setAdapter(motelAdapter);
     }
 
-    private void openRoomList(int maDay) { // sửa kiểu tham số
+    // Sửa lại: Nhận cả mã dãy và tên trọ
+    private void openRoomList(int maDay, String tenTro) {
         Intent intent = new Intent(this, Admin_ThongKeActivity.class);
-        intent.putExtra("MA_DAY", maDay); // truyền đúng key
+        intent.putExtra("MA_DAY", maDay);
+        intent.putExtra("MOTEL_NAME", tenTro); // Nếu muốn truyền tiếp tên nhà trọ
         startActivity(intent);
     }
 }

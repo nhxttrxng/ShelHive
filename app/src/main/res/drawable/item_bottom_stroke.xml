@@ -1,0 +1,16 @@
+<!-- res/drawable/item_bottom_stroke.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Nền màu F8F8D8 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F8F8D8"/>
+        </shape>
+    </item>
+    <!-- Viền dưới -->
+    <item android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp"/>
+            <solid android:color="@color/darkbrown"/> <!-- màu viền nhạt, chỉnh lại nếu cần -->
+        </shape>
+    </item>
+</layer-list>
