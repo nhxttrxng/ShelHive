@@ -46,6 +46,7 @@
         <activity android:name=".ui.admin.thongbao.Admin_ThongBaoActivity"/>
         <activity android:name=".ui.admin.thongbao.Admin_ThongBao_NhaTro"/>
         <activity android:name=".ui.admin.thongbao.Admin_XoaThongBaoActivity"/>
+        <activity android:name=".ui.admin.thongbao.Admin_DieuChinhTBHD"/>
         <activity android:name=".ui.admin.thongbao.Admin_TaoThongBao"/>
         <activity android:name=".ui.user.thongbao.User_ThongBaoActivity"/>
         <activity android:name=".ui.user.thongtin.User_ThongTinActivity"/>

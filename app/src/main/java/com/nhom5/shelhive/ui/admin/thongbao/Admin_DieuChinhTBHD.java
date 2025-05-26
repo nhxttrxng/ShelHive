@@ -24,11 +24,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Admin_XoaThongBaoActivity extends AppCompatActivity {
+public class Admin_DieuChinhTBHD extends AppCompatActivity {
 
     EditText edtNoiDung;
     Button btnXoa, btnSua;
-    int maThongBao;
+    int maThongBaoHD;
     int maDay;
     String ngayTao;  // Nếu bạn muốn sử dụng ngày tạo
     EditText edtNewContent;
@@ -50,11 +50,11 @@ public class Admin_XoaThongBaoActivity extends AppCompatActivity {
         edtNewContent = findViewById(R.id.edt_new_notification_content);
 
 
-        maThongBao = getIntent().getIntExtra("ma_thong_bao", -1);
+        maThongBaoHD = getIntent().getIntExtra("ma_thong_bao_hoa_don", -1);
         maDay = getIntent().getIntExtra("ma_day", -1);
         String noiDung = getIntent().getStringExtra("noi_dung"); // Sửa key này thành "noi_dung"
         ngayTao = getIntent().getStringExtra("ngay_tao"); // Nếu bạn cần dùng ngày tạo
-        if (maThongBao == -1 || maDay == -1) {
+        if (maThongBaoHD == -1 || maDay == -1) {
             Toast.makeText(this, "Dữ liệu thông báo không hợp lệ", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -62,12 +62,12 @@ public class Admin_XoaThongBaoActivity extends AppCompatActivity {
 
         edtNoiDung.setText(noiDung);
 
-        Log.d(TAG, "onCreate: maThongBao = " + maThongBao + ", maDay = " + maDay + ", noiDung = " + noiDung + ", ngayTao = " + ngayTao);
+        Log.d(TAG, "onCreate: maThongBao = " + maThongBaoHD + ", maDay = " + maDay + ", noiDung = " + noiDung + ", ngayTao = " + ngayTao);
 
         btnBack.setOnClickListener(v -> {
             Log.d(TAG, "Back button clicked");
             // Trở về Admin_ThongBaoActivity, giữ lại maDay nếu cần
-            Intent intent = new Intent(Admin_XoaThongBaoActivity.this, Admin_ThongBaoActivity.class);
+            Intent intent = new Intent(Admin_DieuChinhTBHD.this, Admin_ThongBaoActivity.class);
             intent.putExtra("MA_DAY", maDay);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
@@ -80,24 +80,24 @@ public class Admin_XoaThongBaoActivity extends AppCompatActivity {
                     .setTitle("Xác nhận xoá")
                     .setMessage("Bạn có chắc chắn muốn xoá thông báo này không?")
                     .setPositiveButton("Xoá", (dialog, which) -> {
-                        Log.d(TAG, "Gửi yêu cầu xoá thông báo với ID: " + maThongBao);
-                        ApiService.apiService.xoaThongBao(maThongBao).enqueue(new Callback<Void>() {
+                        Log.d(TAG, "Gửi yêu cầu xoá thông báo với ID: " + maThongBaoHD);
+                        ApiService.apiService.xoaThongBaoHoaDon(maThongBaoHD).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 Log.d(TAG, "onResponse xoá: code = " + response.code());
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(Admin_XoaThongBaoActivity.this, "Đã xoá thông báo", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Admin_DieuChinhTBHD.this, "Đã xoá thông báo", Toast.LENGTH_SHORT).show();
                                     setResult(RESULT_OK);
                                     finish();
                                 } else {
-                                    Toast.makeText(Admin_XoaThongBaoActivity.this, "Xoá thất bại", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Admin_DieuChinhTBHD.this, "Xoá thất bại", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
                                 Log.e(TAG, "onFailure xoá: " + t.getMessage(), t);
-                                Toast.makeText(Admin_XoaThongBaoActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Admin_DieuChinhTBHD.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                             }
                         });
                     })
@@ -124,21 +124,21 @@ public class Admin_XoaThongBaoActivity extends AppCompatActivity {
                 requestMap.put("ma_day", maDay);
                 requestMap.put("noi_dung", noiDungMoi);
 
-                ApiService.apiService.suaThongBao(maThongBao, requestMap).enqueue(new Callback<Void>() {
+                ApiService.apiService.suaThongBaoHoaDon(maThongBaoHD, requestMap).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(Admin_XoaThongBaoActivity.this, "Đã cập nhật nội dung", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Admin_DieuChinhTBHD.this, "Đã cập nhật nội dung", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            Toast.makeText(Admin_XoaThongBaoActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Admin_DieuChinhTBHD.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(Admin_XoaThongBaoActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_DieuChinhTBHD.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

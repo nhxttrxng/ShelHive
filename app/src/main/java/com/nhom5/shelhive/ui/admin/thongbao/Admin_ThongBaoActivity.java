@@ -58,10 +58,10 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_thong_bao);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        thongBaoAdapter = new ThongBaoAdapter(new ArrayList<>(), this, this::xuLyClickThongBaoChung);
-        thongBaoHDAdapter = new ThongBaoHDAdapter(new ArrayList<>(), this, this::xuLyClickThongBaoHoaDon);
-
-        recyclerView.setAdapter(thongBaoAdapter);  // Default là tab chung
+        // Gán adapter rỗng ban đầu để tránh lỗi
+        thongBaoAdapter = new ThongBaoAdapter(thongBaoChungList, this, this::xuLyClickThongBaoChung);
+        thongBaoHDAdapter = new ThongBaoHDAdapter(thongBaoHoaDonList, this, this::xuLyClickThongBaoHoaDon);
+        recyclerView.setAdapter(thongBaoAdapter);  // Mặc định là tab thông báo chung
 
         ImageView btnThem = findViewById(R.id.btn_bottom_image);
         ImageView btnBack = findViewById(R.id.btn_back);
@@ -77,6 +77,7 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
         tabThongBaoChung.setOnClickListener(v -> chuyenTab(true));
         tabThongBaoHoaDon.setOnClickListener(v -> chuyenTab(false));
 
+        // Gọi API để lấy dữ liệu
         loadThongBaoChung();
         loadThongBaoHoaDon();
     }
@@ -119,8 +120,9 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
             public void onResponse(Call<ThongBaoResponse> call, Response<ThongBaoResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     thongBaoChungList = response.body().getNotifications();
+                    thongBaoAdapter.capNhatDuLieu(thongBaoChungList);
                     if (isTabChung) {
-                        thongBaoAdapter.capNhatDuLieu(thongBaoChungList);
+                        recyclerView.setAdapter(thongBaoAdapter);
                     }
                 } else {
                     Toast.makeText(Admin_ThongBaoActivity.this, "Không có dữ liệu thông báo chung", Toast.LENGTH_SHORT).show();
@@ -141,10 +143,9 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
             public void onResponse(Call<List<ThongBaoHoaDon>> call, Response<List<ThongBaoHoaDon>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     thongBaoHoaDonList = response.body();
+                    thongBaoHDAdapter.capNhatDuLieu(thongBaoHoaDonList);
                     if (!isTabChung) {
-                        // Đảm bảo gán adapter nếu chưa
                         recyclerView.setAdapter(thongBaoHDAdapter);
-                        thongBaoHDAdapter.capNhatDuLieu(thongBaoHoaDonList);
                     }
                 } else {
                     Toast.makeText(Admin_ThongBaoActivity.this, "Không có dữ liệu thông báo hóa đơn", Toast.LENGTH_SHORT).show();
@@ -159,7 +160,6 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
         });
     }
 
-
     private void xuLyClickThongBaoChung(ThongBao thongBao) {
         Intent intent = new Intent(this, Admin_XoaThongBaoActivity.class);
         intent.putExtra("ma_thong_bao", thongBao.getMaThongBao());
@@ -170,11 +170,11 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
     }
 
     private void xuLyClickThongBaoHoaDon(ThongBaoHoaDon thongBaoHD) {
-        Intent intent = new Intent(this, Admin_XoaThongBaoActivity.class);
-        intent.putExtra("ma_thong_bao", thongBaoHD.getMa_thong_bao_hoa_don());
+        Intent intent = new Intent(this, Admin_DieuChinhTBHD.class);
+        intent.putExtra("ma_thong_bao_hoa_don", thongBaoHD.getMa_thong_bao_hoa_don());
         intent.putExtra("ma_day", thongBaoHD.getMa_day());
         intent.putExtra("noi_dung", thongBaoHD.getNoi_dung());
-        intent.putExtra("ngay_tao", thongBaoHD.getNgay_tao().toString());
+        intent.putExtra("ngay_tao", thongBaoHD.getNgay_tao());
         startActivityForResult(intent, 100);
     }
 }
