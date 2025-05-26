@@ -2,6 +2,7 @@ package com.nhom5.shelhive.ui.admin.thongbao;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,27 +12,41 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.ThongBaoRequest;
+import com.nhom5.shelhive.ui.model.ThongBao;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Admin_TaoThongBao extends AppCompatActivity {
 
     private EditText edtThongBao;
     private Button btnTaoThongBao;
-
+    private int maDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_themthongbao);
-
+        maDay = getIntent().getIntExtra("MA_DAY", -1);
+        if (maDay == -1) {
+            Toast.makeText(this, "Không tìm thấy mã dãy", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         // Initialize views
         edtThongBao = findViewById(R.id.edt_noi_dung_thong_bao);
         btnTaoThongBao = findViewById(R.id.btn_gui_thong_bao);
         ImageView btnBack=findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Admin_TaoThongBao.this, Admin_ThongBaoActivity.class); // thay bằng Activity chính admin của bạn
+            Intent intent = new Intent(Admin_TaoThongBao.this, Admin_ThongBaoActivity.class);
+            intent.putExtra("MA_DAY", maDay); // TRUYỀN LẠI MA_DAY
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
         });
+
         // Set button click listener
         btnTaoThongBao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,15 +66,34 @@ public class Admin_TaoThongBao extends AppCompatActivity {
     }
 
     // Method to handle notification creation logic
-    private void createThongBao(String thongBaoContent) {
-        // This is where you would typically send the notification to a backend server or save it in a database.
-        // For now, we’ll just show a Toast for simplicity.
+    private void createThongBao(String noi_dung) {
+        Log.d("TAO_THONG_BAO", "Bắt đầu tạo thông báo. maDay=" + maDay + ", noi_dung=" + noi_dung);
 
-        // Example of sending notification logic
-        // You can make an API call here to save the notification to your server.
-        Toast.makeText(Admin_TaoThongBao.this, "Thông báo đã được tạo: " + thongBaoContent, Toast.LENGTH_SHORT).show();
+        ThongBaoRequest thongBao = new ThongBaoRequest(maDay, noi_dung);
 
-        // Optionally, you can reset the EditText field after creating the notification.
-        edtThongBao.setText("");
+        ApiService.apiService.taoThongBao(thongBao).enqueue(new Callback<ThongBaoRequest>() {
+            @Override
+            public void onResponse(Call<ThongBaoRequest> call, Response<ThongBaoRequest> response) {
+                if (response.isSuccessful()) {
+                    Log.d("TAO_THONG_BAO", "Tạo thông báo thành công. Response: " + response.body());
+                    Toast.makeText(Admin_TaoThongBao.this, "Tạo thông báo thành công!", Toast.LENGTH_SHORT).show();
+                    edtThongBao.setText("");
+                } else {
+                    Log.e("TAO_THONG_BAO", "Tạo thông báo thất bại. Mã lỗi: " + response.code());
+                    Toast.makeText(Admin_TaoThongBao.this, "Tạo thông báo thất bại", Toast.LENGTH_SHORT).show();
+                }
+
+                setResult(RESULT_OK); // Thông báo kết quả thành công
+                finish(); // Quay lại activity trước
+            }
+
+            @Override
+            public void onFailure(Call<ThongBaoRequest> call, Throwable t) {
+                Log.e("TAO_THONG_BAO", "Lỗi kết nối API: " + t.getMessage(), t);
+                Toast.makeText(Admin_TaoThongBao.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 }

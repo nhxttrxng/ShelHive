@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.ui.common.adapter.ThongBaoAdapter;
-import com.nhom5.shelhive.ui.model.ThongBao;
+import com.nhom5.shelhive.api.ThongBaoDonGian;
+import com.nhom5.shelhive.api.ThongBaoHDDonGian;
+import com.nhom5.shelhive.api.ThongBaoHoaDonResponse1;
+import com.nhom5.shelhive.api.ThongBaoResponse1;
+import com.nhom5.shelhive.ui.common.adapter.ThongBaoDonGianAdapter;
+import com.nhom5.shelhive.ui.common.adapter.ThongBaoHDDonGianAdapter;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 import java.util.ArrayList;
@@ -29,11 +33,12 @@ public class User_ThongBaoActivity extends AppCompatActivity {
 
     private TextView tabThongBaoChung, tabThongBaoHoaDon;
     private RecyclerView recyclerView;
-    private ThongBaoAdapter adapter;
+    private ThongBaoDonGianAdapter adapter;
+    private ThongBaoHDDonGianAdapter adapter2;
     private ImageView btnBack;
 
-    private List<ThongBao> thongBaoChungList = new ArrayList<>();
-    private List<ThongBao> thongBaoHoaDonList = new ArrayList<>();
+    private List<ThongBaoDonGian> thongBaoChungList = new ArrayList<>();
+    private List<ThongBaoHDDonGian> thongBaoHoaDonList = new ArrayList<>();
 
     private int maPhong;
 
@@ -67,59 +72,56 @@ public class User_ThongBaoActivity extends AppCompatActivity {
             finish();
         });
 
-        // Khởi tạo adapter với danh sách rỗng, callback xử lý click thông báo
-        adapter = new ThongBaoAdapter(new ArrayList<>(), this, this::xuLyClickThongBao);
-        recyclerView.setAdapter(adapter);
+        // Khởi tạo adapter (chưa setAdapter vội)
+        adapter = new ThongBaoDonGianAdapter(new ArrayList<>(), this, this::xuLyClickThongBao);
+        adapter2 = new ThongBaoHDDonGianAdapter(new ArrayList<>(), this, this::xuLyClickThongBaoHD);
 
-        // Load dữ liệu thông báo từ API
+        // Gọi API lấy thông báo
         fetchThongBaoTheoPhong(maPhong);
 
-        // Gán sự kiện click tab
+        // Gán sự kiện click cho tab
         tabThongBaoChung.setOnClickListener(v -> chuyenTab(true));
         tabThongBaoHoaDon.setOnClickListener(v -> chuyenTab(false));
     }
 
     private void fetchThongBaoTheoPhong(int maPhong) {
-        // Giả sử ApiService có 2 API:
-        // getThongBaoChungTheoPhong(maPhong)
-        // getThongBaoHoaDonTheoPhong(maPhong)
-
-        // Call API lấy thông báo chung
-        ApiService.apiService.getThongBaoChungTheoPhong(maPhong).enqueue(new Callback<List<ThongBao>>() {
+        // Thông báo chung
+        ApiService.apiService.getThongBaoChungTheoPhong(maPhong).enqueue(new Callback<ThongBaoResponse1>() {
             @Override
-            public void onResponse(Call<List<ThongBao>> call, Response<List<ThongBao>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+            public void onResponse(Call<ThongBaoResponse1> call, Response<ThongBaoResponse1> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     thongBaoChungList.clear();
-                    thongBaoChungList.addAll(response.body());
-                    // Hiển thị mặc định tab thông báo chung
+                    thongBaoChungList.addAll(response.body().getData());
                     adapter.capNhatDuLieu(thongBaoChungList);
-                    chuyenTab(true);
+                    chuyenTab(true); // Hiển thị tab chung mặc định
                 } else {
                     Toast.makeText(User_ThongBaoActivity.this, "Không có dữ liệu thông báo chung", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ThongBao>> call, Throwable t) {
+            public void onFailure(Call<ThongBaoResponse1> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi thông báo chung: " + t.getMessage());
                 Toast.makeText(User_ThongBaoActivity.this, "Lỗi khi lấy thông báo chung: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Call API lấy thông báo hóa đơn
-        ApiService.apiService.getThongBaoHoaDonTheoPhong(maPhong).enqueue(new Callback<List<ThongBao>>() {
+        // Thông báo hóa đơn
+        ApiService.apiService.getThongBaoHoaDonTheoPhong(maPhong).enqueue(new Callback<ThongBaoHoaDonResponse1>() {
             @Override
-            public void onResponse(Call<List<ThongBao>> call, Response<List<ThongBao>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+            public void onResponse(Call<ThongBaoHoaDonResponse1> call, Response<ThongBaoHoaDonResponse1> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     thongBaoHoaDonList.clear();
-                    thongBaoHoaDonList.addAll(response.body());
+                    thongBaoHoaDonList.addAll(response.body().getData());
+                    adapter2.capNhatDuLieu(thongBaoHoaDonList);
                 } else {
                     Toast.makeText(User_ThongBaoActivity.this, "Không có dữ liệu thông báo hóa đơn", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ThongBao>> call, Throwable t) {
-                Log.e("API_ERROR", "onFailure: " + t.getMessage());
+            public void onFailure(Call<ThongBaoHoaDonResponse1> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi thông báo hóa đơn: " + t.getMessage());
                 Toast.makeText(User_ThongBaoActivity.this, "Lỗi khi lấy thông báo hóa đơn: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -127,27 +129,31 @@ public class User_ThongBaoActivity extends AppCompatActivity {
 
     private void chuyenTab(boolean laTabChung) {
         if (laTabChung) {
+            // Thiết lập giao diện tab
             tabThongBaoChung.setBackgroundResource(R.drawable.bg_tab_chung);
             tabThongBaoChung.setTextColor(getResources().getColor(android.R.color.white));
             tabThongBaoHoaDon.setBackgroundResource(R.drawable.bg_tab_hoa_don);
             tabThongBaoHoaDon.setTextColor(Color.parseColor("#755200"));
+
+            // Đổi adapter
+            recyclerView.setAdapter(adapter);
             adapter.capNhatDuLieu(thongBaoChungList);
         } else {
             tabThongBaoHoaDon.setBackgroundResource(R.drawable.bg_tab_hoa_don_1);
             tabThongBaoHoaDon.setTextColor(getResources().getColor(android.R.color.white));
             tabThongBaoChung.setBackgroundResource(R.drawable.bg_tab_chung_1);
             tabThongBaoChung.setTextColor(Color.parseColor("#755200"));
-            adapter.capNhatDuLieu(thongBaoHoaDonList);
+
+            recyclerView.setAdapter(adapter2);
+            adapter2.capNhatDuLieu(thongBaoHoaDonList);
         }
     }
 
-    private void xuLyClickThongBao(ThongBao thongBao) {
-        // Xử lý click thông báo: ví dụ hiện Toast hoặc mở Activity chi tiết
-        Toast.makeText(this, "Bạn chọn: " + thongBao.getNoiDung(), Toast.LENGTH_SHORT).show();
+    private void xuLyClickThongBao(ThongBaoDonGian thongBao) {
+        Toast.makeText(this, "Bạn chọn: " + thongBao.getNoi_dung(), Toast.LENGTH_SHORT).show();
+    }
 
-        // Nếu cần mở chi tiết có thể làm như này:
-        // Intent intent = new Intent(this, User_ChiTietThongBaoActivity.class);
-        // intent.putExtra("thongBao", thongBao);
-        // startActivity(intent);
+    private void xuLyClickThongBaoHD(ThongBaoHDDonGian thongBaoHD) {
+        Toast.makeText(this, "Bạn chọn: " + thongBaoHD.getNoi_dung(), Toast.LENGTH_SHORT).show();
     }
 }

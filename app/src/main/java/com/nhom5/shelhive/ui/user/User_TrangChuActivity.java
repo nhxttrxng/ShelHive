@@ -167,7 +167,7 @@ public class User_TrangChuActivity extends AppCompatActivity {
             Intent intent = new Intent(User_TrangChuActivity.this, activityClass);
 
             // Truyền maPhong và email nếu là PhanAnhActivity
-            if (activityClass == User_PhanAnhActivity.class||activityClass == User_ThongBaoActivity.class) {
+            if (activityClass == User_PhanAnhActivity.class||activityClass == User_ThongBaoActivity.class||activityClass == User_ThongKeActivity.class) {
                 intent.putExtra("maPhong", maPhong);
                 SharedPreferences prefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
                 String email = prefs.getString("email", null);

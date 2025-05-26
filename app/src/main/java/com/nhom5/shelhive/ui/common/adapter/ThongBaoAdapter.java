@@ -1,6 +1,7 @@
 package com.nhom5.shelhive.ui.common.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.ui.admin.thongbao.Admin_XoaThongBaoActivity;
 import com.nhom5.shelhive.ui.model.ThongBao;
 
 import java.util.List;
@@ -40,8 +42,13 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ViewHo
         ThongBao thongBao = thongBaoList.get(position);
         holder.textView.setText(thongBao.getNoiDung());
 
-        holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(thongBao));
+        holder.itemView.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(thongBao);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

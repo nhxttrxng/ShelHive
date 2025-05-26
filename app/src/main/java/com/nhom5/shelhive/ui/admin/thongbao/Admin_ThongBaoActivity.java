@@ -47,33 +47,40 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
             return;
         }
 
-        // Ánh xạ view
         tabThongBaoChung = findViewById(R.id.tab_thong_bao_chung_admin);
         tabThongBaoHoaDon = findViewById(R.id.tab_thong_bao_hoa_don_admin);
         recyclerView = findViewById(R.id.recycler_view_thong_bao);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ThongBaoAdapter(new ArrayList<>(), this, thongBao -> xuLyClickThongBao(thongBao.getNoiDung()));
+        adapter = new ThongBaoAdapter(new ArrayList<>(), this, this::xuLyClickThongBao);
         recyclerView.setAdapter(adapter);
 
-        // Nút tạo + quay lại
         ImageView btnThem = findViewById(R.id.btn_bottom_image);
         ImageView btnBack = findViewById(R.id.btn_back);
 
         btnThem.setOnClickListener(v -> {
             Intent intent = new Intent(this, Admin_TaoThongBao.class);
             intent.putExtra("MA_DAY", maDay);
-            startActivity(intent);
+            startActivityForResult(intent, 100);
         });
 
         btnBack.setOnClickListener(v -> finish());
 
-        // Bắt sự kiện click tab
         tabThongBaoChung.setOnClickListener(v -> chuyenTab(true));
         tabThongBaoHoaDon.setOnClickListener(v -> chuyenTab(false));
 
-        // Load dữ liệu
         loadThongBaoChung();
         loadThongBaoHoaDon();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            if (isTabChung) {
+                loadThongBaoChung();
+            } else {
+                loadThongBaoHoaDon();
+            }
+        }
     }
 
     private void chuyenTab(boolean laTabChung) {
@@ -104,19 +111,18 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
                         adapter.capNhatDuLieu(thongBaoChungList);
                     }
                 } else {
+                    Log.e("THONG_BAO", "Không có dữ liệu thông báo chung");
                     Toast.makeText(Admin_ThongBaoActivity.this, "Không có dữ liệu thông báo chung", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ThongBaoResponse> call, Throwable t) {
-                Log.e("API_ERROR", "onFailure: " + t.getMessage());
+                Log.e("API_ERROR", "Lỗi: " + t.getMessage());
                 Toast.makeText(Admin_ThongBaoActivity.this, "Lỗi tải thông báo chung", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 
     private void loadThongBaoHoaDon() {
         ApiService.apiService.getThongBaoHoaDonByMaDay(maDay).enqueue(new Callback<List<ThongBao>>() {
@@ -127,19 +133,26 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
                     if (!isTabChung) {
                         adapter.capNhatDuLieu(thongBaoHoaDonList);
                     }
+                } else {
+                    Log.e("THONG_BAO", "Không có dữ liệu thông báo hóa đơn");
                 }
             }
 
             @Override
             public void onFailure(Call<List<ThongBao>> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi: " + t.getMessage());
                 Toast.makeText(Admin_ThongBaoActivity.this, "Lỗi tải thông báo hóa đơn", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void xuLyClickThongBao(String noiDung) {
+    private void xuLyClickThongBao(ThongBao thongBao) {
+        Log.d("CLICK", "Click vào thông báo: " + thongBao.getMaThongBao());
         Intent intent = new Intent(this, Admin_XoaThongBaoActivity.class);
-        intent.putExtra("noiDungThongBao", noiDung);
-        startActivity(intent);
+        intent.putExtra("ma_thong_bao", thongBao.getMaThongBao());
+        intent.putExtra("ma_day", thongBao.getMaDay());
+        intent.putExtra("noi_dung", thongBao.getNoiDung());
+        intent.putExtra("ngay_tao", thongBao.getNgayTao());
+        startActivityForResult(intent, 100);
     }
 }
