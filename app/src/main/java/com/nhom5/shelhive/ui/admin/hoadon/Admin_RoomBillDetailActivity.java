@@ -31,7 +31,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
     private TextView tvRoomInfo;
     private ImageView btnBack, addBillButton;
     private RecyclerView recyclerViewBills;
-    private LinearLayout emptyView;
+    private TextView emptyView;
     private BillAdapter billAdapter;
 
     @Override
@@ -47,8 +47,8 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         tvRoomInfo = findViewById(R.id.tv_room_info);
         btnBack = findViewById(R.id.btn_back);
         addBillButton = findViewById(R.id.add_bill_button);
-        recyclerViewBills = findViewById(R.id.recyclerViewBills);
-        emptyView = findViewById(R.id.empty_view);
+        recyclerViewBills = findViewById(R.id.recycler_bills);
+        emptyView = findViewById(R.id.tv_no_bills);
 
         tvRoomInfo.setText("Phòng " + roomId + " - " + tenantName);
 

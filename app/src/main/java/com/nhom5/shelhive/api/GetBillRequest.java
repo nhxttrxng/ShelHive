@@ -2,7 +2,7 @@ package com.nhom5.shelhive.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Bill {
+public class GetBillRequest {
     @SerializedName("ma_hoa_don")
     private int maHoaDon;
 
