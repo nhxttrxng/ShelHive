@@ -64,13 +64,4 @@ public void setMa_day(int ma_day)
         this.ngay_tao = ngay_tao;
     }
 
-    @Override
-    public String toString() {
-        return "ThongBaoHoaDon{" +
-                "ma_thong_bao_hoa_don=" + ma_thong_bao_hoa_don +
-                ", ma_hoa_don=" + ma_hoa_don +
-                ", noi_dung='" + noi_dung + '\'' +
-                ", ngay_tao=" + ngay_tao +
-                '}';
-    }
 }

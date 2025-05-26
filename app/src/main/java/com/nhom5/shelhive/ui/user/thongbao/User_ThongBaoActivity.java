@@ -20,7 +20,6 @@ import com.nhom5.shelhive.api.ThongBaoHoaDonResponse1;
 import com.nhom5.shelhive.api.ThongBaoResponse1;
 import com.nhom5.shelhive.ui.common.adapter.ThongBaoDonGianAdapter;
 import com.nhom5.shelhive.ui.common.adapter.ThongBaoHDDonGianAdapter;
-import com.nhom5.shelhive.ui.common.adapter.ThongBaoAdapter;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
 
 import java.util.ArrayList;
