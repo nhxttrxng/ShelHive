@@ -1,54 +1,131 @@
 package com.nhom5.shelhive.ui.admin.hoadon;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.ui.model.Bill;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Admin_ViewBillDetailActivity extends AppCompatActivity {
-    private String roomNumber, billMonth, billType;
+
+    private int billId;
+
+    private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvInterestTotal, tvTotal;
+    private EditText edMonth, edOriginalDueDate, edNewDueDate, edElectricityOld, edElectricityNew,
+            edWaterOld, edWaterNew, edInterestRate, edNote;
+    private CheckBox cbElectricity, cbWater, cbRoom, cbInterest, cbLateFee;
+
+    private Button btnRemind, btnExtend, btnEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_xem_hdp);
 
-        roomNumber = getIntent().getStringExtra("ROOM_NUMBER");
-        billMonth = getIntent().getStringExtra("BILL_MONTH");
-        billType = getIntent().getStringExtra("BILL_TYPE");
+        billId = getIntent().getIntExtra("BILL_ID", -1);
 
-        TextView tvRoomNumber = findViewById(R.id.tv_room_number);
-        tvRoomNumber.setText("Phòng " + roomNumber);
+        initViews();
 
-        Button btnRemind = findViewById(R.id.btn_remind);
-        Button btnExtend = findViewById(R.id.btn_extend);
-        Button btnEdit = findViewById(R.id.btn_edit);
         ImageView btnBack = findViewById(R.id.btn_back);
-
         btnBack.setOnClickListener(v -> finish());
 
-        btnRemind.setOnClickListener(v -> Toast.makeText(this, "Đã gửi nhắc nhở thanh toán!", Toast.LENGTH_SHORT).show());
+        btnRemind.setOnClickListener(v -> {
+            // Xử lý logic nhắc nhở hóa đơn
+        });
 
         btnExtend.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_ExtendBillActivity.class);
-            intent.putExtra("ROOM_NUMBER", roomNumber);
-            intent.putExtra("BILL_MONTH", billMonth);
-            startActivity(intent);
+            // Xử lý logic gia hạn hóa đơn
         });
 
         btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_EditBillActivity.class);
-            intent.putExtra("ROOM_NUMBER", roomNumber);
-            intent.putExtra("BILL_MONTH", billMonth);
-            intent.putExtra("BILL_TYPE", billType);
-            startActivity(intent);
+            // Xử lý logic chỉnh sửa hóa đơn
         });
+
+        loadBillDetail(billId);
+    }
+
+    private void initViews() {
+        tvRoomNumber = findViewById(R.id.tv_room_number);
+        tvElectricityTotal = findViewById(R.id.tv_electricity_total);
+        tvWaterTotal = findViewById(R.id.tv_water_total);
+        tvServiceTotal = findViewById(R.id.tv_service_total);
+        tvInterestTotal = findViewById(R.id.tv_interest_total);
+        tvTotal = findViewById(R.id.tv_total);
+
+        edMonth = findViewById(R.id.ed_month);
+        edOriginalDueDate = findViewById(R.id.ed_original_due_date);
+        edNewDueDate = findViewById(R.id.ed_new_due_date);
+        edElectricityOld = findViewById(R.id.ed_electricity_old);
+        edElectricityNew = findViewById(R.id.ed_electricity_new);
+        edWaterOld = findViewById(R.id.ed_water_old);
+        edWaterNew = findViewById(R.id.ed_water_new);
+        edInterestRate = findViewById(R.id.ed_interest_rate);
+        edNote = findViewById(R.id.ed_note);
+
+        cbElectricity = findViewById(R.id.cb_electricity);
+        cbWater = findViewById(R.id.cb_water);
+        cbRoom = findViewById(R.id.cb_room);
+        cbInterest = findViewById(R.id.cb_interest);
+        cbLateFee = findViewById(R.id.cb_late_fee);
+
+        btnRemind = findViewById(R.id.btn_remind);
+        btnExtend = findViewById(R.id.btn_extend);
+        btnEdit = findViewById(R.id.btn_edit);
+    }
+
+    private void loadBillDetail(int billId) {
+        ApiService.apiService.getInvoiceById(billId).enqueue(new Callback<Bill>() {
+            @Override
+            public void onResponse(Call<Bill> call, Response<Bill> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Bill bill = response.body();
+                    populateBillDetails(bill);
+                } else {
+                    Log.e("API_ERROR", "Không tải được chi tiết hóa đơn");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Bill> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi khi tải hóa đơn: " + t.getMessage());
+            }
+        });
+    }
+
+    private void populateBillDetails(Bill bill) {
+        tvRoomNumber.setText("Phòng " + bill.getRoomId());
+        edMonth.setText(bill.getBillMonthYear());
+        edOriginalDueDate.setText(bill.getDueDate());
+        edNewDueDate.setText(bill.getExtendedDueDate());
+        edElectricityOld.setText(String.valueOf(bill.getElectricityOldIndex()));
+        edElectricityNew.setText(String.valueOf(bill.getElectricityNewIndex()));
+        edWaterOld.setText(String.valueOf(bill.getWaterOldIndex()));
+        edWaterNew.setText(String.valueOf(bill.getWaterNewIndex()));
+        edInterestRate.setText(String.valueOf(bill.getExtensionFee()));
+        edNote.setText(""); // Set nếu có ghi chú
+
+        tvElectricityTotal.setText(String.format("%,.0f đ", bill.getElectricityAmount()));
+        tvWaterTotal.setText(String.format("%,.0f đ", bill.getWaterAmount()));
+        tvServiceTotal.setText(String.format("%,.0f đ", bill.getRoomAmount()));
+        tvInterestTotal.setText(String.format("%,.0f đ", bill.getExtensionFee()));
+        tvTotal.setText(String.format("%,.0f đ", bill.getAmount()));
+
+        cbElectricity.setChecked(bill.getElectricityAmount() > 0);
+        cbWater.setChecked(bill.getWaterAmount() > 0);
+        cbRoom.setChecked(bill.getRoomAmount() > 0);
+        cbInterest.setChecked(bill.getExtensionFee() > 0);
+        cbLateFee.setChecked(bill.getExtensionDays() > 0);
     }
 }

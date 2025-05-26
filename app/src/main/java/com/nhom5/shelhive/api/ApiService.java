@@ -2,6 +2,8 @@ package com.nhom5.shelhive.api;
 
 import com.nhom5.shelhive.ui.model.PhanAnh;
 import com.nhom5.shelhive.ui.model.ThongBao;
+import com.nhom5.shelhive.ui.model.Bill;
+
 
 import java.util.List;
 import java.util.Map;
@@ -95,6 +97,12 @@ public interface ApiService {
             @Path("email") String email,
             @Body UpdateUserRequest request
     );
+
+    @GET("invoices/room/{roomId}")
+    Call<List<Bill>> getInvoicesByRoom(@Path("roomId") int roomId);
+
+    @GET("invoices/{invoiceId}")
+    Call<Bill> getInvoiceById(@Path("invoiceId") int invoiceId);
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }
