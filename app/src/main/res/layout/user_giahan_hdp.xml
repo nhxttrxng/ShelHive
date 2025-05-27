@@ -730,13 +730,13 @@
             android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Gia hạn"
-            android:textColor="#755200"
-            android:textSize="15sp"
+            android:layout_weight="1"
+            android:backgroundTint="#FBE27A"
             android:fontFamily="@font/nunito_bold"
-            android:backgroundTint="#FBE27A" />
+            android:text="Gửi"
+            android:textColor="#755200"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </RelativeLayout>

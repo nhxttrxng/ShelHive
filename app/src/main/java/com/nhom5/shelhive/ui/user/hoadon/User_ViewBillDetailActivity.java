@@ -41,8 +41,11 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> finish());
 
+        // CHỈNH ĐÚNG ĐOẠN NÀY: btnRemind chuyển sang User_GiaHanActivity, chỉ truyền billId
         btnRemind.setOnClickListener(v -> {
-            Toast.makeText(this, "Tính năng đang phát triển", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(User_ViewBillDetailActivity.this, User_GiaHanActivity.class);
+            intent.putExtra("billId", billId);
+            startActivity(intent);
         });
 
         btnPay.setOnClickListener(v -> {
@@ -70,7 +73,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         try {
                             String paymentUrl = response.body().string().trim();
-                            // Cắt kí tự thừa (nếu có), lấy đúng https://
                             if (paymentUrl.contains("https://")) {
                                 int idx = paymentUrl.indexOf("https://");
                                 paymentUrl = paymentUrl.substring(idx);
@@ -83,7 +85,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            // Mở bằng WebView riêng
                             Intent intent = new Intent(User_ViewBillDetailActivity.this, VnpayWebViewActivity.class);
                             intent.putExtra("url", paymentUrl);
                             startActivity(intent);
@@ -107,12 +108,9 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
 
         loadBillDetail(billId);
         loadMotelInfo(maDay);
-
-        // Xử lý deeplink nếu app được mở lại bằng scheme (ví dụ khi thanh toán thành công)
         handleVnpayDeepLink(getIntent());
     }
 
-    // Khi đã mở activity, nhận deeplink mới phải qua hàm này
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -125,12 +123,10 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
             Uri data = intent.getData();
             Log.d("PAY_DEBUG", "DEEPLINK DATA: " + data);
-            // Log hết mọi param nhận được
             Set<String> keys = data.getQueryParameterNames();
             for (String key : keys) {
                 Log.d("PAY_DEBUG", "DEEPLINK PARAM: " + key + "=" + data.getQueryParameter(key));
             }
-            // VNPay chuẩn sẽ trả vnp_ResponseCode và vnp_TxnRef
             String responseCode = data.getQueryParameter("vnp_ResponseCode");
             String billIdStr = data.getQueryParameter("vnp_TxnRef");
             Log.d("PAY_DEBUG", "ResponseCode: " + responseCode + ", TxnRef: " + billIdStr);
@@ -145,7 +141,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 Toast.makeText(User_ViewBillDetailActivity.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
                                 Log.d("PAY_DEBUG", "Đã update trạng thái bill thành công");
-                                // Reload lại bill mới
                                 loadBillDetail(billIdFromDeepLink);
                                 btnRemind.setVisibility(View.GONE);
                                 btnPay.setVisibility(View.GONE);
