@@ -1,14 +1,29 @@
 package com.nhom5.shelhive.ui.admin.hoadon;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.appdistribution.gradle.ApiService;
+import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.api.CreateBillRequest;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import okhttp3.ResponseBody;
+import android.content.Intent;
+
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Calendar;
 
 public class Admin_CreateBillActivity extends AppCompatActivity {
 
@@ -42,7 +57,13 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
             return;
         }
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiService.apiService;
+
+        // Xử lý chọn tháng (MonthPicker)
+        edMonth.setOnClickListener(v -> showMonthYearPicker());
+
+        // Xử lý chọn hạn thanh toán (DatePicker)
+        edDueDate.setOnClickListener(v -> showDatePicker());
 
         btnCreate.setOnClickListener(v -> {
             String month = edMonth.getText().toString().trim();
@@ -105,5 +126,39 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         } catch (ParseException e) {
             return ddMMyyyy; // Nếu lỗi, trả về nguyên
         }
+    }
+
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    String selectedDate = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
+                    edDueDate.setText(selectedDate);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private void showMonthYearPicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog monthYearPicker = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    String selectedMonthYear = String.format("%02d/%d", month + 1, year);
+                    edMonth.setText(selectedMonthYear);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        // Ẩn ngày
+        try {
+            monthYearPicker.getDatePicker().findViewById(
+                            getResources().getIdentifier("day", "id", "android"))
+                    .setVisibility(android.view.View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        monthYearPicker.show();
     }
 }
