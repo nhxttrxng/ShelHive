@@ -69,11 +69,29 @@
         <activity android:name=".ui.admin.hoadon.Admin_EditBillActivity"/>
         <activity android:name=".ui.admin.hoadon.Admin_ExtendBillActivity"/>
         <activity android:name=".ui.user.hoadon.User_RoomBillDetailActivity"/>
-        <activity android:name=".ui.user.hoadon.User_ViewBillDetailActivity"/>
+        <activity
+            android:name=".ui.user.hoadon.User_ViewBillDetailActivity"
+            android:exported="true">
+        <!-- Khai báo nhận deep link scheme "shelhive", host "vnpay_return" -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="shelhive"
+                    android:host="vnpay_return" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.auth.XacThucMailActivity"/>
         <activity android:name=".ui.user.xacthuc.User_XacThucActivity"/>
         <activity android:name=".ui.user.xacthuc.CameraCCCDActivity"/>
         <activity android:name=".ui.user.xacthuc.User_KiemTraThongTinActivity"/>
+        <activity
+            android:name=".ui.user.hoadon.VnpayWebViewActivity"
+            android:exported="true" />
+
 
         <meta-data
             android:name="preloaded_fonts"

@@ -15,7 +15,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -161,6 +163,17 @@ public interface ApiService {
 
     @GET("motels/{ma_day}")
     Call<GetMotelByIdResponse> getMotelById(@Path("ma_day") int maDay);
+
+    @PATCH("invoices/{id}/status")
+    @Headers("Content-Type: application/json")
+    Call<ResponseBody> updateInvoiceStatus(
+            @Path("id") int invoiceId,
+            @Body Map<String, String> statusBody
+    );
+
+    @POST("vnpay/create_payment")
+    Call<ResponseBody> createPayment(@Body Map<String, Object> body);
+
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }
