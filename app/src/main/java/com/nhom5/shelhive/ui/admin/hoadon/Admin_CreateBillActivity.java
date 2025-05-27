@@ -256,7 +256,7 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         // Cập nhật giao diện tức thì khi check/uncheck
         tvElectricityTotal.setText(formatCurrency(tienDien));
         tvWaterTotal.setText(formatCurrency(tienNuoc));
-        tvServiceTotal.setText(formatCurrency(tienPhong));
+        tvServiceTotal.setText(formatCurrency(tienDichVu));
         tvTotal.setText(formatCurrency(tong));
         tvInterestTotal.setText("0");
 

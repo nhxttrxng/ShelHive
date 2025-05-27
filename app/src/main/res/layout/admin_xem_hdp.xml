@@ -40,7 +40,7 @@
                 android:id="@+id/tv_room_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phòng 1"
+                android:text="Phòng "
                 android:textColor="#755200"
                 android:textSize="14sp"
                 android:fontFamily="@font/nunito_regular" />
@@ -88,7 +88,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="12dp"
-                android:text="01/2025"
+                android:text="0"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_semibold"
                 android:textColor="#755200"
@@ -113,7 +113,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="12dp"
-                android:text="07/02/2025"
+                android:text="0"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_semibold"
                 android:textColor="#755200"
@@ -185,7 +185,7 @@
                     android:id="@+id/ed_electricity_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3.500 đ/kwh"
+                    android:text="0.000 đ/kwh"
                     android:textColor="#755200"
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
@@ -220,7 +220,7 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:paddingHorizontal="12dp"
-                        android:text="923"
+                        android:text="0"
                         android:textSize="16sp"
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
@@ -249,7 +249,7 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:paddingHorizontal="12dp"
-                        android:text="963"
+                        android:text="0"
                         android:textSize="16sp"
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
@@ -285,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="140.000 đ"
+                        android:text="0.000 đ"
                         android:textColor="#755200"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -320,7 +320,7 @@
                     android:id="@+id/ed_water_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7.000 đ/m³"
+                    android:text="0.000 đ/m³"
                     android:textColor="@color/darkbrown"
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
@@ -332,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="24dp">
+                android:layout_marginHorizontal="20dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -355,7 +355,7 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:paddingHorizontal="12dp"
-                        android:text="150"
+                        android:text="0"
                         android:textSize="16sp"
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
@@ -384,7 +384,7 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:paddingHorizontal="12dp"
-                        android:text="180"
+                        android:text="0"
                         android:textSize="16sp"
                         android:fontFamily="@font/nunito_semibold"
                         android:textColor="#755200"
@@ -420,7 +420,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="210.000 đ"
+                        android:text="0.000 đ"
                         android:textColor="#755200"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -455,7 +455,7 @@
                     android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.100.000 đ/tháng"
+                    android:text="0.000 đ/tháng"
                     android:textColor="#755200"
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
@@ -468,15 +468,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="24dp">
-
-                <CheckBox
-                    android:id="@+id/cb_interest"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:checked="true"
-                    style="@style/CustomCheckbox"
-                    android:enabled="false" />
+                android:layout_marginHorizontal="16dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -499,7 +491,8 @@
                     android:textColor="#755200"
                     android:background="@drawable/border_box"
                     android:gravity="center"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:layout_marginEnd="16dp"/>
             </LinearLayout>
 
             <!-- Tiền lãi -->
@@ -508,15 +501,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="24dp">
-
-                <CheckBox
-                    android:id="@+id/cb_late_fee"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:checked="true"
-                    style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                android:layout_marginHorizontal="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -611,7 +596,7 @@
                     android:id="@+id/tv_service_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.450.000 đồng"
+                    android:text="0.000 đồng"
                     android:textColor="#FF8C00"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
@@ -638,7 +623,7 @@
                     android:id="@+id/tv_interest_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="000.0 đồng"
+                    android:text="0.000 đồng"
                     android:textColor="#FF8C00"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
@@ -665,7 +650,7 @@
                     android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.877.750 đồng"
+                    android:text="0.000 đồng"
                     android:textColor="#FF8C00"
                     android:textSize="16sp"
                     android:fontFamily="@font/nunito_bold" />
@@ -684,24 +669,24 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btn_remind"
+            android:id="@+id/btn_delete"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Nhắc nhở"
+            android:text="Xoá"
             android:textColor="#755200"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"
             android:backgroundTint="#FBE27A"/>
 
         <Button
-            android:id="@+id/btn_extend"
+            android:id="@+id/btn_remind"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="8dp"
-            android:text="Gia hạn"
+            android:text="Nhắc nhở"
             android:textColor="#755200"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"

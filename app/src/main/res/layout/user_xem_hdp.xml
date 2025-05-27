@@ -40,10 +40,10 @@
                 android:id="@+id/tv_room_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phòng 1"
+                android:fontFamily="@font/nunito_regular"
+                android:text="Phòng .."
                 android:textColor="#755200"
-                android:textSize="14sp"
-                android:fontFamily="@font/nunito_regular" />
+                android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -87,13 +87,13 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
-                android:paddingHorizontal="12dp"
-                android:text="01/2025"
-                android:textSize="16sp"
-                android:fontFamily="@font/nunito_semibold"
-                android:textColor="#755200"
                 android:background="@drawable/border_box"
-                android:enabled="false" />
+                android:enabled="false"
+                android:fontFamily="@font/nunito_semibold"
+                android:paddingHorizontal="12dp"
+                android:text="0"
+                android:textColor="#755200"
+                android:textSize="16sp" />
 
             <!-- Hạn thanh toán gốc -->
             <TextView
@@ -113,7 +113,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="12dp"
-                android:text="07/02/2025"
+                android:text="0"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_semibold"
                 android:textColor="#755200"
@@ -138,7 +138,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="12dp"
-                android:text="07/04/2025"
+                android:text="0"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_semibold"
                 android:textColor="#755200"
@@ -185,11 +185,11 @@
                     android:id="@+id/ed_electricity_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3.500 đ/kwh"
-                    android:textColor="#755200"
-                    android:textSize="16sp"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="0.000 đ/kwh"
+                    android:textColor="#755200"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -219,13 +219,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
-                        android:paddingHorizontal="12dp"
-                        android:text="923"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="false" />
+                        android:enabled="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingHorizontal="12dp"
+                        android:text="0"
+                        android:textColor="#755200"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -248,13 +248,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
-                        android:paddingHorizontal="12dp"
-                        android:text="963"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="false" />
+                        android:enabled="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingHorizontal="12dp"
+                        android:text="0"
+                        android:textColor="#755200"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -285,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="140.000 đ"
+                        android:text="0.000 đ"
                         android:textColor="#755200"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -320,11 +320,11 @@
                     android:id="@+id/ed_water_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7.000 đ/m³"
-                    android:textColor="@color/darkbrown"
-                    android:textSize="16sp"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="0.000 đ/m³"
+                    android:textColor="@color/darkbrown"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -354,13 +354,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
-                        android:paddingHorizontal="12dp"
-                        android:text="150"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="false" />
+                        android:enabled="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingHorizontal="12dp"
+                        android:text="0"
+                        android:textColor="#755200"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -383,13 +383,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
-                        android:paddingHorizontal="12dp"
-                        android:text="180"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:textColor="#755200"
                         android:background="@drawable/border_box"
-                        android:enabled="false" />
+                        android:enabled="false"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:paddingHorizontal="12dp"
+                        android:text="0"
+                        android:textColor="#755200"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -420,7 +420,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="210.000 đ"
+                        android:text="0.000 đ"
                         android:textColor="#755200"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -455,11 +455,11 @@
                     android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.100.000 đ/tháng"
-                    android:textColor="#755200"
-                    android:textSize="16sp"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="0.000 đ/tháng"
+                    android:textColor="#755200"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <!-- Lãi suất gia hạn -->
@@ -468,15 +468,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="24dp">
-
-                <CheckBox
-                    android:id="@+id/cb_interest"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:checked="true"
-                    style="@style/CustomCheckbox"
-                    android:enabled="false" />
+                android:layout_marginHorizontal="16dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -508,15 +500,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="24dp">
-
-                <CheckBox
-                    android:id="@+id/cb_late_fee"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:checked="true"
-                    style="@style/CustomCheckbox"
-                    android:enabled="true" />
+                android:layout_marginHorizontal="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"

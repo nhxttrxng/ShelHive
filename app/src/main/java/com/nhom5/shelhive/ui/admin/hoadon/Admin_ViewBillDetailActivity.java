@@ -3,17 +3,12 @@ package com.nhom5.shelhive.ui.admin.hoadon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.GetMotelByIdResponse;
 import com.nhom5.shelhive.ui.model.Bill;
 
 import retrofit2.Call;
@@ -27,13 +22,15 @@ import java.util.Locale;
 public class Admin_ViewBillDetailActivity extends AppCompatActivity {
 
     private int billId;
+    private int maDay = -1; // mã dãy lấy từ intent
 
-    private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvInterestTotal, tvTotal;
+    private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvInterestTotal, tvLateFee, tvLateDays, tvTotal;
+    private TextView tvRoomPrice, tvElectricityPrice, tvWaterPrice;
     private EditText edMonth, edOriginalDueDate, edNewDueDate, edElectricityOld, edElectricityNew,
-            edWaterOld, edWaterNew, edInterestRate, edNote;
-    private CheckBox cbElectricity, cbWater, cbRoom, cbInterest, cbLateFee;
+            edWaterOld, edWaterNew, edInterestRate;
+    private CheckBox cbElectricity, cbWater, cbRoom;
 
-    private Button btnRemind, btnExtend, btnEdit;
+    private Button btnRemind, btnDelete, btnEdit;
     private LinearLayout bottomButtons;
 
     @Override
@@ -42,6 +39,7 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         setContentView(R.layout.admin_xem_hdp);
 
         billId = getIntent().getIntExtra("BILL_ID", -1);
+        maDay = getIntent().getIntExtra("MA_DAY", -1);
 
         initViews();
 
@@ -52,13 +50,16 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
             // Xử lý logic nhắc nhở hóa đơn
         });
 
-        btnExtend.setOnClickListener(v -> {
+        btnDelete.setOnClickListener(v -> {
             // Xử lý logic gia hạn hóa đơn
         });
 
         btnEdit.setOnClickListener(v -> {
             // Xử lý logic chỉnh sửa hóa đơn
         });
+
+        // Lấy giá điện, nước từ mã dãy truyền qua intent
+        loadElectricWaterPriceFromMaDay();
 
         loadBillDetail(billId);
     }
@@ -69,7 +70,13 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         tvWaterTotal = findViewById(R.id.tv_water_total);
         tvServiceTotal = findViewById(R.id.tv_service_total);
         tvInterestTotal = findViewById(R.id.tv_interest_total);
+        tvLateFee = findViewById(R.id.tv_late_fee);
+        tvLateDays = findViewById(R.id.tv_late_days);
         tvTotal = findViewById(R.id.tv_total);
+
+        tvRoomPrice = findViewById(R.id.tv_room_price);
+        tvElectricityPrice = findViewById(R.id.ed_electricity_price);
+        tvWaterPrice = findViewById(R.id.ed_water_price);
 
         edMonth = findViewById(R.id.ed_month);
         edOriginalDueDate = findViewById(R.id.ed_original_due_date);
@@ -83,14 +90,39 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         cbElectricity = findViewById(R.id.cb_electricity);
         cbWater = findViewById(R.id.cb_water);
         cbRoom = findViewById(R.id.cb_room);
-        cbInterest = findViewById(R.id.cb_interest);
-        cbLateFee = findViewById(R.id.cb_late_fee);
 
+        btnDelete = findViewById(R.id.btn_delete);
         btnRemind = findViewById(R.id.btn_remind);
-        btnExtend = findViewById(R.id.btn_extend);
         btnEdit = findViewById(R.id.btn_edit);
 
         bottomButtons = findViewById(R.id.bottom_buttons);
+    }
+
+    private void loadElectricWaterPriceFromMaDay() {
+        if (maDay > 0) {
+            ApiService.apiService.getMotelById(maDay).enqueue(new Callback<GetMotelByIdResponse>() {
+                @Override
+                public void onResponse(Call<GetMotelByIdResponse> call, Response<GetMotelByIdResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        double giaDien = response.body().getGiaDien();
+                        double giaNuoc = response.body().getGiaNuoc();
+                        tvElectricityPrice.setText(formatCurrency(giaDien) + " đ/kwh");
+                        tvWaterPrice.setText(formatCurrency(giaNuoc) + " đ/m³");
+                    } else {
+                        tvElectricityPrice.setText("0 đ/kwh");
+                        tvWaterPrice.setText("0 đ/m³");
+                    }
+                }
+                @Override
+                public void onFailure(Call<GetMotelByIdResponse> call, Throwable t) {
+                    tvElectricityPrice.setText("0 đ/kwh");
+                    tvWaterPrice.setText("0 đ/m³");
+                }
+            });
+        } else {
+            tvElectricityPrice.setText("0 đ/kwh");
+            tvWaterPrice.setText("0 đ/m³");
+        }
     }
 
     private void loadBillDetail(int billId) {
@@ -134,14 +166,24 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         edWaterOld.setText(String.valueOf(bill.getWaterOldIndex()));
         edWaterNew.setText(String.valueOf(bill.getWaterNewIndex()));
 
-        // Lãi suất gia hạn: dùng lãi suất hằng số hoặc từ backend, ví dụ luôn "0.5"
-        edInterestRate.setText("0.5");
+        // Tiền phòng
+        tvRoomPrice.setText(formatCurrency(bill.getRoomAmount()) + " đ/tháng");
+
+        // Lãi suất gia hạn:
+        // edInterestRate.setText("0.0"); // Nếu sau này có API thì lấy bằng getExtensionByMaHoaDon
+        edInterestRate.setText(""); // Để trống hoặc ghi chú, vợ muốn thì cho giá trị mặc định
 
         // Tổng tiền điện/nước/phòng/lãi
         tvElectricityTotal.setText(formatCurrency(bill.getElectricityAmount()));
         tvWaterTotal.setText(formatCurrency(bill.getWaterAmount()));
-        tvServiceTotal.setText(formatCurrency(bill.getRoomAmount()));
+        tvServiceTotal.setText(formatCurrency(bill.getRoomAmount()+bill.getElectricityAmount()+bill.getWaterAmount())); // Nếu muốn là dịch vụ thì: điện+nước+phòng
         tvInterestTotal.setText(formatCurrency(bill.getExtensionFee()));
+        tvLateFee.setText(formatCurrency(bill.getExtensionFee()));
+
+        // Số ngày trễ hạn (nếu có)
+        tvLateDays.setText(String.valueOf(bill.getExtensionDays()));
+
+        // Tổng hóa đơn
         tvTotal.setText(formatCurrency(bill.getAmount()));
 
         // Checkbox dịch vụ (có sử dụng hay không)
@@ -150,9 +192,8 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         cbRoom.setChecked(bill.getRoomAmount() > 0);
 
         // Checkbox lãi suất gia hạn và tiền lãi (phụ thuộc newDueDate)
-        boolean hasExtension = (newDueDate != null && !newDueDate.trim().isEmpty());
-        cbInterest.setChecked(hasExtension);
-        cbLateFee.setChecked(hasExtension);
+        // Note: Nếu có dữ liệu lãi suất từ BE thì gán vào edInterestRate
+        // TODO: Lấy lãi suất từ API getExtensionByMaHoaDon nếu có
 
         // Ẩn 3 button nếu hóa đơn đã thanh toán
         String status = bill.getStatus() != null ? bill.getStatus().trim().toLowerCase() : "";

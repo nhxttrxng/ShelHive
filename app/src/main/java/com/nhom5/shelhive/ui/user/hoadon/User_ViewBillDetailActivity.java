@@ -23,10 +23,10 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
     private int billId;
     private int maDay = -1;
     private int roomId = -1;
-    private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvInterestTotal, tvTotal;
+
+    private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvInterestTotal, tvLateFee, tvLateDays, tvTotal, tvRoomPrice, tvElectricityPrice, tvWaterPrice;
     private EditText edMonth, edOriginalDueDate, edNewDueDate, edElectricityOld, edElectricityNew, edWaterOld, edWaterNew, edInterestRate;
-    private TextView edElectricityPrice, edWaterPrice;
-    private CheckBox cbElectricity, cbWater, cbRoom, cbInterest, cbLateFee;
+    private CheckBox cbElectricity, cbWater, cbRoom;
     private Button btnRemind, btnPay;
 
     @Override
@@ -41,7 +41,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> finish());
 
-        // CHỈNH ĐÚNG ĐOẠN NÀY: btnRemind chuyển sang User_GiaHanActivity, chỉ truyền billId
         btnRemind.setOnClickListener(v -> {
             Intent intent = new Intent(User_ViewBillDetailActivity.this, User_GiaHanActivity.class);
             intent.putExtra("billId", billId);
@@ -106,8 +105,12 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
             });
         });
 
-        loadBillDetail(billId);
+        // Load giá điện, nước từ mã dãy
         loadMotelInfo(maDay);
+
+        // Load chi tiết hóa đơn
+        loadBillDetail(billId);
+
         handleVnpayDeepLink(getIntent());
     }
 
@@ -164,7 +167,13 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         tvWaterTotal = findViewById(R.id.tv_water_total);
         tvServiceTotal = findViewById(R.id.tv_service_total);
         tvInterestTotal = findViewById(R.id.tv_interest_total);
+        tvLateFee = findViewById(R.id.tv_late_fee);
+        tvLateDays = findViewById(R.id.tv_late_days);
         tvTotal = findViewById(R.id.tv_total);
+
+        tvRoomPrice = findViewById(R.id.tv_room_price);
+        tvElectricityPrice = findViewById(R.id.ed_electricity_price);
+        tvWaterPrice = findViewById(R.id.ed_water_price);
 
         edMonth = findViewById(R.id.ed_month);
         edOriginalDueDate = findViewById(R.id.ed_original_due_date);
@@ -175,14 +184,9 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         edWaterNew = findViewById(R.id.ed_water_new);
         edInterestRate = findViewById(R.id.ed_interest_rate);
 
-        edElectricityPrice = findViewById(R.id.ed_electricity_price);
-        edWaterPrice = findViewById(R.id.ed_water_price);
-
         cbElectricity = findViewById(R.id.cb_electricity);
         cbWater = findViewById(R.id.cb_water);
         cbRoom = findViewById(R.id.cb_room);
-        cbInterest = findViewById(R.id.cb_interest);
-        cbLateFee = findViewById(R.id.cb_late_fee);
 
         btnRemind = findViewById(R.id.btn_remind);
         btnPay = findViewById(R.id.btn_extend);
@@ -208,18 +212,27 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
     }
 
     private void loadMotelInfo(int maDay) {
-        if (maDay == -1) return;
+        if (maDay == -1) {
+            tvElectricityPrice.setText("0 đ/kwh");
+            tvWaterPrice.setText("0 đ/m³");
+            return;
+        }
         ApiService.apiService.getMotelById(maDay).enqueue(new Callback<GetMotelByIdResponse>() {
             @Override
             public void onResponse(Call<GetMotelByIdResponse> call, Response<GetMotelByIdResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     GetMotelByIdResponse motel = response.body();
-                    edElectricityPrice.setText(formatCurrency(motel.getGiaDien()) + "/kwh");
-                    edWaterPrice.setText(formatCurrency(motel.getGiaNuoc()) + "/m³");
+                    tvElectricityPrice.setText(formatCurrency(motel.getGiaDien()) + " đ/kwh");
+                    tvWaterPrice.setText(formatCurrency(motel.getGiaNuoc()) + " đ/m³");
+                } else {
+                    tvElectricityPrice.setText("0 đ/kwh");
+                    tvWaterPrice.setText("0 đ/m³");
                 }
             }
             @Override
             public void onFailure(Call<GetMotelByIdResponse> call, Throwable t) {
+                tvElectricityPrice.setText("0 đ/kwh");
+                tvWaterPrice.setText("0 đ/m³");
                 Log.e("API_ERROR", "Không lấy được giá điện/nước: " + t.getMessage());
             }
         });
@@ -238,20 +251,36 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         edElectricityNew.setText(String.valueOf(bill.getElectricityNewIndex()));
         edWaterOld.setText(String.valueOf(bill.getWaterOldIndex()));
         edWaterNew.setText(String.valueOf(bill.getWaterNewIndex()));
-        edInterestRate.setText("0.5");
 
+        // Tiền phòng
+        tvRoomPrice.setText(formatCurrency(bill.getRoomAmount()) + " đ/tháng");
+
+        // Tổng thành tiền điện, nước
         tvElectricityTotal.setText(formatCurrency(bill.getElectricityAmount()));
         tvWaterTotal.setText(formatCurrency(bill.getWaterAmount()));
-        tvServiceTotal.setText(formatCurrency(bill.getRoomAmount()));
+
+        // Tổng tiền dịch vụ = điện + nước + phòng
+        double tienDichVu = bill.getElectricityAmount() + bill.getWaterAmount() + bill.getRoomAmount();
+        tvServiceTotal.setText(formatCurrency(tienDichVu));
+
+        // Lãi suất và số ngày trễ hạn (nếu có)
         tvInterestTotal.setText(formatCurrency(bill.getExtensionFee()));
+        tvLateFee.setText(formatCurrency(bill.getExtensionFee()));
+        tvLateDays.setText(String.valueOf(bill.getExtensionDays()));
+
+        // Tổng hóa đơn
         tvTotal.setText(formatCurrency(bill.getAmount()));
 
+        // Checkbox dịch vụ (auto check/uncheck theo giá trị)
         cbElectricity.setChecked(bill.getElectricityAmount() > 0);
         cbWater.setChecked(bill.getWaterAmount() > 0);
         cbRoom.setChecked(bill.getRoomAmount() > 0);
         boolean hasExtension = (newDueDate != null && !newDueDate.trim().isEmpty());
-        cbInterest.setChecked(hasExtension);
-        cbLateFee.setChecked(hasExtension);
+
+
+        // Lãi suất hiện tại: ghi chú, nếu sau này có API thì load lên (TODO)
+        // edInterestRate.setText(""); // hoặc set mặc định nếu cần
+        edInterestRate.setText(""); // Ghi chú, để trống hiện tại
 
         if (bill.getStatus() != null && bill.getStatus().trim().equalsIgnoreCase("Đã thanh toán")) {
             btnRemind.setVisibility(View.GONE);
