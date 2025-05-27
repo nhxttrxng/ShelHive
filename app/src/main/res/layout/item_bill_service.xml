@@ -1,0 +1,164 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="#F8F8DB">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DỊCH VỤ SỬ DỤNG"
+        android:textSize="16sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_bold"/>
+
+    <!-- Mô tả -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hãy chọn dịch vụ mà khách sử dụng"
+        android:textSize="14sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_regular"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="8dp"/>
+
+    <!-- Tiền điện -->
+    <CheckBox
+        android:id="@+id/cb_electricity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Tiền điện: 3.500 đ/kwh"
+        android:textSize="16sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_bold" />
+
+    <!-- Số cũ / Số mới điện -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:text="Số cũ" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#755200" android:textSize="16sp" android:fontFamily="@font/nunito_bold" />
+                <TextView android:text="*" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D80000" android:textSize="16sp" android:fontFamily="@font/nunito_bold" android:layout_marginStart="4dp"/>
+            </LinearLayout>
+            <EditText android:id="@+id/ed_electricity_old" android:layout_width="match_parent" android:layout_height="40dp" android:hint="Nhập số cũ" android:textSize="16sp" android:inputType="number" android:background="@drawable/border_box" android:padding="12dp" android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="4dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:text="Số mới" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#755200" android:textSize="16sp" android:fontFamily="@font/nunito_bold" />
+                <TextView android:text="*" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D80000" android:textSize="16sp" android:fontFamily="@font/nunito_bold" android:layout_marginStart="4dp"/>
+            </LinearLayout>
+            <EditText android:id="@+id/ed_electricity_new" android:layout_width="match_parent" android:layout_height="40dp" android:hint="Nhập số mới" android:textSize="16sp" android:inputType="number" android:background="@drawable/border_box" android:padding="12dp" android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/tv_electricity_total" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Thành tiền: 0 đ" android:textSize="16sp" android:textColor="#755200" android:fontFamily="@font/nunito_bold" android:layout_marginTop="8dp"/>
+
+    <!-- Tiền nước -->
+    <CheckBox
+        android:id="@+id/cb_water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Tiền nước: 7.000 đ/m³"
+        android:textSize="16sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_bold"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Số cũ / Số mới nước -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="4dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:text="Số cũ" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#755200" android:textSize="16sp" android:fontFamily="@font/nunito_bold" />
+                <TextView android:text="*" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D80000" android:textSize="16sp" android:fontFamily="@font/nunito_bold" android:layout_marginStart="4dp"/>
+            </LinearLayout>
+            <EditText android:id="@+id/ed_water_old" android:layout_width="match_parent" android:layout_height="40dp" android:hint="Nhập số cũ" android:textSize="16sp" android:inputType="number" android:background="@drawable/border_box" android:padding="12dp" android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="4dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:text="Số mới" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#755200" android:textSize="16sp" android:fontFamily="@font/nunito_bold" />
+                <TextView android:text="*" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D80000" android:textSize="16sp" android:fontFamily="@font/nunito_bold" android:layout_marginStart="4dp"/>
+            </LinearLayout>
+            <EditText android:id="@+id/ed_water_new" android:layout_width="match_parent" android:layout_height="40dp" android:hint="Nhập số mới" android:textSize="16sp" android:inputType="number" android:background="@drawable/border_box" android:padding="12dp" android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/tv_water_total" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Thành tiền: 0 đ" android:textSize="16sp" android:textColor="#755200" android:fontFamily="@font/nunito_bold" android:layout_marginTop="8dp"/>
+
+    <!-- Tiền phòng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <CheckBox
+            android:id="@+id/cb_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Tiền phòng"
+            android:textSize="16sp"
+            android:textColor="#755200"
+            android:fontFamily="@font/nunito_bold" />
+
+        <TextView
+            android:id="@+id/tv_room_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.100.000 đ/tháng"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_regular"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,130 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THÔNG TIN HÓA ĐƠN"
+        android:textSize="16sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_bold" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vui lòng nhập đầy đủ các thông tin dưới đây"
+        android:textSize="14sp"
+        android:textColor="#755200"
+        android:paddingBottom="8dp"
+        android:fontFamily="@font/nunito_regular" />
+
+    <!-- Chọn tháng -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn tháng"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#D80000"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <EditText
+            android:id="@+id/ed_month"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="MM/YYYY"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_semibold"
+            android:textColor="#755200"
+            android:background="@drawable/border_box"
+            android:focusable="false"
+            android:clickable="true"
+            android:padding="12dp" />
+
+        <ImageView
+            android:id="@+id/ic_calendar_month"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_calendar" />
+    </RelativeLayout>
+
+    <!-- Chọn hạn thanh toán -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn hạn thanh toán"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#D80000"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_bold"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <EditText
+            android:id="@+id/ed_due_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="DD/MM/YYYY"
+            android:textSize="16sp"
+            android:fontFamily="@font/nunito_semibold"
+            android:textColor="#755200"
+            android:background="@drawable/border_box"
+            android:focusable="false"
+            android:clickable="true"
+            android:padding="12dp" />
+
+        <ImageView
+            android:id="@+id/ic_calendar_due"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_calendar" />
+    </RelativeLayout>
+</LinearLayout>

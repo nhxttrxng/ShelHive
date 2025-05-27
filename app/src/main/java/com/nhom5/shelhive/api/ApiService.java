@@ -130,5 +130,8 @@ public interface ApiService {
     @GET("invoices/room/{ma_phong}")
     Call<List<GetBillByRoomResponse>> getBillsByRoom(@Path("ma_phong") int maPhong);
 
+    @POST("invoices") // Đường dẫn đến API tạo hóa đơn mới
+    Call<ResponseBody> createInvoice(@Body CreateBillRequest request);
+
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

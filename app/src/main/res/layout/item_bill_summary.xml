@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F8F8DB"
+    android:padding="12dp">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TỔNG HỢP"
+        android:textSize="16sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_bold"/>
+
+    <!-- Gợi ý -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kiểm tra kỹ lại thông tin trước khi tạo"
+        android:textSize="14sp"
+        android:textColor="#755200"
+        android:fontFamily="@font/nunito_regular"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="4dp"/>
+
+    <!-- Tiền dịch vụ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Tiền dịch vụ"
+            android:textSize="16sp"
+            android:textColor="#755200"
+            android:fontFamily="@font/nunito_regular"/>
+
+        <TextView
+            android:id="@+id/tv_service_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 đồng"
+            android:textSize="16sp"
+            android:textColor="#FF8C00"
+            android:fontFamily="@font/nunito_bold"/>
+    </LinearLayout>
+
+    <!-- Tổng tiền -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền"
+            android:textSize="16sp"
+            android:textColor="#755200"
+            android:fontFamily="@font/nunito_regular"/>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 đồng"
+            android:textSize="16sp"
+            android:textColor="#D70000"
+            android:fontFamily="@font/nunito_bold"/>
+    </LinearLayout>
+</LinearLayout>

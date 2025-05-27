@@ -1,0 +1,5 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingVertical="16dp">
+
+    <Button android:id="@+id/btn_create" android:layout_width="140dp" android:layout_height="48dp" android:layout_alignParentEnd="true" android:text="Tạo" android:textColor="#755200" android:textSize="15sp" android:fontFamily="@font/nunito_bold" android:backgroundTint="#FBE27A" android:elevation="2dp" />
+</RelativeLayout>
