@@ -158,7 +158,7 @@ public interface ApiService {
     Call<Void> xoaThongBaoHoaDon(@Path("ma_thong_bao_hoa_don") int maThongBaoHD);
     @GET("notifications/day/{ma_day}")
     Call<ThongBaoResponse> getThongBaoByMaDay(@Path("ma_day") int maDay);
-    @GET("invoice-notifications/day/{ma_day}")
+    @GET("invoice-notifications/daytro/{ma_day}")
     Call<List<ThongBaoHoaDon>> getThongBaoHoaDonByMaDay(@Path("ma_day") int maDay);
 
     @GET("motels/{ma_day}")
