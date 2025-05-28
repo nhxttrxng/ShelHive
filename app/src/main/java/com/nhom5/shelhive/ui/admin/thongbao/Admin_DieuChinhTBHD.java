@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
-import com.nhom5.shelhive.api.ThongBaoRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,8 +41,8 @@ public class Admin_DieuChinhTBHD extends AppCompatActivity {
         setContentView(R.layout.admin_xoa_thong_bao);
 
         edtNoiDung = findViewById(R.id.edt_notification_content);
-        btnXoa = findViewById(R.id.btn_delete);
-        btnSua = findViewById(R.id.btn_edit);
+        btnXoa = findViewById(R.id.btn_reject);
+        btnSua = findViewById(R.id.btn_agree);
         RelativeLayout editCard = findViewById(R.id.edit_notification_card); // Thêm dòng này nếu chưa có
 
         ImageView btnBack = findViewById(R.id.btn_back);

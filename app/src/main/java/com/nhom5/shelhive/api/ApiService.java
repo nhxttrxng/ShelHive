@@ -121,6 +121,16 @@ public interface ApiService {
     @GET("extensions/pending-by-room/{roomId}")
     Call<List<Extension>> getPendingExtensionsByRoomId(@Path("roomId") int roomId);
 
+    @GET("extensions/{id}")
+    Call<Extension> getExtensionById(@Path("id") int id);
+
+    // Duyệt yêu cầu gia hạn
+    @PATCH("extensions/{id}/approve")
+    Call<ResponseBody> approveExtension(@Path("id") int id);
+
+    // Từ chối yêu cầu gia hạn
+    @PATCH("extensions/{id}/reject")
+    Call<ResponseBody> rejectExtension(@Path("id") int id);
 
     // --- PHẢN ÁNH (REPORT) ---
     @GET("reports/{tinh_trang}")

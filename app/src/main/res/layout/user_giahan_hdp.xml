@@ -219,15 +219,16 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
+                    android:id="@+id/tv_electricity_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nunito_regular"
                     android:text="3.500 đ/kwh"
                     android:textColor="#755200"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:textSize="16sp" />
             </LinearLayout>
             
             <!-- Số điện mới và cũ -->
@@ -354,15 +355,16 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
+                    android:id="@+id/tv_water_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nunito_regular"
                     android:text="7.000 đ/m³"
                     android:textColor="#755200"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:textSize="16sp" />
             </LinearLayout>
             
             <!-- Số nước mới và cũ -->
@@ -489,15 +491,16 @@
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/nunito_bold" />
-                    
+
                 <TextView
+                    android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/nunito_regular"
                     android:text="1.100.000 đ/tháng"
                     android:textColor="#755200"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/nunito_regular" />
+                    android:textSize="16sp" />
             </LinearLayout>
             
             <!-- Lãi suất gia hạn -->

@@ -103,8 +103,8 @@ public class MotelAdapter extends RecyclerView.Adapter<MotelAdapter.MotelViewHol
             swipeLayout = itemView.findViewById(R.id.swipe_layout);
             nameTextView = itemView.findViewById(R.id.text_name);
             addressTextView = itemView.findViewById(R.id.text_address);
-            btnEdit = itemView.findViewById(R.id.btn_edit);
-            btnDelete = itemView.findViewById(R.id.btn_delete);
+            btnEdit = itemView.findViewById(R.id.btn_agree);
+            btnDelete = itemView.findViewById(R.id.btn_reject);
             itemContainer = itemView.findViewById(R.id.item_container);
         }
     }

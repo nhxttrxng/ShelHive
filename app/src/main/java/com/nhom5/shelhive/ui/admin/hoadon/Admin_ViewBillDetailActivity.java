@@ -174,9 +174,9 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         cbWater = findViewById(R.id.cb_water);
         cbRoom = findViewById(R.id.cb_room);
 
-        btnDelete = findViewById(R.id.btn_delete);
+        btnDelete = findViewById(R.id.btn_reject);
         btnRemind = findViewById(R.id.btn_remind);
-        btnEdit = findViewById(R.id.btn_edit);
+        btnEdit = findViewById(R.id.btn_agree);
 
         bottomButtons = findViewById(R.id.bottom_buttons);
     }

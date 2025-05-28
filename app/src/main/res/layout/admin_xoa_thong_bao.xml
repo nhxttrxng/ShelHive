@@ -132,7 +132,7 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_reject"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
@@ -147,7 +147,7 @@
             android:layout_height="0dp" />
 
         <Button
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_agree"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"

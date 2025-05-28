@@ -669,7 +669,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_reject"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
@@ -693,7 +693,7 @@
             android:backgroundTint="#FBE27A" />
 
         <Button
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_agree"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"

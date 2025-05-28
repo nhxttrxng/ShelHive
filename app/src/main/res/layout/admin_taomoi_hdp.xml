@@ -557,7 +557,7 @@
             android:fontFamily="@font/nunito_bold"
             android:backgroundTint="#FF7383"/>
         <Button
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_agree"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"

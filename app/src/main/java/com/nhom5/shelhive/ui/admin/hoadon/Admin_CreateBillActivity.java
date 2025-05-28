@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -88,7 +87,7 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         cbWater = findViewById(R.id.cb_water);
         cbRoom = findViewById(R.id.cb_room);
 
-        btnCreate = findViewById(R.id.btn_edit);
+        btnCreate = findViewById(R.id.btn_agree);
         btnCancel = findViewById(R.id.btn_remind);
 
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());

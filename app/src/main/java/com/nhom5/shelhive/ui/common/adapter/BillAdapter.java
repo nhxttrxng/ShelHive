@@ -74,14 +74,18 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         Bill bill = billList.get(position);
 
-        // Hiển thị bill name: "Tháng MM/yyyy" từ getThangNam()
+        // Hiển thị bill name: "Tháng MM/yyyy"
         holder.tvBillId.setText(formatMonthYear(bill.getBillMonthYear()));
 
         // Format số tiền
         holder.tvAmount.setText(formatCurrency(bill.getAmount()));
 
-        // Hiển thị và format ngày
-        holder.tvDueDate.setText(formatDate(bill.getDueDate()));
+        // Nếu có extendedDueDate thì hiển thị extended, không thì dueDate
+        String extendedDueDate = bill.getExtendedDueDate();
+        String displayDueDate = (extendedDueDate != null && !extendedDueDate.trim().isEmpty())
+                ? formatDate(extendedDueDate)
+                : formatDate(bill.getDueDate());
+        holder.tvDueDate.setText(displayDueDate);
 
         // Đổi màu chỉ cho trạng thái
         String status = bill.getStatus();
@@ -90,7 +94,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         if ("Trễ hạn".equalsIgnoreCase(status)) {
             holder.tvStatus.setTextColor(Color.RED);
         } else if ("Đã thanh toán".equalsIgnoreCase(status)) {
-            holder.tvStatus.setTextColor(Color.parseColor("#388E3C")); // xanh lá
+            holder.tvStatus.setTextColor(Color.parseColor("#388E3C"));
         } else {
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.darkbrown));
         }

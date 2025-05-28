@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_agree"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:text="Sửa"
@@ -24,7 +24,7 @@
             android:background="@color/yellow" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_reject"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:text="Xoá"

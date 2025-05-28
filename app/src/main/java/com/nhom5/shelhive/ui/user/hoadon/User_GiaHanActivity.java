@@ -22,10 +22,17 @@ import java.util.*;
 
 public class User_GiaHanActivity extends AppCompatActivity {
     private int billId;
-    private Bill billDetail; // Để lưu lại dữ liệu hóa đơn
+    private Bill billDetail;
+
     private EditText edNewDueDate, edInterestRate;
-    private TextView edMonth, edOriginalDueDate, tvRoomNumber, tvServiceTotal, tvDays, tvLateFee, tvInterestTotal, tvTotal;
+    private TextView edMonth, edOriginalDueDate, tvRoomNumber;
+    private TextView tvServiceTotal, tvElectricityTotal, tvWaterTotal, tvRoomTotal;
+    private TextView tvDays, tvLateFee, tvInterestTotal, tvTotal;
     private Button btnSave, btnCancel;
+
+    // Thông tin dịch vụ phụ
+    private TextView tvElectricityPrice, tvWaterPrice, tvRoomPrice;
+    private EditText edElectricityOld, edElectricityNew, edWaterOld, edWaterNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +49,33 @@ public class User_GiaHanActivity extends AppCompatActivity {
         edMonth = findViewById(R.id.ed_month);
         edOriginalDueDate = findViewById(R.id.ed_original_due_date);
         tvRoomNumber = findViewById(R.id.tv_room_number);
+
+        // Tổng dịch vụ & từng thành phần
         tvServiceTotal = findViewById(R.id.tv_service_total);
-        tvDays = findViewById(R.id.tv_days);
+        tvElectricityTotal = findViewById(R.id.tv_electricity_total);
+        tvWaterTotal = findViewById(R.id.tv_water_total);
+
+        tvElectricityPrice = findViewById(R.id.tv_electricity_price);
+        tvWaterPrice = findViewById(R.id.tv_water_price);
+        tvRoomPrice = findViewById(R.id.tv_room_price);
+
+        edElectricityOld = findViewById(R.id.ed_electricity_old);
+        edElectricityNew = findViewById(R.id.ed_electricity_new);
+        edWaterOld = findViewById(R.id.ed_water_old);
+        edWaterNew = findViewById(R.id.ed_water_new);
+
+        tvDays = findViewById(R.id.tv_days); // có thể đổi lại id nếu layout khác
         tvLateFee = findViewById(R.id.tv_late_fee);
         tvInterestTotal = findViewById(R.id.tv_interest_total);
         tvTotal = findViewById(R.id.tv_total);
+
         btnSave = findViewById(R.id.btn_save);
         btnCancel = findViewById(R.id.btn_cancel);
+
+        ImageView btnBack = findViewById(R.id.btn_back);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         // Lấy lại detail bill theo billId
         if (billId != -1) {
@@ -91,24 +118,45 @@ public class User_GiaHanActivity extends AppCompatActivity {
             }
         });
 
-        // Nút Hủy
         btnCancel.setOnClickListener(view -> finish());
-
-        // Nút Gia hạn (Gửi API)
         btnSave.setOnClickListener(view -> sendExtensionRequest());
     }
 
     private void fillBillDetail() {
         if (billDetail == null) return;
-        tvRoomNumber.setText("Phòng " + billDetail.getRoomId());
+
+        // Lấy 2 số cuối của roomId
+        String roomIdStr = String.valueOf(billDetail.getRoomId());
+        String lastTwoDigits = roomIdStr.length() >= 2
+                ? roomIdStr.substring(roomIdStr.length() - 2)
+                : roomIdStr; // Nếu < 2 ký tự thì giữ nguyên
+        tvRoomNumber.setText("Phòng " + lastTwoDigits);
         edMonth.setText(formatMonthYear(billDetail.getBillMonthYear()));
         edOriginalDueDate.setText(formatDate(billDetail.getDueDate()));
-        tvServiceTotal.setText(formatCurrency(billDetail.getRoomAmount()));
+
+        // Điền giá trị dịch vụ
+        // Tiền phòng
+        tvRoomPrice.setText(formatCurrency(billDetail.getRoomAmount()) + "/tháng");
+        // Tiền điện
+        tvElectricityPrice.setText(formatCurrency(billDetail.getElectricityAmount()) + "/kwh");
+        // Tiền nước
+        tvWaterPrice.setText(formatCurrency(billDetail.getWaterAmount()) + "/m³");
+
+        // Chỉ số điện nước
+        edElectricityOld.setText(String.valueOf(billDetail.getElectricityOldIndex()));
+        edElectricityNew.setText(String.valueOf(billDetail.getElectricityNewIndex()));
+        edWaterOld.setText(String.valueOf(billDetail.getWaterOldIndex()));
+        edWaterNew.setText(String.valueOf(billDetail.getWaterNewIndex()));
+
+        // Hiển thị từng thành phần dịch vụ
+        tvElectricityTotal.setText(formatCurrency(billDetail.getElectricityAmount()));
+        tvWaterTotal.setText(formatCurrency(billDetail.getWaterAmount()));
+        tvServiceTotal.setText(formatCurrency(billDetail.getRoomAmount() + billDetail.getElectricityAmount() + billDetail.getWaterAmount()));
 
         // Giá trị mặc định cho lãi suất
         edInterestRate.setText("0.5");
 
-        // Set hạn mới mặc định bằng hạn cũ hoặc rỗng để user nhập lại
+        // Set hạn mới mặc định là trống cho user chọn
         edNewDueDate.setText("");
 
         recalculate();
@@ -175,18 +223,17 @@ public class User_GiaHanActivity extends AppCompatActivity {
         int days = getDateDiffInDays(goc, moi);
         tvDays.setText(days + " ngày");
 
-        String serviceStr = tvServiceTotal.getText().toString().replaceAll("[^\\d]", "");
-        double serviceTotal = 0;
-        try { serviceTotal = Double.parseDouble(serviceStr); } catch (Exception e) {}
+        // Tính tổng dịch vụ: phòng + điện + nước
+        double serviceTotal = billDetail.getRoomAmount() + billDetail.getElectricityAmount() + billDetail.getWaterAmount();
 
         double interest = 0;
         try { interest = Double.parseDouble(interestStr); } catch (Exception e) {}
 
         double lateFee = serviceTotal * (interest / 100.0) * days;
-        tvLateFee.setText(formatMoney(lateFee) + " đồng");
-        tvInterestTotal.setText(formatMoney(lateFee) + " đồng");
+        tvLateFee.setText(formatCurrency(lateFee));
+        tvInterestTotal.setText(formatCurrency(lateFee));
         double total = serviceTotal + lateFee;
-        tvTotal.setText(formatMoney(total) + " đồng");
+        tvTotal.setText(formatCurrency(total));
     }
 
     private int getDateDiffInDays(String from, String to) {
@@ -200,11 +247,6 @@ public class User_GiaHanActivity extends AppCompatActivity {
         } catch (Exception e) {
             return 0;
         }
-    }
-
-    private String formatMoney(double amount) {
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        return formatter.format(amount);
     }
 
     private String formatCurrency(double amount) {

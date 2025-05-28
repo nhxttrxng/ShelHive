@@ -55,7 +55,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.Exte
 
         if (bill != null) {
             holder.tvBillId.setText(formatMonthYear(bill.getBillMonthYear()));
-            double tongTien = bill.getAmount() + ext.getExpectedInterest();
+            double tongTien = bill.getElectricityAmount() + bill.getWaterAmount() + bill.getRoomAmount() + ext.getExpectedInterest();
             holder.tvAmount.setText(formatCurrency(tongTien));
             holder.tvDueDate.setText(formatDate(ext.getNewDueDate()));
             String status = bill.getStatus();
