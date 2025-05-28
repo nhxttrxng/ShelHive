@@ -3,8 +3,6 @@ package com.nhom5.shelhive.ui.admin.hoadon;
 import android.app.DatePickerDialog;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -103,7 +101,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         edOriginalDueDate.setOnClickListener(v -> showDatePicker());
 
         fetchAllData();
-        setupAutoCalculation();
         setupCheckBoxListeners();
         setupUIToHideKeyboard(findViewById(R.id.root_layout)); // ID của layout cha ngoài cùng
     }
@@ -188,18 +185,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         }
     }
 
-    private void setupAutoCalculation() {
-        TextWatcher watcher = new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tinhTongTien();
-            }
-            @Override public void afterTextChanged(Editable s) {}
-        };
-        edElectricityNew.addTextChangedListener(watcher);
-        edWaterNew.addTextChangedListener(watcher);
-    }
-
     private void setupCheckBoxListeners() {
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> tinhTongTien();
         cbElectricity.setOnCheckedChangeListener(listener);
@@ -241,6 +226,18 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         int nuocCu = chiSoNuocCu;
         int dienMoi = parseIntSafe(edElectricityNew.getText().toString());
         int nuocMoi = parseIntSafe(edWaterNew.getText().toString());
+
+        // Xử lý màu chỉ số khi nhập số nhỏ hơn số cũ
+        if (cbElectricity.isChecked() && dienMoi < dienCu) {
+            edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
+        }
+        if (cbWater.isChecked() && nuocMoi < nuocCu) {
+            edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
+        }
 
         int soDien = Math.max(dienMoi - dienCu, 0);
         int soNuoc = Math.max(nuocMoi - nuocCu, 0);
@@ -327,14 +324,22 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         int chiSoDienMoi = parseIntSafe(strDienMoi);
         int chiSoNuocMoi = parseIntSafe(strNuocMoi);
 
+        boolean error = false;
         if (cbElectricity.isChecked() && chiSoDienMoi < chiSoDienCu) {
+            edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng chỉ số điện cũ!", Toast.LENGTH_SHORT).show();
-            return;
+            error = true;
         }
         if (cbWater.isChecked() && chiSoNuocMoi < chiSoNuocCu) {
+            edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng chỉ số nước cũ!", Toast.LENGTH_SHORT).show();
-            return;
+            error = true;
         }
+        if (error) return;
+
+        // Nếu hợp lệ thì set lại màu text về bình thường
+        edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
+        edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
 
         double tienDien = cbElectricity.isChecked() ? (Math.max(chiSoDienMoi - chiSoDienCu, 0) * giaDien) : 0;
         double tienNuoc = cbWater.isChecked() ? (Math.max(chiSoNuocMoi - chiSoNuocCu, 0) * giaNuoc) : 0;

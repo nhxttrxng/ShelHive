@@ -143,6 +143,13 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
                 tvNoBills.setText("Không xác định được phòng!");
             }
         }
+        // Hiển thị chữ "Toàn bộ" nếu không chọn tháng/năm
+        if (selectedMonth <= 0 || selectedYear <= 0) {
+            tvDate.setText("Toàn bộ");
+        } else {
+            tvDate.setText(String.format(Locale.getDefault(), "%02d/%d", selectedMonth, selectedYear));
+        }
+
     }
 
     private void resetTabSelected() {
@@ -174,6 +181,12 @@ public class User_RoomBillDetailActivity extends AppCompatActivity {
                     selectedMonth = monthPicker.getValue();
                     selectedYear = yearPicker.getValue();
                     tvDate.setText(String.format(Locale.getDefault(), "%02d/%d", selectedMonth, selectedYear));
+                    showBillListByTab(currentTab);
+                })
+                .setNeutralButton("Bỏ lọc", (dialog, which) -> {
+                    selectedMonth = -1;
+                    selectedYear = -1;
+                    tvDate.setText("Toàn bộ");
                     showBillListByTab(currentTab);
                 })
                 .setNegativeButton("Hủy", null)

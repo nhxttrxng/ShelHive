@@ -675,10 +675,10 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="Xoá"
-            android:textColor="#755200"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:fontFamily="@font/nunito_bold"
-            android:backgroundTint="#FBE27A"/>
+            android:backgroundTint="#FF7383"/>
 
         <Button
             android:id="@+id/btn_remind"

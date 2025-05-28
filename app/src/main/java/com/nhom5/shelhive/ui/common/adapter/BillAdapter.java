@@ -41,6 +41,28 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         notifyDataSetChanged();
     }
 
+    // ------------------- BỔ SUNG: Filter theo tháng năm -----------------
+    // Trả về list Bill đã filter theo tháng/năm (yyyy-MM)
+    public List<Bill> filterByMonthYear(int month, int year) {
+        List<Bill> filtered = new ArrayList<>();
+        if (billList == null) return filtered;
+        for (Bill bill : billList) {
+            String billMonthYear = bill.getBillMonthYear(); // yyyy-MM
+            if (billMonthYear != null && billMonthYear.length() >= 7) {
+                try {
+                    String[] arr = billMonthYear.split("-");
+                    int billYear = Integer.parseInt(arr[0]);
+                    int billMonth = Integer.parseInt(arr[1]);
+                    if (billMonth == month && billYear == year) {
+                        filtered.add(bill);
+                    }
+                } catch (Exception ignored) {}
+            }
+        }
+        return filtered;
+    }
+    // --------------------------------------------------------------------
+
     @NonNull
     @Override
     public BillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,8 +91,6 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             holder.tvStatus.setTextColor(Color.RED);
         } else if ("Đã thanh toán".equalsIgnoreCase(status)) {
             holder.tvStatus.setTextColor(Color.parseColor("#388E3C")); // xanh lá
-        } else if ("Yêu cầu gia hạn".equalsIgnoreCase(status)) {
-            holder.tvStatus.setTextColor(Color.parseColor("#FF9800")); // cam
         } else {
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.darkbrown));
         }
@@ -133,4 +153,5 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         NumberFormat vnFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
         return vnFormat.format(amount) + " đ";
     }
+
 }

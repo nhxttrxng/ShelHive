@@ -102,9 +102,25 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     Call<ResponseBody> updateInvoiceStatus(@Path("id") int invoiceId, @Body Map<String, String> statusBody);
 
+    @DELETE("invoices/{id}")
+    Call<Void> deleteInvoice(@Path("id") int invoiceId);
+
+    @PUT("invoices/{id}")
+    Call<ResponseBody> updateInvoice(
+            @Path("id") int billId,
+            @Body UpdateBillRequest request
+    );
+
     // --- GIA HẠN HÓA ĐƠN ---
     @POST("/api/extensions/")
     Call<ResponseBody> createExtension(@Body CreateExtensionRequest request);
+
+    @GET("extensions/latest-approved/{invoiceId}")
+    Call<GetExtensionByBillResponse> getExtensionByBillId(@Path("invoiceId") int invoiceId);
+
+    @GET("extensions/pending-by-room/{roomId}")
+    Call<List<Extension>> getPendingExtensionsByRoomId(@Path("roomId") int roomId);
+
 
     // --- PHẢN ÁNH (REPORT) ---
     @GET("reports/{tinh_trang}")
@@ -136,6 +152,10 @@ public interface ApiService {
     Call<Void> suaThongBao(@Path("ma_thong_bao") int maThongBao, @Body Map<String, Object> requestBody);
 
     // --- THÔNG BÁO HÓA ĐƠN ---
+
+    @POST("invoice-notifications/")
+    Call<ResponseBody> createInvoiceNotification(@Body CreateInvoiceNotificationRequest req);
+
     @GET("invoice-notifications/phong/{ma_phong}")
     Call<ThongBaoHoaDonResponse1> getThongBaoHoaDonTheoPhong(@Path("ma_phong") int ma_phong);
 

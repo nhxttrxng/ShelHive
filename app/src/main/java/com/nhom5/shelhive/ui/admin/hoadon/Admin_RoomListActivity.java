@@ -53,7 +53,7 @@ public class Admin_RoomListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewRooms);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        edtSearchRoom = findViewById(R.id.et_search); // Thêm EditText vào layout nếu chưa có
+        edtSearchRoom = findViewById(R.id.et_search);
 
         tvMotelName = findViewById(R.id.tv_motel_name);
         ImageView btnBack = findViewById(R.id.btn_back);
@@ -135,20 +135,21 @@ public class Admin_RoomListActivity extends AppCompatActivity {
                                 if (response.isSuccessful() && response.body() != null) {
                                     List<GetBillByRoomResponse> bills = response.body();
                                     int unpaid = 0;
-                                    boolean hasOverdue = false;
+                                    int overdue = 0;
 
                                     for (GetBillByRoomResponse bill : bills) {
-                                        if ("chưa thanh toán".equalsIgnoreCase(bill.getTrangThai())) {
+                                        String status = bill.getTrangThai() != null ? bill.getTrangThai().trim().toLowerCase() : "";
+                                        if ("chưa thanh toán".equals(status) || "trễ hạn".equals(status)) {
                                             unpaid++;
-                                            if (isOverdue(bill.getHanDongTien())) {
-                                                hasOverdue = true;
-                                            }
+                                        }
+                                        if ("trễ hạn".equals(status)) {
+                                            overdue++;
                                         }
                                     }
 
                                     String payStatus;
                                     if (unpaid == 0) payStatus = "Đã đóng";
-                                    else if (hasOverdue) payStatus = "Trễ hạn";
+                                    else if (overdue > 0) payStatus = "Trễ hạn";
                                     else payStatus = "Chưa đóng";
 
                                     room.setUnpaidBills(unpaid);

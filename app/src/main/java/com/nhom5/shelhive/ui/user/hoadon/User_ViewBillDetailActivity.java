@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.GetExtensionByBillResponse;
 import com.nhom5.shelhive.api.GetMotelByIdResponse;
 import com.nhom5.shelhive.ui.model.Bill;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,15 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
     private EditText edMonth, edOriginalDueDate, edNewDueDate, edElectricityOld, edElectricityNew, edWaterOld, edWaterNew, edInterestRate;
     private CheckBox cbElectricity, cbWater, cbRoom;
     private Button btnRemind, btnPay;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Luôn reload lại bill khi quay lại activity này
+        if (billId > 0) {
+            loadBillDetail(billId);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +210,14 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
                     Bill bill = response.body();
                     roomId = bill.getRoomId();
                     populateBillDetails(bill);
+
+                    // Nếu bill đã duyệt gia hạn thì load lãi suất từ API extension
+                    // Nếu field là isExtensionApproved hoặc isDaDuyetGiaHan thì sửa lại cho đúng model em nha
+                    if (bill.isExtensionApproved()) {
+                        loadExtensionInterest(billId);
+                    } else {
+                        edInterestRate.setText("");
+                    }
                 } else {
                     Log.e("API_ERROR", "Không tải được chi tiết hóa đơn");
                 }
@@ -208,6 +226,21 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
             public void onFailure(Call<Bill> call, Throwable t) {
                 Log.e("API_ERROR", "Lỗi khi tải hóa đơn: " + t.getMessage());
             }
+        });
+    }
+
+    // Gọi API để lấy lãi suất từ gia hạn đã duyệt gần nhất
+    private void loadExtensionInterest(int billId) {
+        ApiService.apiService.getExtensionByBillId(billId).enqueue(new Callback<GetExtensionByBillResponse>() {
+            @Override
+            public void onResponse(Call<GetExtensionByBillResponse> call, Response<GetExtensionByBillResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    double interestRate = response.body().getLaiSuat();
+                    edInterestRate.setText(String.valueOf(interestRate));
+                }
+            }
+            @Override
+            public void onFailure(Call<GetExtensionByBillResponse> call, Throwable t) {}
         });
     }
 
@@ -275,12 +308,9 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         cbElectricity.setChecked(bill.getElectricityAmount() > 0);
         cbWater.setChecked(bill.getWaterAmount() > 0);
         cbRoom.setChecked(bill.getRoomAmount() > 0);
-        boolean hasExtension = (newDueDate != null && !newDueDate.trim().isEmpty());
 
-
-        // Lãi suất hiện tại: ghi chú, nếu sau này có API thì load lên (TODO)
-        // edInterestRate.setText(""); // hoặc set mặc định nếu cần
-        edInterestRate.setText(""); // Ghi chú, để trống hiện tại
+        // Lãi suất: để trống, nếu có duyệt gia hạn thì sẽ load sau!
+        edInterestRate.setText("");
 
         if (bill.getStatus() != null && bill.getStatus().trim().equalsIgnoreCase("Đã thanh toán")) {
             btnRemind.setVisibility(View.GONE);

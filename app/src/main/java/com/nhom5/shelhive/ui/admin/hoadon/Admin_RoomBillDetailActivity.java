@@ -18,12 +18,16 @@ import com.nhom5.shelhive.R;
 import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetBillByRoomResponse;
 import com.nhom5.shelhive.ui.common.adapter.BillAdapter;
+import com.nhom5.shelhive.ui.common.adapter.ExtensionAdapter;
 import com.nhom5.shelhive.ui.model.Bill;
+import com.nhom5.shelhive.ui.model.Extension;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +36,12 @@ import retrofit2.Response;
 public class Admin_RoomBillDetailActivity extends AppCompatActivity {
 
     private String maPhong;
-    private String tenantName;
     private TextView tvRoomInfo, tvDate;
     private ImageView btnBack, addBillButton;
     private RecyclerView recyclerViewBills;
     private TextView emptyView;
     private BillAdapter billAdapter;
+    private ExtensionAdapter extensionAdapter;
 
     // Tab TextViews
     private TextView tabYeuCau, tabTreHan, tabChuaThanhToan, tabDaThanhToan;
@@ -48,8 +52,10 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
     private int selectedYear = -1;
     private int maDay = -1;
 
-    // Lưu toàn bộ danh sách bill để lọc theo tab
-    private List<Bill> allBills = new ArrayList<>();
+    // Danh sách dữ liệu
+    private List<Bill> allBillsOrigin = new ArrayList<>(); // luôn giữ bản gốc cho filter lại
+    private List<Extension> allExtensions = new ArrayList<>();
+    private Map<Integer, Bill> extensionBillMap = new HashMap<>(); // Map<billId, Bill>
     private String currentTab = "Chưa thanh toán";
 
     @Override
@@ -60,11 +66,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
         maPhong = intent.getStringExtra("MA_PHONG");
-        if (maPhong == null) {
-            maPhong = intent.getStringExtra("ROOM_NUMBER");
-        }
-        tenantName = intent.getStringExtra("TENANT_NAME");
-        if (tenantName == null) tenantName = "Chưa có";
+        if (maPhong == null) maPhong = intent.getStringExtra("ROOM_NUMBER");
         maDay = intent.getIntExtra("MA_DAY", -1);
 
         // Ánh xạ view
@@ -82,7 +84,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         dateSelector = findViewById(R.id.date_selector);
         tvDate = findViewById(R.id.tv_date);
 
-        // Hiển thị 2 số cuối của mã phòng
+        // Hiển thị thông tin phòng
         String phongText = "Phòng ";
         if (maPhong != null && maPhong.length() > 2) {
             phongText += maPhong.substring(maPhong.length() - 2);
@@ -91,7 +93,6 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         } else {
             phongText += "N/A";
         }
-        phongText += " - " + tenantName;
         tvRoomInfo.setText(phongText);
 
         // RecyclerView setup
@@ -99,8 +100,16 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         billAdapter = new BillAdapter(this, bill -> {
             Intent intent1 = new Intent(this, Admin_ViewBillDetailActivity.class);
             intent1.putExtra("BILL_ID", bill.getId());
+            intent1.putExtra("MA_PHONG", maPhong);
             intent1.putExtra("MA_DAY", maDay);
             startActivity(intent1);
+        });
+        extensionAdapter = new ExtensionAdapter(this, (extension, bill) -> {
+            Intent i = new Intent(this, Admin_ExtendBillActivity.class);
+            i.putExtra("BILL_ID", bill != null ? extension.getBillId() : -1);
+            i.putExtra("EXTENSION_ID", extension.getId());
+            i.putExtra("ROOM_ID", maPhong); // truyền string, nếu cần int thì ép kiểu ở activity nhận
+            startActivity(i);
         });
         recyclerViewBills.setAdapter(billAdapter);
 
@@ -120,7 +129,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
             else if (v == tabTreHan) currentTab = "Trễ hạn";
             else if (v == tabChuaThanhToan) currentTab = "Chưa thanh toán";
             else if (v == tabDaThanhToan) currentTab = "Đã thanh toán";
-            showBillListByTab(currentTab);
+            showListByTab(currentTab);
         };
         tabYeuCau.setOnClickListener(tabClickListener);
         tabTreHan.setOnClickListener(tabClickListener);
@@ -133,10 +142,28 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         // Xử lý chọn tháng/năm
         dateSelector.setOnClickListener(v -> showMonthYearPicker());
 
+        // Tải dữ liệu ban đầu
+        reloadAllData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadAllData();
+        if (selectedMonth <= 0 || selectedYear <= 0) {
+            tvDate.setText("Toàn bộ");
+        } else {
+            tvDate.setText(String.format(Locale.getDefault(), "%02d/%d", selectedMonth, selectedYear));
+        }
+
+    }
+
+    private void reloadAllData() {
         if (maPhong != null) {
             try {
                 int roomIdInt = Integer.parseInt(maPhong);
                 loadBillsForRoom(roomIdInt);
+                loadExtensionsForRoom(roomIdInt);
             } catch (Exception e) {
                 Log.e("ROOM_ID_PARSE", "Không chuyển được maPhong sang số: " + maPhong);
                 recyclerViewBills.setVisibility(View.GONE);
@@ -150,23 +177,6 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Khi quay lại màn hình, load lại bills mới nhất
-        if (maPhong != null) {
-            try {
-                int roomIdInt = Integer.parseInt(maPhong);
-                loadBillsForRoom(roomIdInt);
-            } catch (Exception e) {
-                Log.e("ROOM_ID_PARSE", "Không chuyển được maPhong sang số: " + maPhong);
-                recyclerViewBills.setVisibility(View.GONE);
-                emptyView.setVisibility(View.VISIBLE);
-                emptyView.setText("Không xác định được phòng!");
-            }
-        }
-    }
-
     private void resetTabSelected() {
         tabYeuCau.setSelected(false);
         tabTreHan.setSelected(false);
@@ -174,7 +184,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         tabDaThanhToan.setSelected(false);
     }
 
-    // Hàm chọn tháng/năm custom
+    // Chọn tháng/năm
     private void showMonthYearPicker() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_month_year_picker, null);
 
@@ -186,7 +196,7 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
         monthPicker.setValue(selectedMonth > 0 ? selectedMonth : Calendar.getInstance().get(Calendar.MONTH) + 1);
 
         int yearNow = Calendar.getInstance().get(Calendar.YEAR);
-        yearPicker.setMinValue(2022); // hoặc set giá trị min phù hợp
+        yearPicker.setMinValue(2022);
         yearPicker.setMaxValue(yearNow + 2);
         yearPicker.setValue(selectedYear > 0 ? selectedYear : yearNow);
 
@@ -197,76 +207,29 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
                     selectedMonth = monthPicker.getValue();
                     selectedYear = yearPicker.getValue();
                     tvDate.setText(String.format(Locale.getDefault(), "%02d/%d", selectedMonth, selectedYear));
-                    showBillListByTab(currentTab);
+                    showListByTab(currentTab);
+                })
+                .setNeutralButton("Bỏ lọc", (dialog, which) -> {
+                    // RESET filter về toàn bộ
+                    selectedMonth = -1;
+                    selectedYear = -1;
+                    tvDate.setText("Toàn bộ");
+                    showListByTab(currentTab);
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
     }
 
-    // LỌC bill theo tab & tháng/năm (dạng yyyy-MM-ddTHH:mm:ss)
-    private void showBillListByTab(String tab) {
-        List<Bill> filtered = new ArrayList<>();
-        for (Bill bill : allBills) {
-            String status = bill.getStatus() != null ? bill.getStatus().trim().toLowerCase() : "";
-            boolean statusOk = false;
-            switch (tab) {
-                case "Trễ hạn":
-                    statusOk = "trễ hạn".equalsIgnoreCase(status);
-                    break;
-                case "Chưa thanh toán":
-                    statusOk = "chưa thanh toán".equalsIgnoreCase(status);
-                    break;
-                case "Đã thanh toán":
-                    statusOk = "đã thanh toán".equalsIgnoreCase(status);
-                    break;
-                case "Yêu cầu gia hạn":
-                    statusOk = "yêu cầu gia hạn".equalsIgnoreCase(status);
-                    break;
-            }
-            if (statusOk) {
-                if (selectedMonth > 0 && selectedYear > 0) {
-                    String billMonthYear = bill.getBillMonthYear();
-                    if (billMonthYear != null && billMonthYear.length() >= 7) {
-                        try {
-                            // Dạng yyyy-MM-dd... => substring(0,7) ra yyyy-MM
-                            String yearMonth = billMonthYear.substring(0, 7);
-                            String[] arr = yearMonth.split("-");
-                            if (arr.length == 2) {
-                                int billYear = Integer.parseInt(arr[0]);
-                                int billMonth = Integer.parseInt(arr[1]);
-                                if (billMonth == selectedMonth && billYear == selectedYear) {
-                                    filtered.add(bill);
-                                }
-                            }
-                        } catch (Exception ex) {
-                            // skip nếu lỗi format
-                        }
-                    }
-                } else {
-                    filtered.add(bill);
-                }
-            }
-        }
-        billAdapter.setBills(filtered);
-        if (filtered.isEmpty()) {
-            recyclerViewBills.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-            emptyView.setText("Không có hóa đơn nào!");
-        } else {
-            recyclerViewBills.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-    }
-
+    // ======= LOAD API =======
     private void loadBillsForRoom(int roomId) {
         ApiService.apiService.getBillsByRoom(roomId).enqueue(new Callback<List<GetBillByRoomResponse>>() {
             @Override
             public void onResponse(Call<List<GetBillByRoomResponse>> call, Response<List<GetBillByRoomResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    allBills = Bill.fromGetBillByRoomResponseList(response.body());
-                    showBillListByTab(currentTab);
+                    allBillsOrigin = Bill.fromGetBillByRoomResponseList(response.body());
+                    showListByTab(currentTab);
                 } else {
-                    allBills.clear();
+                    allBillsOrigin.clear();
                     billAdapter.setBills(new ArrayList<>());
                     recyclerViewBills.setVisibility(View.GONE);
                     emptyView.setVisibility(View.VISIBLE);
@@ -276,12 +239,152 @@ public class Admin_RoomBillDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<GetBillByRoomResponse>> call, Throwable t) {
                 Log.e("API_ERROR", "Lỗi khi lấy hóa đơn: " + t.getMessage());
-                allBills.clear();
+                allBillsOrigin.clear();
                 billAdapter.setBills(new ArrayList<>());
                 recyclerViewBills.setVisibility(View.GONE);
                 emptyView.setVisibility(View.VISIBLE);
                 emptyView.setText("Lỗi khi kết nối lấy hóa đơn.");
             }
         });
+    }
+
+    private void loadExtensionsForRoom(int roomId) {
+        ApiService.apiService.getPendingExtensionsByRoomId(roomId).enqueue(new Callback<List<Extension>>() {
+            @Override
+            public void onResponse(Call<List<Extension>> call, Response<List<Extension>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allExtensions = response.body();
+                    Log.d("EXT_DEBUG", "Tải extension thành công, size = " + allExtensions.size());
+                    extensionBillMap.clear();
+                    if (!allExtensions.isEmpty()) {
+                        loadBillsForExtensions(0);
+                    } else {
+                        showListByTab(currentTab);
+                    }
+                } else {
+                    Log.e("EXT_DEBUG", "Extension response not success or body null! Code: " + response.code());
+                    allExtensions.clear();
+                    extensionBillMap.clear();
+                    showListByTab(currentTab);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Extension>> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi khi lấy extension: " + t.getMessage());
+                allExtensions.clear();
+                extensionBillMap.clear();
+                showListByTab(currentTab);
+            }
+        });
+    }
+
+    // Đệ quy gọi lần lượt lấy Bill cho từng Extension
+    private void loadBillsForExtensions(int index) {
+        if (index >= allExtensions.size()) {
+            showListByTab(currentTab);
+            return;
+        }
+        Extension ext = allExtensions.get(index);
+        int billId = ext.getBillId();
+        ApiService.apiService.getInvoiceById(billId).enqueue(new Callback<Bill>() {
+            @Override
+            public void onResponse(Call<Bill> call, Response<Bill> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    extensionBillMap.put(billId, response.body());
+                } else {
+                    Log.e("EXT_DEBUG", "Không lấy được Bill cho extension billId = " + billId);
+                }
+                loadBillsForExtensions(index + 1);
+            }
+            @Override
+            public void onFailure(Call<Bill> call, Throwable t) {
+                Log.e("EXT_DEBUG", "Lỗi khi lấy Bill cho extension billId = " + billId + ": " + t.getMessage());
+                loadBillsForExtensions(index + 1);
+            }
+        });
+    }
+
+    // ======= HIỂN THỊ THEO TAB =======
+    private void showListByTab(String tab) {
+        if ("Yêu cầu gia hạn".equals(tab)) {
+            recyclerViewBills.setAdapter(extensionAdapter);
+            List<Extension> filteredExt = new ArrayList<>();
+            List<Bill> extBills = new ArrayList<>();
+            for (Extension ext : allExtensions) {
+                Bill bill = extensionBillMap.get(ext.getBillId());
+                if (bill != null) {
+                    boolean matchMonthYear = true;
+                    if (selectedMonth > 0 && selectedYear > 0) {
+                        String billMonthYear = bill.getBillMonthYear();
+                        if (billMonthYear != null && billMonthYear.length() >= 7) {
+                            try {
+                                String[] arr = billMonthYear.split("-");
+                                int billYear = Integer.parseInt(arr[0]);
+                                int billMonth = Integer.parseInt(arr[1]);
+                                matchMonthYear = (billMonth == selectedMonth && billYear == selectedYear);
+                            } catch (Exception e) {
+                                matchMonthYear = false;
+                            }
+                        } else {
+                            matchMonthYear = false;
+                        }
+                    }
+                    if (matchMonthYear) {
+                        filteredExt.add(ext);
+                        extBills.add(bill);
+                    }
+                }
+            }
+            extensionAdapter.setExtensions(filteredExt, extBills);
+            if (filteredExt.isEmpty()) {
+                recyclerViewBills.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText("Không có yêu cầu gia hạn nào!");
+            } else {
+                recyclerViewBills.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+        } else {
+            recyclerViewBills.setAdapter(billAdapter);
+            List<Bill> filtered = new ArrayList<>();
+            for (Bill bill : allBillsOrigin) { // luôn filter từ bản gốc allBillsOrigin!
+                String status = bill.getStatus() != null ? bill.getStatus().trim().toLowerCase() : "";
+                boolean statusOk = false;
+                switch (tab) {
+                    case "Trễ hạn":
+                        statusOk = "trễ hạn".equalsIgnoreCase(status); break;
+                    case "Chưa thanh toán":
+                        statusOk = "chưa thanh toán".equalsIgnoreCase(status); break;
+                    case "Đã thanh toán":
+                        statusOk = "đã thanh toán".equalsIgnoreCase(status); break;
+                }
+                if (statusOk) {
+                    if (selectedMonth > 0 && selectedYear > 0) {
+                        String billMonthYear = bill.getBillMonthYear();
+                        if (billMonthYear != null && billMonthYear.length() >= 7) {
+                            try {
+                                String[] arr = billMonthYear.split("-");
+                                int billYear = Integer.parseInt(arr[0]);
+                                int billMonth = Integer.parseInt(arr[1]);
+                                if (billMonth == selectedMonth && billYear == selectedYear) {
+                                    filtered.add(bill);
+                                }
+                            } catch (Exception ex) { }
+                        }
+                    } else {
+                        filtered.add(bill);
+                    }
+                }
+            }
+            billAdapter.setBills(filtered);
+            if (filtered.isEmpty()) {
+                recyclerViewBills.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText("Không có hóa đơn nào!");
+            } else {
+                recyclerViewBills.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+        }
     }
 }
