@@ -1,115 +1,230 @@
 package com.nhom5.shelhive.ui.user.thongke;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.nhom5.shelhive.R;
+import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.nhom5.shelhive.R;
+import com.nhom5.shelhive.api.ApiService;
+import com.nhom5.shelhive.api.ThongKeDienResponse;
+import com.nhom5.shelhive.api.ThongKeNuocResponse;
 import com.nhom5.shelhive.ui.user.User_TrangChuActivity;
-import com.nhom5.shelhive.ui.user.phananh.User_PhanAnhActivity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class User_ThongKeActivity extends AppCompatActivity {
 
     private BarChart barChartDien, barChartNuoc;
-    private TextView tvTitle, tvMotelName;
-    private ImageView btnBack;
+    private EditText etElectricFrom, etElectricTo, etWaterFrom, etWaterTo;
+    private int maPhong; // hoặc lấy từ intent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_thongke); // Assumes the XML layout is named activity_user_thongke.xml
+        setContentView(R.layout.user_thongke);
+        String maPhongStr = getIntent().getStringExtra("maPhong");
 
-        // Initialize Views
-        tvTitle = findViewById(R.id.tv_title);
-        tvMotelName = findViewById(R.id.tv_room_name);
-        btnBack = findViewById(R.id.btn_back);
+        try {
+            maPhong = Integer.parseInt(maPhongStr);
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi: không xác định được mã phòng", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         barChartDien = findViewById(R.id.barChartDien);
         barChartNuoc = findViewById(R.id.barChartNuoc);
-        // Set up Title and Motel Name
-        tvTitle.setText("Thống kê");
-        tvMotelName.setText("Phòng 1");
+        etElectricFrom = findViewById(R.id.et_electric_from);
+        etElectricTo = findViewById(R.id.et_electric_to);
+        etWaterFrom = findViewById(R.id.et_water_from);
+        etWaterTo = findViewById(R.id.et_water_to);
 
-        // Setup back button click listener
-        btnBack.setOnClickListener(v -> onBackPressed());
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(User_ThongKeActivity.this, User_TrangChuActivity.class); // thay bằng Activity chính admin của bạn
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+        findViewById(R.id.btn_back).setOnClickListener(v -> {
+            startActivity(new Intent(this, User_TrangChuActivity.class));
             finish();
         });
-        // Setup charts with data from invoices
-        setupCharts();
+
+        setupMonthYearPicker(etElectricFrom);
+        setupMonthYearPicker(etElectricTo);
+        setupMonthYearPicker(etWaterFrom);
+        setupMonthYearPicker(etWaterTo);
+
+        Calendar c = Calendar.getInstance();
+        String currentMonthYear = String.format(Locale.getDefault(), "%02d/%d", c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR));
+        etElectricFrom.setText(currentMonthYear);
+        etElectricTo.setText(currentMonthYear);
+        etWaterFrom.setText(currentMonthYear);
+        etWaterTo.setText(currentMonthYear);
+
+        updateCharts();
     }
 
-    private void setupCharts() {
-        // Get data for electricity (dien) and water (nuoc) from the invoices
-        ArrayList<BarEntry> dienEntries = getElectricityData();
-        ArrayList<BarEntry> nuocEntries = getWaterData();
-
-        // Create BarDataSets for each chart
-        BarDataSet dienDataSet = new BarDataSet(dienEntries, "Tiền điện");
-        dienDataSet.setColor(getResources().getColor(R.color.blue));  // Set color for electricity bars
-
-        BarDataSet nuocDataSet = new BarDataSet(nuocEntries, "Tiền nước");
-        nuocDataSet.setColor(getResources().getColor(R.color.green));  // Set color for water bars
-
-        // Create BarData objects
-        BarData dienBarData = new BarData(dienDataSet);
-        BarData nuocBarData = new BarData(nuocDataSet);
-
-        // Set data for the BarCharts
-        barChartDien.setData(dienBarData);
-        barChartNuoc.setData(nuocBarData);
-
-        // Configure chart appearance
-        configureChart(barChartDien);
-        configureChart(barChartNuoc);
+    private void setupMonthYearPicker(EditText editText) {
+        editText.setFocusable(false);
+        editText.setOnClickListener(v -> showMonthYearPicker(editText));
     }
 
-    private ArrayList<BarEntry> getElectricityData() {
-        ArrayList<BarEntry> entries = new ArrayList<>();
+    private void showMonthYearPicker(EditText targetEditText) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dpd = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            String formatted = String.format(Locale.getDefault(), "%02d/%d", month + 1, year);
+            targetEditText.setText(formatted);
+            updateCharts();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        // Simulate data from invoices (replace with actual database query)
-        // Let's assume we're showing data for 6 months
-        entries.add(new BarEntry(0f, 100)); // Jan - 100
-        entries.add(new BarEntry(1f, 120)); // Feb - 120
-        entries.add(new BarEntry(2f, 150)); // Mar - 150
-        entries.add(new BarEntry(3f, 130)); // Apr - 130
-        entries.add(new BarEntry(4f, 110)); // May - 110
-        entries.add(new BarEntry(5f, 140)); // Jun - 140
+        try {
+            Field[] fields = dpd.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mDatePicker".equals(field.getName())) {
+                    field.setAccessible(true);
+                    DatePicker datePicker = (DatePicker) field.get(dpd);
+                    Field[] dpFields = datePicker.getClass().getDeclaredFields();
+                    for (Field dpField : dpFields) {
+                        if ("mDaySpinner".equals(dpField.getName()) || "mDayPicker".equals(dpField.getName())) {
+                            dpField.setAccessible(true);
+                            ((android.view.View) dpField.get(datePicker)).setVisibility(android.view.View.GONE);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
 
-        return entries;
+        dpd.show();
     }
 
-    private ArrayList<BarEntry> getWaterData() {
-        ArrayList<BarEntry> entries = new ArrayList<>();
+    private void updateCharts() {
+        int[] dienFrom = parseMonthYear(etElectricFrom.getText().toString());
+        int[] dienTo = parseMonthYear(etElectricTo.getText().toString());
+        int[] nuocFrom = parseMonthYear(etWaterFrom.getText().toString());
+        int[] nuocTo = parseMonthYear(etWaterTo.getText().toString());
 
-        // Simulate data from invoices (replace with actual database query)
-        // Let's assume we're showing data for 6 months
-        entries.add(new BarEntry(0f, 50));  // Jan - 50
-        entries.add(new BarEntry(1f, 60));  // Feb - 60
-        entries.add(new BarEntry(2f, 70));  // Mar - 70
-        entries.add(new BarEntry(3f, 80));  // Apr - 80
-        entries.add(new BarEntry(4f, 75));  // May - 75
-        entries.add(new BarEntry(5f, 85));  // Jun - 85
+        fetchAndDrawElectricData(dienFrom, dienTo);
+        fetchAndDrawWaterData(nuocFrom, nuocTo);
 
-        return entries;
     }
 
-    private void configureChart(BarChart chart) {
-        // Customize the chart appearance
-        chart.getDescription().setEnabled(false);  // Disable chart description
-        chart.setTouchEnabled(true); // Enable touch gestures
-        chart.setDragEnabled(true); // Enable dragging to scroll the chart
-        chart.setScaleEnabled(true); // Enable scaling
+    private int[] parseMonthYear(String text) {
+        try {
+            String[] parts = text.split("/");
+            return new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1])};
+        } catch (Exception e) {
+            Calendar c = Calendar.getInstance();
+            return new int[]{c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR)};
+        }
+    }
+
+
+
+    private void fetchAndDrawElectricData(int[] from, int[] to) {
+        ApiService.apiService.getThongKeDien(maPhong, from[0], from[1], to[0], to[1])
+                .enqueue(new Callback<List<ThongKeDienResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<ThongKeDienResponse>> call, Response<List<ThongKeDienResponse>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<BarEntry> entries = new ArrayList<>();
+                            List<String> labels = new ArrayList<>();
+                            int index = 0;
+                            for (ThongKeDienResponse item : response.body()) {
+                                float money = Float.parseFloat(item.getElectric_money());
+                                String label = item.getMonth() + "/" + item.getYear();
+                                Log.d("ElectricData", "Month-Year: " + label + " | Money: " + money);
+                                entries.add(new BarEntry(index, money));
+                                labels.add(label);
+                                index++;
+                            }
+                            drawChart(barChartDien, entries, labels, "Tiền điện", R.color.yellow);
+                            Log.d("ThongKe", "maPhong: " + maPhong + ", from: " + from[0] + "/" + from[1] + ", to: " + to[0] + "/" + to[1]);
+
+                        } else {
+                            Toast.makeText(User_ThongKeActivity.this, "Không có dữ liệu điện", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ThongKeDienResponse>> call, Throwable t) {
+                        Toast.makeText(User_ThongKeActivity.this, "Lỗi khi gọi API điện", Toast.LENGTH_SHORT).show();
+                        Log.e("ElectricChart", "Error: " + t.getMessage());
+                    }
+                });
+    }
+
+    private void fetchAndDrawWaterData(int[] from, int[] to) {
+        ApiService.apiService.getThongKeNuoc(maPhong, from[0], from[1], to[0], to[1])
+                .enqueue(new Callback<List<ThongKeNuocResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<ThongKeNuocResponse>> call, Response<List<ThongKeNuocResponse>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<BarEntry> entries = new ArrayList<>();
+                            List<String> labels = new ArrayList<>();
+                            int index = 0;
+                            for (ThongKeNuocResponse item : response.body()) {
+                                float money = Float.parseFloat(item.getWater_money());
+                                String label = item.getMonth() + "/" + item.getYear();
+                                Log.d("WaterData", "Month-Year: " + label + " | Money: " + money);
+                                entries.add(new BarEntry(index, money));
+                                labels.add(label);
+                                index++;
+                            }
+                            drawChart(barChartNuoc, entries, labels, "Tiền nước", R.color.blue);
+                            Log.d("ThongKe", "maPhong: " + maPhong + ", from: " + from[0] + "/" + from[1] + ", to: " + to[0] + "/" + to[1]);
+
+                        } else {
+                            Toast.makeText(User_ThongKeActivity.this, "Không có dữ liệu nước", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ThongKeNuocResponse>> call, Throwable t) {
+                        Toast.makeText(User_ThongKeActivity.this, "Lỗi khi gọi API nước", Toast.LENGTH_SHORT).show();
+                        Log.e("WaterChart", "Error: " + t.getMessage());
+                    }
+                });
+    }
+
+
+    private void drawChart(BarChart chart, List<BarEntry> entries, List<String> labels, String label, int colorRes) {
+        BarDataSet dataSet = new BarDataSet(entries, label);
+        dataSet.setColor(getResources().getColor(colorRes));
+        BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.9f);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(labels.size());
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                return (index >= 0 && index < labels.size()) ? labels.get(index) : "";
+            }
+        });
+
+        chart.setData(barData);
+        chart.getDescription().setEnabled(false);
+        chart.getLegend().setEnabled(true);
+        chart.animateY(1000);
+        chart.invalidate();
     }
 }

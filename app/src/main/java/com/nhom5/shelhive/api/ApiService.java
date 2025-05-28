@@ -22,6 +22,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @POST("auth/register")
@@ -84,8 +85,8 @@ public interface ApiService {
             @Body Map<String, Object> request
     );
 
-    @GET("reports/{tinh_trang}")
-    Call<List<PhanAnh>> getPhanAnhByTinhTrang(@Path("tinh_trang") String tinhTrang);
+    @GET("reports/{tinh_trang}/{ma_day}")
+    Call<List<PhanAnh>> getPhanAnhByTinhTrang(@Path("tinh_trang") String tinhTrang,@Path("ma_day") int maDay);
 
     @POST("reports/")
     Call<ResponseBody> createPhanAnh(@Body PhanAnhRequest phanAnhRequest);
@@ -173,6 +174,54 @@ public interface ApiService {
 
     @POST("vnpay/create_payment")
     Call<ResponseBody> createPayment(@Body Map<String, Object> body);
+    @GET("/api/stats/electric-money/{ma_phong}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeDienResponse>> getThongKeDien(
+            @Path("ma_phong") int maPhong,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+
+    @GET("/api/stats/water-money/{ma_phong}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeNuocResponse>> getThongKeNuoc(
+            @Path("ma_phong") int maPhong,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+    @GET("/api/stats/electric-profit/{ma_day}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeE_Profit>> getThongKeLoiDien(
+            @Path("ma_day") int maDay,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+
+    @GET("/api/stats/water-profit/{ma_day}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeW_Profit>> getThongKeLoiNuoc(
+            @Path("ma_day") int maDay,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+    @GET("/api/stats/rent-money/{ma_day}/{month}/{year}")
+    Call<List<ThongKeRentMoney>> getThongKeTienTro(
+            @Path("ma_day") int maDay,
+            @Path("month") int month,
+            @Path("year") int year
+    );
+    @GET("/api/stats/room_count/{ma_day}/{month}/{year}")
+    Call<List<ThongKeRoomCount>> getThongKeSoPhong(
+            @Path("ma_day") int maDay,
+            @Path("month") int month,
+            @Path("year") int year
+    );
 
 
     public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
