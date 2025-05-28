@@ -118,6 +118,7 @@ public class Admin_PhanAnh_NhaTro extends AppCompatActivity {
         Intent intent = new Intent(this, Admin_PhanAnhActivity.class);
         intent.putExtra("MA_DAY", maDay); // truyền đúng key
         intent.putExtra("MOTEL_NAME", tenTro);
+        intent.putExtra("EMAIL", adminEmail); // Truyền thêm email
         startActivity(intent);
     }
 }

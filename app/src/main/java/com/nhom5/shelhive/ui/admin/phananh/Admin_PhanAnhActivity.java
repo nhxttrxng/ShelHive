@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,12 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_phananh);
+        Intent intent = getIntent();
+        String tenTro = intent.getStringExtra("MOTEL_NAME");
+        TextView nameNhaTro = findViewById(R.id.tv_motel_name);
+        if (tenTro != null && nameNhaTro != null) {
+            nameNhaTro.setText(tenTro);
+        }
 
         // Lấy email từ intent hoặc SharedPreferences
         String email = getIntent().getStringExtra("EMAIL");
@@ -63,9 +70,6 @@ public class Admin_PhanAnhActivity extends AppCompatActivity {
 
         // Quay về màn Admin_PhanAnh_NhaTro
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Admin_PhanAnhActivity.this, Admin_PhanAnh_NhaTro.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivityForResult(intent, 1);
             finish();
         });
 

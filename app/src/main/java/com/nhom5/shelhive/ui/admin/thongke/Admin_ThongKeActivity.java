@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
     private BarChart barChartTienTro, barChartDien, barChartNuoc;
     private PieChart pieChartSoPhong;
     private int maDay;
+    private TextView etGiaDien, etGiaNuoc;
+
 
     private EditText etElectricFrom, etElectricTo, etWaterFrom, etWaterTo, etDayRoom, etThanhToan;
 
@@ -40,6 +43,12 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_thongke);
+        Intent intent =getIntent();
+        String tenTro = intent.getStringExtra(("MOTEL_NAME"));
+        TextView nameNhaTro = findViewById(R.id.tv_motel_name);
+        if (tenTro != null && nameNhaTro != null) {
+            nameNhaTro.setText(tenTro);
+        }
 
         maDay = getIntent().getIntExtra("MA_DAY", -1);
         if (maDay == -1) {
@@ -59,6 +68,8 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
         etWaterTo = findViewById(R.id.edNuocTo);
         etDayRoom = findViewById(R.id.et_tro);
         etThanhToan = findViewById(R.id.et_thanh_toan);
+        etGiaDien = findViewById(R.id.giadienphongtro);
+        etGiaNuoc = findViewById(R.id.gianuocnhatro);
 
         setupMonthYearPicker(etElectricFrom);
         setupMonthYearPicker(etElectricTo);
@@ -80,6 +91,7 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         updateAllCharts();
+        fetchGiaDienNuoc();
     }
 
     private void updateAllCharts() {
@@ -176,6 +188,28 @@ public class Admin_ThongKeActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void fetchGiaDienNuoc() {
+        ApiService.apiService.getMotelById(maDay).enqueue(new Callback<GetMotelByIdResponse>() {
+            @Override
+            public void onResponse(Call<GetMotelByIdResponse> call, Response<GetMotelByIdResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    GetMotelByIdResponse data = response.body();
+                    etGiaDien.setText(String.format(Locale.getDefault(), "%.0f VND/kWh", data.getGiaDien()));
+                    etGiaNuoc.setText(String.format(Locale.getDefault(), "%.0f VND/m³", data.getGiaNuoc()));
+                } else {
+                    Toast.makeText(Admin_ThongKeActivity.this, "Không lấy được giá điện/nước", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMotelByIdResponse> call, Throwable t) {
+                Log.e("GiaDienNuoc", "Lỗi: " + t.getMessage());
+                Toast.makeText(Admin_ThongKeActivity.this, "Lỗi khi lấy dữ liệu giá điện/nước", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
     private void fetchWater(int[] from, int[] to) {
         ApiService.apiService.getThongKeLoiNuoc(maDay, from[0], from[1], to[0], to[1])

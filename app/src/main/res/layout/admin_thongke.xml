@@ -162,6 +162,7 @@
                     android:text="Giá điện phòng trọ:"
                     android:textSize="14sp" />
                 <TextView
+                    android:id="@+id/giadienphongtro"
                     android:text="3.500 đ/kWh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -266,6 +267,7 @@
                     android:text="Giá nước phòng trọ:"
                     android:textSize="14sp" />
                 <TextView
+                    android:id="@+id/gianuocnhatro"
                     android:text="17.000 đ/m³"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

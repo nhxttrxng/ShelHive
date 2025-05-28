@@ -22,6 +22,7 @@ import com.nhom5.shelhive.ui.model.ThongBaoHoaDon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +46,12 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_thongbao);
-
+        AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
+        String tenTro = intent.get().getStringExtra(("MOTEL_NAME"));
+        TextView nameNhaTro = findViewById(R.id.tv_motel_name);
+        if (tenTro != null && nameNhaTro != null) {
+            nameNhaTro.setText(tenTro);
+        }
         maDay = getIntent().getIntExtra("MA_DAY", -1);
         if (maDay == -1) {
             Toast.makeText(this, "Không tìm thấy mã dãy", Toast.LENGTH_SHORT).show();
@@ -67,9 +73,9 @@ public class Admin_ThongBaoActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btn_back);
 
         btnThem.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Admin_TaoThongBao.class);
-            intent.putExtra("MA_DAY", maDay);
-            startActivityForResult(intent, 100);
+            intent.set(new Intent(this, Admin_TaoThongBao.class));
+            intent.get().putExtra("MA_DAY", maDay);
+            startActivityForResult(intent.get(), 100);
         });
 
         btnBack.setOnClickListener(v -> finish());

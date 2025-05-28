@@ -18,6 +18,7 @@ import com.nhom5.shelhive.api.ApiService;
 import com.nhom5.shelhive.api.GetMotelResponse;
 import com.nhom5.shelhive.ui.admin.Admin_TrangChuActivity;
 import com.nhom5.shelhive.ui.admin.hoadon.Admin_MotelListActivity;
+import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnh_NhaTro;
 import com.nhom5.shelhive.ui.common.adapter.MotelAdapter;
 import com.nhom5.shelhive.ui.model.Motel;
 
@@ -116,7 +117,7 @@ public class Admin_ThongKe_NhaTro extends AppCompatActivity {
     }
     // Sửa lại: Nhận cả mã dãy và tên trọ
     private void openRoomList(int maDay, String tenTro) {
-        Intent intent = new Intent(this, Admin_ThongKeActivity.class);
+        Intent intent = new Intent(Admin_ThongKe_NhaTro.this, Admin_ThongKeActivity.class);
         intent.putExtra("MA_DAY", maDay);
         intent.putExtra("MOTEL_NAME", tenTro); // Nếu muốn truyền tiếp tên nhà trọ
         startActivity(intent);
