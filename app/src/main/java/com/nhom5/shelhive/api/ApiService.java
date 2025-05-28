@@ -3,7 +3,6 @@ package com.nhom5.shelhive.api;
 import com.nhom5.shelhive.ui.model.*;
 import java.util.List;
 import java.util.Map;
-
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -59,7 +58,7 @@ public interface ApiService {
     @POST("admins/upload-avt/{email}")
     Call<ResponseBody> uploadAdminAvatar(@Path("email") String email, @Part MultipartBody.Part image);
 
-    // --- DAY TRO (DÃY TRỌ) / MOTEL ---
+    // --- DAY TRO / MOTEL ---
     @GET("motels/{email}")
     Call<List<GetMotelResponse>> getDayTroByAdminEmail(@Path("email") String email);
 
@@ -75,7 +74,7 @@ public interface ApiService {
     @DELETE("motels/{ma_day}")
     Call<ResponseBody> deleteDayTro(@Path("ma_day") int maDay);
 
-    // --- PHÒNG (ROOM) ---
+    // --- ROOM ---
     @GET("rooms/day/{ma_day}")
     Call<List<GetRoomResponse>> getRoomsByMaDay(@Path("ma_day") int ma_day);
 
@@ -88,7 +87,7 @@ public interface ApiService {
     @PUT("rooms/{ma_phong}")
     Call<ResponseBody> updateRoom(@Path("ma_phong") int maPhong, @Body Map<String, Object> request);
 
-    // --- HÓA ĐƠN (INVOICE) ---
+    // --- INVOICE ---
     @GET("invoices/{invoiceId}")
     Call<Bill> getInvoiceById(@Path("invoiceId") int invoiceId);
 
@@ -111,8 +110,11 @@ public interface ApiService {
             @Body UpdateBillRequest request
     );
 
-    // --- GIA HẠN HÓA ĐƠN ---
-    @POST("/api/extensions/")
+    @GET("invoices/room/{roomId}/latest-meter")
+    Call<GetLatestMeterResponse> getLatestMeterIndexesByRoom(@Path("roomId") int roomId);
+
+    // --- GIA HẠN HÓA ĐƠN (EXTENSION) ---
+    @POST("extensions/")
     Call<ResponseBody> createExtension(@Body CreateExtensionRequest request);
 
     @GET("extensions/latest-approved/{invoiceId}")
@@ -124,17 +126,15 @@ public interface ApiService {
     @GET("extensions/{id}")
     Call<Extension> getExtensionById(@Path("id") int id);
 
-    // Duyệt yêu cầu gia hạn
     @PATCH("extensions/{id}/approve")
     Call<ResponseBody> approveExtension(@Path("id") int id);
 
-    // Từ chối yêu cầu gia hạn
     @PATCH("extensions/{id}/reject")
     Call<ResponseBody> rejectExtension(@Path("id") int id);
 
-    // --- PHẢN ÁNH (REPORT) ---
-    @GET("reports/{tinh_trang}")
-    Call<List<PhanAnh>> getPhanAnhByTinhTrang(@Path("tinh_trang") String tinhTrang);
+    // --- REPORT ---
+    @GET("reports/{tinh_trang}/{ma_day}")
+    Call<List<PhanAnh>> getPhanAnhByTinhTrang(@Path("tinh_trang") String tinhTrang, @Path("ma_day") int maDay);
 
     @POST("reports/")
     Call<ResponseBody> createPhanAnh(@Body PhanAnhRequest phanAnhRequest);
@@ -142,7 +142,7 @@ public interface ApiService {
     @PUT("reports/{ma_phan_anh}")
     Call<ResponseBody> updateTinhTrang(@Path("ma_phan_anh") int id, @Body Map<String, String> body);
 
-    // --- THÔNG BÁO (NOTIFICATION) ---
+    // --- NOTIFICATION ---
     @GET("notifications/phong/{ma_phong}")
     Call<ThongBaoResponse1> getThongBaoChungTheoPhong(@Path("ma_phong") int ma_phong);
 
@@ -161,8 +161,7 @@ public interface ApiService {
     @PUT("notifications/{ma_thong_bao}")
     Call<Void> suaThongBao(@Path("ma_thong_bao") int maThongBao, @Body Map<String, Object> requestBody);
 
-    // --- THÔNG BÁO HÓA ĐƠN ---
-
+    // --- INVOICE NOTIFICATION ---
     @POST("invoice-notifications/")
     Call<ResponseBody> createInvoiceNotification(@Body CreateInvoiceNotificationRequest req);
 
@@ -171,9 +170,6 @@ public interface ApiService {
 
     @GET("invoice-notifications/daytro/{ma_day}")
     Call<List<ThongBaoHoaDon>> getThongBaoHoaDonByMaDay(@Path("ma_day") int maDay);
-
-    @GET("invoices/room/{roomId}/latest-meter")
-    Call<GetLatestMeterResponse> getLatestMeterIndexesByRoom(@Path("roomId") int roomId);
 
     @PUT("invoice-notifications/{ma_thong_bao_hoa_don}")
     Call<Void> suaThongBaoHoaDon(@Path("ma_thong_bao_hoa_don") int maThongBaoHD, @Body Map<String, Object> requestBody);
@@ -185,6 +181,57 @@ public interface ApiService {
     @POST("vnpay/create_payment")
     Call<ResponseBody> createPayment(@Body Map<String, Object> body);
 
+    // --- STATISTIC ---
+    @GET("/api/stats/electric-money/{ma_phong}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeDienResponse>> getThongKeDien(
+            @Path("ma_phong") int maPhong,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+    @GET("/api/stats/water-money/{ma_phong}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeNuocResponse>> getThongKeNuoc(
+            @Path("ma_phong") int maPhong,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+    @GET("/api/stats/electric-profit/{ma_day}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeE_Profit>> getThongKeLoiDien(
+            @Path("ma_day") int maDay,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+    @GET("/api/stats/water-profit/{ma_day}/{fromMonth}/{fromYear}/{toMonth}/{toYear}")
+    Call<List<ThongKeW_Profit>> getThongKeLoiNuoc(
+            @Path("ma_day") int maDay,
+            @Path("fromMonth") int fromMonth,
+            @Path("fromYear") int fromYear,
+            @Path("toMonth") int toMonth,
+            @Path("toYear") int toYear
+    );
+
+    @GET("/api/stats/rent-money/{ma_day}/{month}/{year}")
+    Call<List<ThongKeRentMoney>> getThongKeTienTro(
+            @Path("ma_day") int maDay,
+            @Path("month") int month,
+            @Path("year") int year
+    );
+
+    @GET("/api/stats/room_count/{ma_day}/{month}/{year}")
+    Call<List<ThongKeRoomCount>> getThongKeSoPhong(
+            @Path("ma_day") int maDay,
+            @Path("month") int month,
+            @Path("year") int year
+    );
+
     // --- Singleton Instance ---
-    public static ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+    ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 }

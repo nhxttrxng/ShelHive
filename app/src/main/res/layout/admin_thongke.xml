@@ -59,7 +59,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Thống kê tiền trợ -->
+            <!-- Thống kê tiền troj -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,11 +71,18 @@
                 android:layout_marginBottom="8dp" />
 
             <EditText
+                android:id="@+id/et_tro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="03/2025"
-                android:drawableRight="@drawable/ic_calendar"
-                android:paddingEnd="16dp" />
+                android:layout_weight="1"
+                android:inputType="none"
+                android:focusable="false"
+                android:text="11/2024"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:paddingEnd="8dp"
+                android:background="@drawable/rounded_corner_bg"
+                android:gravity="center_vertical"
+                android:padding="8dp" />
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChartTienTro"
@@ -87,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thống kê số phòng thanh toán"
+                android:text="Thống kê tình trạng thanh toán"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#000"
@@ -95,11 +102,18 @@
                 android:layout_marginBottom="8dp" />
 
             <EditText
+                android:id="@+id/et_thanh_toan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="03/2025"
-                android:drawableRight="@drawable/ic_calendar"
-                android:paddingEnd="16dp" />
+                android:layout_weight="1"
+                android:inputType="none"
+                android:focusable="false"
+                android:text="11/2024"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:paddingEnd="8dp"
+                android:background="@drawable/rounded_corner_bg"
+                android:gravity="center_vertical"
+                android:padding="8dp" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChartThanhToan"
@@ -169,10 +183,18 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/edDienFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
                     android:text="11/2024"
-                    android:drawableRight="@drawable/ic_calendar" />
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:paddingEnd="8dp"
+                    android:background="@drawable/rounded_corner_bg"
+                    android:gravity="center_vertical"
+                    android:padding="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -183,10 +205,18 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/edDienTo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="03/2025"
-                    android:drawableRight="@drawable/ic_calendar" />
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:text="11/2024"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:paddingEnd="8dp"
+                    android:background="@drawable/rounded_corner_bg"
+                    android:gravity="center_vertical"
+                    android:padding="8dp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.BarChart
@@ -257,11 +287,18 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/edNuocFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
                     android:text="11/2024"
-                    android:drawableRight="@drawable/ic_calendar"
-                    android:paddingEnd="16dp" />
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:paddingEnd="8dp"
+                    android:background="@drawable/rounded_corner_bg"
+                    android:gravity="center_vertical"
+                    android:padding="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -272,10 +309,18 @@
                     android:textSize="14sp" />
 
                 <EditText
+                    android:id="@+id/edNuocTo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="03/2025"
-                    android:drawableRight="@drawable/ic_calendar" />
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:text="11/2024"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:paddingEnd="8dp"
+                    android:background="@drawable/rounded_corner_bg"
+                    android:gravity="center_vertical"
+                    android:padding="8dp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.BarChart

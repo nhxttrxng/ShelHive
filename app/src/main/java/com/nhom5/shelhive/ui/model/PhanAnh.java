@@ -9,6 +9,8 @@ public class PhanAnh {
 
     @SerializedName("ma_phong")
     private int ma_phong;
+    @SerializedName("ma_day")
+    private int ma_day;
 
     @SerializedName("tieu_de")
     private String tieu_de;
@@ -37,6 +39,13 @@ public class PhanAnh {
 
     public void setMaPhong(int maPhong) {
         this.ma_phong = maPhong;
+    }
+    public int getMaDay() {
+        return ma_day;
+    }
+
+    public void setMaDay(int maDay) {
+        this.ma_day = maDay;
     }
 
     public String getTieuDe() {

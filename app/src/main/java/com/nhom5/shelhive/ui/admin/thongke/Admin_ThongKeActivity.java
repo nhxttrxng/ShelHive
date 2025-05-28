@@ -1,148 +1,269 @@
-
 package com.nhom5.shelhive.ui.admin.thongke;
+
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.*;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.nhom5.shelhive.R;
-import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnhActivity;
-import com.nhom5.shelhive.ui.admin.phananh.Admin_PhanAnh_NhaTro;
+import com.nhom5.shelhive.api.*;
 
-import android.graphics.Color;
-import android.widget.ImageView;
+import java.lang.reflect.Field;
+import java.util.*;
 
-import java.util.ArrayList;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+// ... phần import giữ nguyên
 
 public class Admin_ThongKeActivity extends AppCompatActivity {
-
     private BarChart barChartTienTro, barChartDien, barChartNuoc;
     private PieChart pieChartSoPhong;
+    private int maDay;
+
+    private EditText etElectricFrom, etElectricTo, etWaterFrom, etWaterTo, etDayRoom, etThanhToan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_thongke); // file layout bạn đã tạo
+        setContentView(R.layout.admin_thongke);
 
-        // Ánh xạ
+        maDay = getIntent().getIntExtra("MA_DAY", -1);
+        if (maDay == -1) {
+            Toast.makeText(this, "Không tìm thấy mã dãy", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // Ánh xạ view
         barChartTienTro = findViewById(R.id.barChartTienTro);
-        pieChartSoPhong = findViewById(R.id.pieChartThanhToan);
         barChartDien = findViewById(R.id.barChartDien);
         barChartNuoc = findViewById(R.id.barChartNuoc);
+        pieChartSoPhong = findViewById(R.id.pieChartThanhToan);
+        etElectricFrom = findViewById(R.id.edDienFrom);
+        etElectricTo = findViewById(R.id.edDienTo);
+        etWaterFrom = findViewById(R.id.edNuocFrom);
+        etWaterTo = findViewById(R.id.edNuocTo);
+        etDayRoom = findViewById(R.id.et_tro);
+        etThanhToan = findViewById(R.id.et_thanh_toan);
+
+        setupMonthYearPicker(etElectricFrom);
+        setupMonthYearPicker(etElectricTo);
+        setupMonthYearPicker(etWaterFrom);
+        setupMonthYearPicker(etWaterTo);
+        setupMonthYearPicker(etDayRoom);
+        setupMonthYearPicker(etThanhToan);
+
+        Calendar c = Calendar.getInstance();
+        String currentMonthYear = String.format(Locale.getDefault(), "%02d/%d", c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR));
+        etElectricFrom.setText(currentMonthYear);
+        etElectricTo.setText(currentMonthYear);
+        etWaterFrom.setText(currentMonthYear);
+        etWaterTo.setText(currentMonthYear);
+        etDayRoom.setText(currentMonthYear);
+        etThanhToan.setText(currentMonthYear);
         ImageView btnBack = findViewById(R.id.btn_back);
-        setupBarChartTienTro();
-        setupPieChartSoPhong();
-        setupBarChartDien();
-        setupBarChartNuoc();
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Admin_ThongKeActivity.this, Admin_ThongKe_NhaTro.class); // thay bằng Activity chính admin của bạn
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
+
+        btnBack.setOnClickListener(v -> finish());
+
+        updateAllCharts();
+    }
+
+    private void updateAllCharts() {
+        int[] dienFrom = parseMonthYear(etElectricFrom.getText().toString());
+        int[] dienTo = parseMonthYear(etElectricTo.getText().toString());
+        int[] nuocFrom = parseMonthYear(etWaterFrom.getText().toString());
+        int[] nuocTo = parseMonthYear(etWaterTo.getText().toString());
+        int[] rentMonthYear = parseMonthYear(etDayRoom.getText().toString());
+        int[] roomCountMonthYear = parseMonthYear(etThanhToan.getText().toString());
+
+        fetchTienTro(rentMonthYear[0], rentMonthYear[1]);
+        fetchSoPhong(roomCountMonthYear[0], roomCountMonthYear[1]);
+        fetchElectric(dienFrom, dienTo);
+        fetchWater(nuocFrom, nuocTo);
+    }
+
+    private void fetchTienTro(int month, int year) {
+        ApiService.apiService.getThongKeTienTro(maDay, month, year).enqueue(new Callback<List<ThongKeRentMoney>>() {
+            @Override
+            public void onResponse(Call<List<ThongKeRentMoney>> call, Response<List<ThongKeRentMoney>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    ThongKeRentMoney data = response.body().get(0);
+                    List<BarEntry> entries = new ArrayList<>();
+                    entries.add(new BarEntry(0, data.getTotal_paid_rent()));
+                    entries.add(new BarEntry(1, data.getTotal_unpaid_rent()));
+
+                    BarDataSet dataSet = new BarDataSet(entries, "Tiền trọ");
+                    dataSet.setColors(getColor(R.color.green), getColor(R.color.red));
+                    barChartTienTro.setData(new BarData(dataSet));
+                    barChartTienTro.getXAxis().setEnabled(false);
+                    barChartTienTro.getAxisRight().setEnabled(false);
+                    barChartTienTro.setDescription(new Description() {{ setText(month + "/" + year); }});
+                    barChartTienTro.animateY(1000);
+                    barChartTienTro.invalidate();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ThongKeRentMoney>> call, Throwable t) {
+                Log.e("TienTro", t.getMessage());
+            }
         });
     }
 
-    private void setupBarChartTienTro() {
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 75)); // Đã thanh toán
-        entries.add(new BarEntry(1, 35)); // Còn nợ
+    private void fetchSoPhong(int month, int year) {
+        ApiService.apiService.getThongKeSoPhong(maDay, month, year).enqueue(new Callback<List<ThongKeRoomCount>>() {
+            @Override
+            public void onResponse(Call<List<ThongKeRoomCount>> call, Response<List<ThongKeRoomCount>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    ThongKeRoomCount data = response.body().get(0);
+                    List<PieEntry> entries = new ArrayList<>();
+                    entries.add(new PieEntry(data.getPaid_room_count(), "Đã đóng"));
+                    entries.add(new PieEntry(data.getOverdue_room_count(), "Trễ hạn"));
+                    entries.add(new PieEntry(data.getUnpaid_room_count(), "Chưa đóng"));
 
-        BarDataSet dataSet = new BarDataSet(entries, "Tiền trọ");
-        dataSet.setColors(Color.parseColor("#A6D4A2"), Color.parseColor("#D35D5D"));
-        dataSet.setValueTextSize(14f);
+                    PieDataSet dataSet = new PieDataSet(entries, "");
+                    dataSet.setColors(getColor(R.color.green), getColor(R.color.orange), getColor(R.color.red));
+                    pieChartSoPhong.setData(new PieData(dataSet));
+                    pieChartSoPhong.setDescription(new Description() {{ setText(month + "/" + year); }});
+                    pieChartSoPhong.setDrawHoleEnabled(false);
+                    pieChartSoPhong.animateY(1000);
+                    pieChartSoPhong.invalidate();
+                }
+            }
 
-        BarData data = new BarData(dataSet);
-        barChartTienTro.setData(data);
-
-        Description desc = new Description();
-        desc.setText("03/2025");
-        barChartTienTro.setDescription(desc);
-
-        barChartTienTro.getXAxis().setEnabled(false);
-        barChartTienTro.getAxisRight().setEnabled(false);
-        barChartTienTro.animateY(1000);
-        barChartTienTro.invalidate();
+            @Override
+            public void onFailure(Call<List<ThongKeRoomCount>> call, Throwable t) {
+                Log.e("RoomCount", t.getMessage());
+            }
+        });
     }
 
-    private void setupPieChartSoPhong() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(14f, "Đã đóng"));
-        entries.add(new PieEntry(7f, "Trễ hạn"));
+    private void fetchElectric(int[] from, int[] to) {
+        ApiService.apiService.getThongKeLoiDien(maDay, from[0], from[1], to[0], to[1])
+                .enqueue(new Callback<List<ThongKeE_Profit>>() {
+                    @Override
+                    public void onResponse(Call<List<ThongKeE_Profit>> call, Response<List<ThongKeE_Profit>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<BarEntry> entries = new ArrayList<>();
+                            List<String> labels = new ArrayList<>();
+                            int i = 0;
+                            for (ThongKeE_Profit item : response.body()) {
+                                entries.add(new BarEntry(i, Float.parseFloat(item.getElectric_profit())));
+                                labels.add(item.getMonth() + "/" + item.getYear());
+                                i++;
+                            }
+                            drawBarChart(barChartDien, entries, labels, "Lợi nhuận điện", R.color.yellow);
+                        }
+                    }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setColors(
-                Color.parseColor("#A6D4A2"),
-                Color.parseColor("#D35D5D"),
-                Color.parseColor("#F3BC5C")
-        );
-        dataSet.setValueTextSize(14f);
-
-        PieData data = new PieData(dataSet);
-        pieChartSoPhong.setData(data);
-
-        Description desc = new Description();
-        desc.setText("03/2025");
-        pieChartSoPhong.setDescription(desc);
-
-        pieChartSoPhong.setUsePercentValues(false);
-        pieChartSoPhong.setDrawHoleEnabled(false);
-        pieChartSoPhong.animateY(1000);
-        pieChartSoPhong.invalidate();
+                    @Override
+                    public void onFailure(Call<List<ThongKeE_Profit>> call, Throwable t) {
+                        Log.e("Electric", t.getMessage());
+                    }
+                });
     }
 
-    private void setupBarChartDien() {
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 150));
-        entries.add(new BarEntry(1, 300));
-        entries.add(new BarEntry(2, 220));
-        entries.add(new BarEntry(3, 250));
+    private void fetchWater(int[] from, int[] to) {
+        ApiService.apiService.getThongKeLoiNuoc(maDay, from[0], from[1], to[0], to[1])
+                .enqueue(new Callback<List<ThongKeW_Profit>>() {
+                    @Override
+                    public void onResponse(Call<List<ThongKeW_Profit>> call, Response<List<ThongKeW_Profit>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<BarEntry> entries = new ArrayList<>();
+                            List<String> labels = new ArrayList<>();
+                            int i = 0;
+                            for (ThongKeW_Profit item : response.body()) {
+                                entries.add(new BarEntry(i, Float.parseFloat(item.getWater_profit())));
+                                labels.add(item.getMonth() + "/" + item.getYear());
+                                i++;
+                            }
+                            drawBarChart(barChartNuoc, entries, labels, "Lợi nhuận nước", R.color.blue);
+                        }
+                    }
 
-        BarDataSet dataSet = new BarDataSet(entries, "Tiền điện");
-        dataSet.setColor(Color.parseColor("#F4B742"));
-        dataSet.setValueTextSize(14f);
-
-        BarData data = new BarData(dataSet);
-        barChartDien.setData(data);
-
-        Description desc = new Description();
-        desc.setText("11/2024 - 03/2025");
-        barChartDien.setDescription(desc);
-
-        barChartDien.getXAxis().setDrawGridLines(false);
-        barChartDien.getAxisRight().setEnabled(false);
-        barChartDien.animateY(1000);
-        barChartDien.invalidate();
+                    @Override
+                    public void onFailure(Call<List<ThongKeW_Profit>> call, Throwable t) {
+                        Log.e("Water", t.getMessage());
+                    }
+                });
     }
 
-    private void setupBarChartNuoc() {
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 100));
-        entries.add(new BarEntry(1, 130));
-        entries.add(new BarEntry(2, 110));
-        entries.add(new BarEntry(3, 160));
-
-        BarDataSet dataSet = new BarDataSet(entries, "Tiền nước");
-        dataSet.setColor(Color.parseColor("#4A90E2"));
-        dataSet.setValueTextSize(14f);
-
+    private void drawBarChart(BarChart chart, List<BarEntry> entries, List<String> labels, String label, int colorRes) {
+        BarDataSet dataSet = new BarDataSet(entries, label);
+        dataSet.setColor(getResources().getColor(colorRes));
         BarData data = new BarData(dataSet);
-        barChartNuoc.setData(data);
+        data.setBarWidth(0.9f);
 
-        Description desc = new Description();
-        desc.setText("11/2024 - 03/2025");
-        barChartNuoc.setDescription(desc);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(labels.size());
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                return (index >= 0 && index < labels.size()) ? labels.get(index) : "";
+            }
+        });
 
-        barChartNuoc.getXAxis().setDrawGridLines(false);
-        barChartNuoc.getAxisRight().setEnabled(false);
-        barChartNuoc.animateY(1000);
-        barChartNuoc.invalidate();
+        chart.setData(data);
+        chart.getAxisRight().setEnabled(false);
+        chart.getDescription().setEnabled(false);
+        chart.animateY(1000);
+        chart.invalidate();
+    }
+
+    private void setupMonthYearPicker(EditText editText) {
+        editText.setFocusable(false);
+        editText.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            DatePickerDialog dpd = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                editText.setText(String.format(Locale.getDefault(), "%02d/%d", month + 1, year));
+                updateAllCharts();
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+
+            try {
+                Field[] fields = dpd.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mDatePicker".equals(field.getName())) {
+                        field.setAccessible(true);
+                        DatePicker dp = (DatePicker) field.get(dpd);
+                        Field[] dpFields = dp.getClass().getDeclaredFields();
+                        for (Field dpField : dpFields) {
+                            if ("mDaySpinner".equals(dpField.getName()) || "mDayPicker".equals(dpField.getName())) {
+                                dpField.setAccessible(true);
+                                ((android.view.View) dpField.get(dp)).setVisibility(android.view.View.GONE);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+            dpd.show();
+        });
+    }
+
+    private int[] parseMonthYear(String text) {
+        try {
+            String[] parts = text.split("/");
+            return new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1])};
+        } catch (Exception e) {
+            Calendar c = Calendar.getInstance();
+            return new int[]{c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR)};
+        }
     }
 }
