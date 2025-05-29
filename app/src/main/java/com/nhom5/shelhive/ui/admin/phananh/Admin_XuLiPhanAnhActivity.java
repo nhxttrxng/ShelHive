@@ -51,7 +51,7 @@ public class Admin_XuLiPhanAnhActivity extends AppCompatActivity {
         maPhanAnh = getIntent().getIntExtra("ma_phan_anh", -1);
         String tieuDe = getIntent().getStringExtra("tieu_de");
         String loaiVanDe = getIntent().getStringExtra("loai_van_de");
-        String moTa = getIntent().getStringExtra("mo_ta");
+        String moTa = getIntent().getStringExtra("noi_dung");
 
         tvTieuDe.setText(tieuDe != null ? tieuDe : "");
         tvLoaiVanDe.setText(loaiVanDe != null ? loaiVanDe : "");

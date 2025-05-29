@@ -51,7 +51,6 @@ public class User_ThongKeActivity extends AppCompatActivity {
             finish();
             return;
         }
-
         barChartDien = findViewById(R.id.barChartDien);
         barChartNuoc = findViewById(R.id.barChartNuoc);
         etElectricFrom = findViewById(R.id.et_electric_from);
