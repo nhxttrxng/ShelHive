@@ -214,6 +214,7 @@
                     android:fontFamily="@font/nunito_bold" />
 
                 <TextView
+                    android:id="@+id/tv_electricity_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -349,6 +350,7 @@
                     android:fontFamily="@font/nunito_bold" />
 
                 <TextView
+                    android:id="@+id/tv_water_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -484,6 +486,7 @@
                     android:fontFamily="@font/nunito_bold" />
 
                 <TextView
+                    android:id="@+id/tv_room_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

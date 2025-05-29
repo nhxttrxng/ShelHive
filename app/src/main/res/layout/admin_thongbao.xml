@@ -48,46 +48,15 @@
 
 
     <!-- Thanh tìm kiếm -->
-    <RelativeLayout
-        android:id="@+id/overlap_wrapper"
-        android:layout_width="363dp"
-        android:layout_height="31dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="110dp">
-
-        <RelativeLayout
-            android:layout_width="361dp"
-            android:layout_height="31dp"
-            android:background="@drawable/search_border"
-            android:layout_centerInParent="true">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="38dp"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/nunito_semibold"
-                android:text="Tìm kiếm"
-                android:textColor="#D1C19C"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginTop="3dp"
-                android:src="@drawable/ic_search" />
-        </RelativeLayout>
-    </RelativeLayout>
 
     <!-- Tabs -->
     <LinearLayout
         android:id="@+id/tabs"
         android:layout_width="378dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="161dp"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:orientation="horizontal">
 
         <!-- Tab Thông báo chung -->
         <TextView
@@ -95,14 +64,14 @@
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_weight="0.5"
+            android:background="@drawable/bg_tab_chung"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="Thông báo chung"
             android:textColor="#ffffff"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:background="@drawable/bg_tab_chung"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textStyle="bold" />
 
         <!-- Tab Thông báo hóa đơn -->
         <TextView
@@ -110,34 +79,33 @@
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_weight="0.5"
-            android:gravity="center"
-            android:text="Thông báo hóa đơn"
-            android:textStyle="bold"
-            android:textColor="#755200"
-            android:textSize="16sp"
             android:background="@drawable/bg_tab_hoa_don"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Thông báo hóa đơn"
+            android:textColor="#755200"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_thong_bao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="223dp"
-        android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
-        android:clipToPadding="false"
-        />
+        android:layout_marginTop="170dp"
+        android:layout_marginBottom="16dp"
+        android:clipToPadding="false" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_thong_bao_hoa_don"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="223dp"
-        android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
-        android:clipToPadding="false"
-        />
+        android:layout_marginTop="170dp"
+        android:layout_marginBottom="16dp"
+        android:clipToPadding="false" />
 
     <ImageView
         android:id="@+id/btn_bottom_image"

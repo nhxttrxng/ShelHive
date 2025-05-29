@@ -3,6 +3,7 @@ package com.nhom5.shelhive.ui.admin.hoadon;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class Admin_EditBillActivity extends AppCompatActivity {
     private double interestRate = 0;
 
     private TextView tvRoomNumber, tvElectricityTotal, tvWaterTotal, tvServiceTotal, tvLateFee, tvInterestTotal, tvTotal, tvDays;
+    private TextView tvElectricityPrice, tvWaterPrice, tvRoomPrice; // Thêm các view này
     private EditText edMonth, edOriginalDueDate, edNewDueDate, edElectricityOld, edElectricityNew, edWaterOld, edWaterNew, edInterestRate;
     private CheckBox cbElectricity, cbWater, cbRoom;
     private Button btnCancel, btnSave;
@@ -54,22 +56,23 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> finish());
 
-        // Không cho sửa tháng, hạn cũ, hạn mới
         edMonth.setEnabled(false);
         edOriginalDueDate.setEnabled(false);
         edNewDueDate.setEnabled(false);
 
         btnCancel.setOnClickListener(v -> finish());
-
         btnSave.setOnClickListener(v -> onSaveBill());
 
-        // Xử lý click ngoài vùng EditText để clear focus + ẩn bàn phím
-        rootLayout.setOnClickListener(v -> {
-            clearAllEditTextFocus();
+        // Out focus khi click vào root layout
+        rootLayout.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                clearAllEditTextFocus();
+            }
+            return false;
         });
 
-        loadBillDetail(billId);
         loadElectricWaterPriceFromMaDay();
+        loadBillDetail(billId);
     }
 
     private void initViews() {
@@ -81,6 +84,10 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         tvInterestTotal = findViewById(R.id.tv_interest_total);
         tvTotal = findViewById(R.id.tv_total);
         tvDays = findViewById(R.id.tv_days);
+
+        tvElectricityPrice = findViewById(R.id.tv_electricity_price);
+        tvWaterPrice = findViewById(R.id.tv_water_price);
+        tvRoomPrice = findViewById(R.id.tv_room_price);
 
         edMonth = findViewById(R.id.ed_month);
         edOriginalDueDate = findViewById(R.id.ed_original_due_date);
@@ -98,7 +105,7 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btn_cancel);
         btnSave = findViewById(R.id.btn_save);
 
-        rootLayout = findViewById(R.id.root_layout); // root_layout là id của RelativeLayout cha
+        rootLayout = findViewById(R.id.root_layout);
     }
 
     private void clearAllEditTextFocus() {
@@ -123,7 +130,6 @@ public class Admin_EditBillActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     currentBill = response.body();
                     populateBillDetails(currentBill);
-                    // Check nếu đã duyệt gia hạn thì lấy lãi suất từ gia hạn gần nhất
                     if (currentBill.isExtensionApproved()) {
                         isExtensionApproved = true;
                         loadLatestExtension(billId);
@@ -145,25 +151,34 @@ public class Admin_EditBillActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         giaDien = response.body().getGiaDien();
                         giaNuoc = response.body().getGiaNuoc();
+
+                        // Hiển thị giá lên view
+                        tvElectricityPrice.setText(formatCurrency(giaDien) + "/kWh");
+                        tvWaterPrice.setText(formatCurrency(giaNuoc) + "/m³");
+
                         // Nếu đã có bill, tính lại tiền luôn
                         if (currentBill != null) updateAllMoneyFields();
                     }
                 }
                 @Override
-                public void onFailure(Call<GetMotelByIdResponse> call, Throwable t) {}
+                public void onFailure(Call<GetMotelByIdResponse> call, Throwable t) {
+                    tvElectricityPrice.setText("0 đ/kWh");
+                    tvWaterPrice.setText("0 đ/m³");
+                }
             });
+        } else {
+            tvElectricityPrice.setText("0 đ/kWh");
+            tvWaterPrice.setText("0 đ/m³");
         }
     }
 
-    // Lấy lãi suất từ gia hạn gần nhất
     private void loadLatestExtension(int billId) {
         ApiService.apiService.getExtensionByBillId(billId).enqueue(new Callback<GetExtensionByBillResponse>() {
             @Override
             public void onResponse(Call<GetExtensionByBillResponse> call, Response<GetExtensionByBillResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    interestRate = response.body().getLaiSuat(); // chỉ lấy lãi suất
+                    interestRate = response.body().getLaiSuat();
                     edInterestRate.setText(String.valueOf(interestRate));
-                    // Số ngày trễ hạn luôn lấy từ currentBill
                     if (currentBill != null) {
                         tvDays.setText(currentBill.getExtensionDays() + " ngày");
                     }
@@ -175,7 +190,6 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         });
     }
 
-    // Đổ dữ liệu bill vào view, giống ViewBillActivity
     private void populateBillDetails(Bill bill) {
         String roomIdStr = String.valueOf(bill.getRoomId());
         String last2 = roomIdStr.length() > 2 ? roomIdStr.substring(roomIdStr.length() - 2) : roomIdStr;
@@ -189,20 +203,20 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         edElectricityNew.setText(String.valueOf(bill.getElectricityNewIndex()));
         edWaterOld.setText(String.valueOf(bill.getWaterOldIndex()));
         edWaterNew.setText(String.valueOf(bill.getWaterNewIndex()));
-        edInterestRate.setText("0"); // Default, sẽ update sau nếu có gia hạn
+        edInterestRate.setText("0");
 
         cbElectricity.setChecked(bill.getElectricityAmount() > 0);
         cbWater.setChecked(bill.getWaterAmount() > 0);
         cbRoom.setChecked(bill.getRoomAmount() > 0);
 
-        // Tiền phòng default từ bill
+        // Giá phòng lấy từ bill
         giaPhong = bill.getRoomAmount();
+        tvRoomPrice.setText(formatCurrency(giaPhong) + "/tháng");
 
         updateAllMoneyFields();
         setEditListeners();
     }
 
-    // Gắn event khi nhập số mới sẽ tự động tính lại và validate
     private void setEditListeners() {
         edElectricityNew.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) validateAndUpdateElectricity();
@@ -210,14 +224,15 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         edWaterNew.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) validateAndUpdateWater();
         });
-        edInterestRate.setOnFocusChangeListener((v, hasFocus) -> { if (!hasFocus) updateAllMoneyFields(); });
+        edInterestRate.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) updateAllMoneyFields();
+        });
 
         cbElectricity.setOnCheckedChangeListener((buttonView, isChecked) -> updateAllMoneyFields());
         cbWater.setOnCheckedChangeListener((buttonView, isChecked) -> updateAllMoneyFields());
         cbRoom.setOnCheckedChangeListener((buttonView, isChecked) -> updateAllMoneyFields());
     }
 
-    // ====== LOGIC FOCUS RA NGOÀI EDITTEXT: kiểm tra số mới, nếu hợp lệ và cb đang check thì tính lại tiền ======
     private void validateAndUpdateElectricity() {
         int oldValue = safeParseInt(edElectricityOld.getText().toString());
         int newValue = safeParseInt(edElectricityNew.getText().toString());
@@ -228,7 +243,6 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         } else {
             edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
             edElectricityNew.setError(null);
-            // Nếu cb đang check thì mới updateAllMoneyFields
             if (cbElectricity.isChecked()) updateAllMoneyFields();
         }
     }
@@ -243,11 +257,9 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         } else {
             edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
             edWaterNew.setError(null);
-            // Nếu cb đang check thì mới updateAllMoneyFields
             if (cbWater.isChecked()) updateAllMoneyFields();
         }
     }
-    // =========================================================================================
 
     private void updateAllMoneyFields() {
         int oldDien = safeParseInt(edElectricityOld.getText().toString());
@@ -261,19 +273,17 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         double tienDien = cbElectricity.isChecked() ? soDien * giaDien : 0;
         double tienNuoc = cbWater.isChecked() ? soNuoc * giaNuoc : 0;
 
-        // Tiền phòng lấy từ bill, không lấy từ motel!
-        double tienPhong = currentBill != null ? currentBill.getRoomAmount() : 0;
+        double tienPhong = giaPhong;
         if (!cbRoom.isChecked()) tienPhong = 0;
+        tvRoomPrice.setText("Phòng: " + formatCurrency(giaPhong) + " đ/tháng");
 
         tvElectricityTotal.setText(formatCurrency(tienDien));
         tvWaterTotal.setText(formatCurrency(tienNuoc));
         tvServiceTotal.setText(formatCurrency(tienDien + tienNuoc + tienPhong));
 
-        // Số ngày trễ hạn lấy từ bill
         int soNgayTre = (currentBill != null) ? currentBill.getExtensionDays() : 0;
         tvDays.setText(soNgayTre + " ngày");
 
-        // Tính tiền lãi gia hạn nếu đã duyệt
         double tienLaiGiaHan = 0;
         if (isExtensionApproved) {
             double ls = safeParseDouble(edInterestRate.getText().toString());
@@ -294,10 +304,9 @@ public class Admin_EditBillActivity extends AppCompatActivity {
 
         double tienDien = cbElectricity.isChecked() ? soDien * giaDien : 0;
         double tienNuoc = cbWater.isChecked() ? soNuoc * giaNuoc : 0;
-        double tienPhong = currentBill != null ? currentBill.getRoomAmount() : 0;
+        double tienPhong = giaPhong;
         if (!cbRoom.isChecked()) tienPhong = 0;
 
-        // Số ngày trễ hạn từ bill
         int soNgayTre = currentBill != null ? currentBill.getExtensionDays() : 0;
 
         double tienLaiGiaHan = 0;
@@ -321,13 +330,11 @@ public class Admin_EditBillActivity extends AppCompatActivity {
                 dlg.dismiss();
                 if (response.isSuccessful() && response.body() != null) {
                     try {
-                        // Parse JSON thủ công
                         String json = response.body().string();
                         JSONObject obj = new JSONObject(json);
                         String message = obj.optString("message");
                         JSONObject invoiceObj = obj.optJSONObject("invoice");
                         if (invoiceObj != null) {
-                            // Parse thành Bill nếu muốn (dùng Gson hoặc tự lấy trường)
                             Bill bill = new Gson().fromJson(invoiceObj.toString(), Bill.class);
                         }
                         Toast.makeText(Admin_EditBillActivity.this, "Sửa hóa đơn thành công!", Toast.LENGTH_SHORT).show();
@@ -345,7 +352,6 @@ public class Admin_EditBillActivity extends AppCompatActivity {
                 Toast.makeText(Admin_EditBillActivity.this, "Lỗi kết nối!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private int safeParseInt(String s) {

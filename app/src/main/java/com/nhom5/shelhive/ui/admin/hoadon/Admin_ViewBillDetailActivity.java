@@ -49,7 +49,20 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
         billId = getIntent().getIntExtra("BILL_ID", -1);
         maDay = getIntent().getIntExtra("MA_DAY", -1);
         // Nhận cả MA_PHONG (nếu có)
-        maPhong = getIntent().getIntExtra("MA_PHONG", -1);
+        Intent intent0 = getIntent();
+        maPhong = -1; // Default
+        if (intent0.hasExtra("MA_PHONG")) {
+            Object raw = intent0.getExtras().get("MA_PHONG");
+            if (raw instanceof Integer) {
+                maPhong = intent0.getIntExtra("MA_PHONG", -1);
+            } else if (raw instanceof String) {
+                try {
+                    maPhong = Integer.parseInt((String) raw);
+                } catch (NumberFormatException e) {
+                    maPhong = -1;
+                }
+            }
+        }
 
         initViews();
 
@@ -83,24 +96,33 @@ public class Admin_ViewBillDetailActivity extends AppCompatActivity {
             }
 
             // Lấy ngày hiện tại yyyy-MM-dd
-            String ngayTao = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            String ngayTao = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
             String noiDung = String.format("Hoá đơn tháng %s của phòng %s đã được nhắc nhở để thanh toán!", thangNam, roomShort);
 
             CreateInvoiceNotificationRequest req = new CreateInvoiceNotificationRequest(
                     billId, noiDung, ngayTao
             );
+            Log.d("REMIND_DEBUG", "Request: ma_hoa_don=" + billId + ", noi_dung=" + noiDung + ", ngay_tao=" + ngayTao);
 
-            ApiService.apiService.createInvoiceNotification(req).enqueue(new Callback<okhttp3.ResponseBody>() {
+
+            ApiService.apiService.createInvoiceNotification(req).enqueue(new Callback<>() {
                 @Override
                 public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
+                    Log.d("REMIND_DEBUG", "Request: ma_hoa_don=" + billId + ", noi_dung=" + noiDung + ", ngay_tao=" + ngayTao);
                     if (response.isSuccessful()) {
                         Toast.makeText(Admin_ViewBillDetailActivity.this, "Đã gửi nhắc nhở hóa đơn!", Toast.LENGTH_SHORT).show();
                     } else {
+                        try {
+                            String error = response.errorBody() != null ? response.errorBody().string() : "null";
+                            Log.e("REMIND_BILL", "Nhắc nhở thất bại, code: " + response.code() + ", error: " + error);
+                        } catch (Exception ex) {
+                            Log.e("REMIND_BILL", "Lỗi khi đọc errorBody: " + ex.getMessage());
+                        }
                         Toast.makeText(Admin_ViewBillDetailActivity.this, "Nhắc nhở thất bại!", Toast.LENGTH_SHORT).show();
-                        Log.e("REMIND_BILL", "Nhắc nhở thất bại, code: " + response.code());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
                     Toast.makeText(Admin_ViewBillDetailActivity.this, "Lỗi kết nối khi nhắc nhở!", Toast.LENGTH_SHORT).show();

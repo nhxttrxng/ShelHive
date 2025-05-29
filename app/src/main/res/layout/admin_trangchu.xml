@@ -122,7 +122,7 @@
                     <ImageView
                         android:layout_width="33dp"
                         android:layout_height="33dp"
-                        android:src="@drawable/ic_hoadon"
+                        android:src="@drawable/ic_house_gear"
                         android:layout_gravity="center"/>
                 </androidx.cardview.widget.CardView>
                 <TextView

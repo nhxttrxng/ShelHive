@@ -37,8 +37,12 @@ public class User_TrangChuActivity extends AppCompatActivity {
     private String maPhong = null;
     private String email = null;
     private View popupLayout;
-
     private Integer maDay = null;
+
+    // Các biến ánh xạ view để dùng lại trong onResume
+    private TextView helloText, emptyMessage, text1, text2, text3;
+    private LinearLayout infoContainer;
+    private HexagonImageView avt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +56,14 @@ public class User_TrangChuActivity extends AppCompatActivity {
             email = prefs.getString("email", null);
         }
 
-        // Ánh xạ View
-        TextView helloText = findViewById(R.id.hello);
-        LinearLayout infoContainer = findViewById(R.id.info_container);
-        TextView emptyMessage = findViewById(R.id.empty_message);
-        TextView text1 = findViewById(R.id.text1);
-        TextView text2 = findViewById(R.id.text2);
-        TextView text3 = findViewById(R.id.text3);
-        HexagonImageView avt = findViewById(R.id.avatar);
+        // Ánh xạ View (gán vào biến toàn cục để dùng lại trong onResume)
+        helloText = findViewById(R.id.hello);
+        infoContainer = findViewById(R.id.info_container);
+        emptyMessage = findViewById(R.id.empty_message);
+        text1 = findViewById(R.id.text1);
+        text2 = findViewById(R.id.text2);
+        text3 = findViewById(R.id.text3);
+        avt = findViewById(R.id.avatar);
 
         FrameLayout hoadon = findViewById(R.id.hoadon);
         FrameLayout thongbao = findViewById(R.id.thongbao);
@@ -72,63 +76,6 @@ public class User_TrangChuActivity extends AppCompatActivity {
         ImageView closeButton = findViewById(R.id.close_button);
         if (closeButton != null) {
             closeButton.setOnClickListener(v -> popupLayout.setVisibility(View.GONE));
-        }
-
-        // Gọi API lấy thông tin user, phòng
-        if (email != null) {
-            ApiService.apiService.getFullInfoByEmail(email).enqueue(new Callback<FullUserInfoResponse>() {
-                @Override
-                public void onResponse(Call<FullUserInfoResponse> call, Response<FullUserInfoResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        FullUserInfoResponse info = response.body();
-
-                        // Xin chào
-                        String name = info.getHo_ten();
-                        String fullText = "Xin chào, " + name + "!";
-                        SpannableString spannable = new SpannableString(fullText);
-                        int start = fullText.indexOf(name);
-                        int end = start + name.length();
-                        spannable.setSpan(new CustomTypefaceSpan(ResourcesCompat.getFont(User_TrangChuActivity.this, R.font.dancing_script_bold)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        spannable.setSpan(new ForegroundColorSpan(getColor(R.color.darkyellow)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        helloText.setText(spannable);
-                        helloText.setTextColor(getColor(R.color.brown));
-
-                        // Ảnh đại diện
-                        String avtPath = info.getAvt();
-                        if (avtPath != null && !avtPath.isEmpty()) {
-                            String fullAvtUrl = "http://221.132.33.173:3000" + avtPath;
-                            Glide.with(User_TrangChuActivity.this).load(fullAvtUrl).placeholder(R.drawable.default_avatar).into(avt);
-                        }
-
-                        // Thông tin phòng
-                        maPhong = String.valueOf(info.getMa_phong());
-                        maDay = info.getMa_day();
-                        String tenTro = info.getTen_tro();
-                        String diaChi = info.getDia_chi();
-
-                        if (maPhong != null && tenTro != null && diaChi != null) {
-                            infoContainer.setVisibility(View.VISIBLE);
-                            emptyMessage.setVisibility(View.GONE);
-                            String soCuoiMaPhong = maPhong.length() >= 2 ? maPhong.substring(maPhong.length() - 2) : maPhong;
-                            text1.setText("Phòng " + soCuoiMaPhong);
-                            text2.setText(tenTro);
-                            text3.setText(diaChi);
-                        } else {
-                            infoContainer.setVisibility(View.GONE);
-                            emptyMessage.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        infoContainer.setVisibility(View.GONE);
-                        emptyMessage.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<FullUserInfoResponse> call, Throwable t) {
-                    infoContainer.setVisibility(View.GONE);
-                    emptyMessage.setVisibility(View.VISIBLE);
-                }
-            });
         }
 
         // Dùng chung một hàm truyền cả maPhong và email cho tất cả activity
@@ -177,6 +124,73 @@ public class User_TrangChuActivity extends AppCompatActivity {
                 popupLayout.setVisibility(View.VISIBLE);
                 popupLayout.bringToFront();
             }
+        }
+    }
+
+    // ---- Thêm hàm này để mỗi lần quay lại màn hình là tự động load lại dữ liệu mới nhất ----
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadUserInfo();
+    }
+
+    private void reloadUserInfo() {
+        if (email != null) {
+            ApiService.apiService.getFullInfoByEmail(email).enqueue(new Callback<FullUserInfoResponse>() {
+                @Override
+                public void onResponse(Call<FullUserInfoResponse> call, Response<FullUserInfoResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        FullUserInfoResponse info = response.body();
+
+                        // Xin chào
+                        String name = info.getHo_ten();
+                        String fullText = "Xin chào, " + name + "!";
+                        SpannableString spannable = new SpannableString(fullText);
+                        int start = fullText.indexOf(name);
+                        int end = start + name.length();
+                        spannable.setSpan(new CustomTypefaceSpan(ResourcesCompat.getFont(User_TrangChuActivity.this, R.font.dancing_script_bold)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spannable.setSpan(new ForegroundColorSpan(getColor(R.color.darkyellow)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        helloText.setText(spannable);
+                        helloText.setTextColor(getColor(R.color.brown));
+
+                        // Ảnh đại diện
+                        String avtPath = info.getAvt();
+                        if (avtPath != null && !avtPath.isEmpty()) {
+                            String fullAvtUrl = "http://221.132.33.173:3000" + avtPath;
+                            Glide.with(User_TrangChuActivity.this).load(fullAvtUrl).placeholder(R.drawable.default_avatar).into(avt);
+                        } else {
+                            avt.setImageResource(R.drawable.default_avatar);
+                        }
+
+                        // Thông tin phòng
+                        maPhong = String.valueOf(info.getMa_phong());
+                        maDay = info.getMa_day();
+                        String tenTro = info.getTen_tro();
+                        String diaChi = info.getDia_chi();
+
+                        if (maPhong != null && tenTro != null && diaChi != null) {
+                            infoContainer.setVisibility(View.VISIBLE);
+                            emptyMessage.setVisibility(View.GONE);
+                            String soCuoiMaPhong = maPhong.length() >= 2 ? maPhong.substring(maPhong.length() - 2) : maPhong;
+                            text1.setText("Phòng " + soCuoiMaPhong);
+                            text2.setText(tenTro);
+                            text3.setText(diaChi);
+                        } else {
+                            infoContainer.setVisibility(View.GONE);
+                            emptyMessage.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        infoContainer.setVisibility(View.GONE);
+                        emptyMessage.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FullUserInfoResponse> call, Throwable t) {
+                    infoContainer.setVisibility(View.GONE);
+                    emptyMessage.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }
