@@ -112,6 +112,7 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:text="Thông báo hóa đơn"
+            android:textStyle="bold"
             android:textColor="#755200"
             android:textSize="16sp"
             android:background="@drawable/bg_tab_hoa_don"
@@ -152,3 +153,4 @@
 
 
 </RelativeLayout>
+
