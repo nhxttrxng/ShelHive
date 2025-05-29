@@ -101,6 +101,7 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
 
         fetchAllData();
         setupCheckBoxListeners();
+        setupEditTextFocusListeners(); // <-- BẮT BUỘC GỌI SAU setupCheckBoxListeners
         setupUIToHideKeyboard(findViewById(R.id.root_layout)); // ID của layout cha ngoài cùng
     }
 
@@ -191,9 +192,8 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         cbRoom.setOnCheckedChangeListener(listener);
     }
 
-    // ================== THÊM: Ẩn bàn phím khi click ra ngoài EditText ===================
+    // ================== Ẩn bàn phím khi click ra ngoài EditText ===================
     private void setupUIToHideKeyboard(View view) {
-        // Nếu không phải EditText thì set listener
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
                 hideSoftKeyboard();
@@ -201,7 +201,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
                 return false;
             });
         }
-        // Lặp cho các view con nếu là ViewGroup
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
@@ -220,28 +219,80 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
     }
     // =============================================================================
 
+    // ================== KIỂM TRA CHỈ SỐ KHI EDITTEXT MẤT FOCUS ===================
+    private void setupEditTextFocusListeners() {
+        edElectricityNew.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                int dienCu = chiSoDienCu;
+                int dienMoi = parseIntSafe(edElectricityNew.getText().toString());
+                if (dienMoi < dienCu) {
+                    edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    edElectricityNew.setError("Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!");
+                    Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
+                } else {
+                    edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
+                    edElectricityNew.setError(null);
+                    // Nếu đang check điện thì tính lại tiền
+                    if (cbElectricity.isChecked()) tinhTongTien();
+                }
+            }
+        });
+
+        edWaterNew.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                int nuocCu = chiSoNuocCu;
+                int nuocMoi = parseIntSafe(edWaterNew.getText().toString());
+                if (nuocMoi < nuocCu) {
+                    edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    edWaterNew.setError("Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!");
+                    Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
+                } else {
+                    edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
+                    edWaterNew.setError(null);
+                    // Nếu đang check nước thì tính lại tiền
+                    if (cbWater.isChecked()) tinhTongTien();
+                }
+            }
+        });
+    }
+
+
+    private void checkElectricityValid() {
+        int dienCu = chiSoDienCu;
+        int dienMoi = parseIntSafe(edElectricityNew.getText().toString());
+        if (dienMoi < dienCu) {
+            edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            edElectricityNew.setError("Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!");
+            Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
+        } else {
+            edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
+            edElectricityNew.setError(null);
+        }
+    }
+
+    private void checkWaterValid() {
+        int nuocCu = chiSoNuocCu;
+        int nuocMoi = parseIntSafe(edWaterNew.getText().toString());
+        if (nuocMoi < nuocCu) {
+            edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            edWaterNew.setError("Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!");
+            Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
+        } else {
+            edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
+            edWaterNew.setError(null);
+        }
+    }
+    // =============================================================================
+
     private void tinhTongTien() {
         int dienCu = chiSoDienCu;
         int nuocCu = chiSoNuocCu;
         int dienMoi = parseIntSafe(edElectricityNew.getText().toString());
         int nuocMoi = parseIntSafe(edWaterNew.getText().toString());
 
-        // Xử lý màu chỉ số khi nhập số nhỏ hơn số cũ
-        if (cbElectricity.isChecked() && dienMoi < dienCu) {
-            edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-        } else {
-            edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
-        }
-        if (cbWater.isChecked() && nuocMoi < nuocCu) {
-            edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-        } else {
-            edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
-        }
-
         int soDien = Math.max(dienMoi - dienCu, 0);
         int soNuoc = Math.max(nuocMoi - nuocCu, 0);
 
-        // Luôn cập nhật thành tiền phòng ngay khi check/uncheck
         double tienDien = cbElectricity.isChecked() ? soDien * giaDien : 0;
         double tienNuoc = cbWater.isChecked() ? soNuoc * giaNuoc : 0;
         double tienPhong = cbRoom.isChecked() ? giaThuePhong : 0;
@@ -249,14 +300,12 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         double tienDichVu = tienDien + tienNuoc + tienPhong;
         double tong = tienDichVu;
 
-        // Cập nhật giao diện tức thì khi check/uncheck
         tvElectricityTotal.setText(formatCurrency(tienDien));
         tvWaterTotal.setText(formatCurrency(tienNuoc));
         tvServiceTotal.setText(formatCurrency(tienDichVu));
         tvTotal.setText(formatCurrency(tong));
         tvInterestTotal.setText("0");
 
-        // Khi click cbRoom cũng set lại giá trị TextView phòng luôn!
         tvRoomPrice.setText(formatCurrency(cbRoom.isChecked() ? giaThuePhong : 0) + " đ/tháng");
     }
 
@@ -264,7 +313,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         try { return Integer.parseInt(s); } catch (Exception e) { return 0; }
     }
 
-    // MonthYear picker cho tháng năm
     private void showMonthYearPicker() {
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_month_year_picker, null);
         NumberPicker monthPicker = dialogView.findViewById(R.id.picker_month);
@@ -292,7 +340,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
                 .show();
     }
 
-    // DatePicker cho hạn đóng tiền
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         int day = selectedDueDate.get(Calendar.DAY_OF_MONTH);
@@ -326,19 +373,22 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         boolean error = false;
         if (cbElectricity.isChecked() && chiSoDienMoi < chiSoDienCu) {
             edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            edElectricityNew.setError("Chỉ số điện mới phải lớn hơn hoặc bằng chỉ số điện cũ!");
             Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng chỉ số điện cũ!", Toast.LENGTH_SHORT).show();
             error = true;
         }
         if (cbWater.isChecked() && chiSoNuocMoi < chiSoNuocCu) {
             edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            edWaterNew.setError("Chỉ số nước mới phải lớn hơn hoặc bằng chỉ số nước cũ!");
             Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng chỉ số nước cũ!", Toast.LENGTH_SHORT).show();
             error = true;
         }
         if (error) return;
 
-        // Nếu hợp lệ thì set lại màu text về bình thường
         edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
         edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
+        edElectricityNew.setError(null);
+        edWaterNew.setError(null);
 
         double tienDien = cbElectricity.isChecked() ? (Math.max(chiSoDienMoi - chiSoDienCu, 0) * giaDien) : 0;
         double tienNuoc = cbWater.isChecked() ? (Math.max(chiSoNuocMoi - chiSoNuocCu, 0) * giaNuoc) : 0;
@@ -393,7 +443,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         });
     }
 
-    // Convert "dd/MM/yyyy" -> "yyyy-MM-dd"
     private String formatDateForApi(String date) {
         try {
             String[] arr = date.split("/");
@@ -404,7 +453,6 @@ public class Admin_CreateBillActivity extends AppCompatActivity {
         return date;
     }
 
-    // Convert "mm/yyyy" -> "yyyy-mm-02"
     private String formatMonthForApi(String monthYear) {
         try {
             String[] arr = monthYear.split("/");

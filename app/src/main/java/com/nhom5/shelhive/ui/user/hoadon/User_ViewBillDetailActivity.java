@@ -33,7 +33,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Luôn reload lại bill khi quay lại activity này
         if (billId > 0) {
             loadBillDetail(billId);
         }
@@ -45,7 +44,7 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         setContentView(R.layout.user_xem_hdp);
 
         billId = getIntent().getIntExtra("BILL_ID", -1);
-        maDay = getIntent().getIntExtra("MA_DAY", -1);
+        maDay = getIntent().getIntExtra("maDay", -1);
         initViews();
 
         ImageView btnBack = findViewById(R.id.btn_back);
@@ -211,8 +210,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
                     roomId = bill.getRoomId();
                     populateBillDetails(bill);
 
-                    // Nếu bill đã duyệt gia hạn thì load lãi suất từ API extension
-                    // Nếu field là isExtensionApproved hoặc isDaDuyetGiaHan thì sửa lại cho đúng model em nha
                     if (bill.isExtensionApproved()) {
                         loadExtensionInterest(billId);
                     } else {
@@ -229,7 +226,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         });
     }
 
-    // Gọi API để lấy lãi suất từ gia hạn đã duyệt gần nhất
     private void loadExtensionInterest(int billId) {
         ApiService.apiService.getExtensionByBillId(billId).enqueue(new Callback<GetExtensionByBillResponse>() {
             @Override
@@ -244,6 +240,7 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         });
     }
 
+    // Bổ sung lấy giá điện, nước từ dãy trọ
     private void loadMotelInfo(int maDay) {
         if (maDay == -1) {
             tvElectricityPrice.setText("0 đ/kwh");
@@ -309,7 +306,6 @@ public class User_ViewBillDetailActivity extends AppCompatActivity {
         cbWater.setChecked(bill.getWaterAmount() > 0);
         cbRoom.setChecked(bill.getRoomAmount() > 0);
 
-        // Lãi suất: để trống, nếu có duyệt gia hạn thì sẽ load sau!
         edInterestRate.setText("");
 
         if (bill.getStatus() != null && bill.getStatus().trim().equalsIgnoreCase("Đã thanh toán")) {

@@ -217,15 +217,19 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         cbRoom.setOnCheckedChangeListener((buttonView, isChecked) -> updateAllMoneyFields());
     }
 
+    // ====== LOGIC FOCUS RA NGOÀI EDITTEXT: kiểm tra số mới, nếu hợp lệ và cb đang check thì tính lại tiền ======
     private void validateAndUpdateElectricity() {
         int oldValue = safeParseInt(edElectricityOld.getText().toString());
         int newValue = safeParseInt(edElectricityNew.getText().toString());
         if (newValue < oldValue) {
             edElectricityNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-            Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng chỉ số cũ!", Toast.LENGTH_SHORT).show();
+            edElectricityNew.setError("Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!");
+            Toast.makeText(this, "Chỉ số điện mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
         } else {
             edElectricityNew.setTextColor(getResources().getColor(R.color.darkbrown));
-            updateAllMoneyFields();
+            edElectricityNew.setError(null);
+            // Nếu cb đang check thì mới updateAllMoneyFields
+            if (cbElectricity.isChecked()) updateAllMoneyFields();
         }
     }
 
@@ -234,12 +238,16 @@ public class Admin_EditBillActivity extends AppCompatActivity {
         int newValue = safeParseInt(edWaterNew.getText().toString());
         if (newValue < oldValue) {
             edWaterNew.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-            Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng chỉ số cũ!", Toast.LENGTH_SHORT).show();
+            edWaterNew.setError("Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!");
+            Toast.makeText(this, "Chỉ số nước mới phải lớn hơn hoặc bằng số cũ!", Toast.LENGTH_SHORT).show();
         } else {
             edWaterNew.setTextColor(getResources().getColor(R.color.darkbrown));
-            updateAllMoneyFields();
+            edWaterNew.setError(null);
+            // Nếu cb đang check thì mới updateAllMoneyFields
+            if (cbWater.isChecked()) updateAllMoneyFields();
         }
     }
+    // =========================================================================================
 
     private void updateAllMoneyFields() {
         int oldDien = safeParseInt(edElectricityOld.getText().toString());
